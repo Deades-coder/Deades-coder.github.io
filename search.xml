@@ -8,7 +8,7 @@
       <link href="/2022/03/27/test/"/>
       <url>/2022/03/27/test/</url>
       
-        <content type="html"><![CDATA[<pre class="line-numbers language-C++" data-language="C++"><code class="language-C++">#include&lt;iostream&gt;#include&lt;algorithm&gt;using namespace std; typedef long long LL;LL arr[7];int main(){LL a,b,c;for(int i = 0;i&lt;7;i++){cin&gt;&gt;arr[i];}sort(arr,arr+7);c = arr[6]-arr[0]-arr[1];cout&lt;&lt;arr[0]&lt;&lt;" "&lt;&lt;arr[1]&lt;&lt;" "&lt;&lt;c;}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p><img src="/test/image-20220327123301889.png" alt="image-20220327123301889"></p>]]></content>
+        <content type="html"><![CDATA[<pre class="line-numbers language-C++" data-language="C++"><code class="language-C++">#include&lt;iostream&gt;#include&lt;algorithm&gt;using namespace std; typedef long long LL;LL arr[7];int main(){LL a,b,c;for(int i = 0;i&lt;7;i++){cin&gt;&gt;arr[i];}sort(arr,arr+7);c = arr[6]-arr[0]-arr[1];cout&lt;&lt;arr[0]&lt;&lt;" "&lt;&lt;arr[1]&lt;&lt;" "&lt;&lt;c;}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p><img src="/2022/03/27/test/image-20220327123301889.png" alt="image-20220327123301889"></p>]]></content>
       
       
       
