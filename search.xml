@@ -2,6 +2,33 @@
 <search> 
   
   
+    
+    <entry>
+      <title>每日一题（一）</title>
+      <link href="/2022/03/27/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98%EF%BC%88%E4%B8%80%EF%BC%89/"/>
+      <url>/2022/03/27/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98%EF%BC%88%E4%B8%80%EF%BC%89/</url>
+      
+        <content type="html"><![CDATA[<h1 id="你知道你的ABC吗"><a href="#你知道你的ABC吗" class="headerlink" title="你知道你的ABC吗"></a>你知道你的ABC吗</h1><p>Farmer John 的奶牛正在 <code>mooZ</code> 视频会议平台上举行每日集会。</p><p>她们发明了一个简单的数字游戏，为会议增添一些乐趣。</p><p>Elsie 有三个正整数 A、BA、B 和 CC (A≤B≤CA≤B≤C）。</p><p>这些数字是保密的，她不会直接透露给她的姐妹 Bessie。</p><p>她告诉 Bessie 七个范围在 1…1091…109 之间的整数（不一定各不相同），并宣称这是 A、B、C、A+B、B+C、C+AA、B、C、A+B、B+C、C+A 和 A+B+CA+B+C 的某种排列。</p><p>给定这七个整数，请帮助 Bessie 求出 A、BA、B 和 CC。</p><p>可以证明，答案是唯一的。</p><h4 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式"></a>输入格式</h4><p>输入一行，包含七个空格分隔的整数。</p><h4 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a>输出格式</h4><p>输出 A、BA、B 和 CC，用空格分隔。</p><h4 id="数据范围"><a href="#数据范围" class="headerlink" title="数据范围"></a>数据范围</h4><p>1≤所有输入的整数≤1091≤所有输入的整数≤109</p><h4 id="输入样例："><a href="#输入样例：" class="headerlink" title="输入样例："></a>输入样例：</h4><pre class="line-numbers language-none"><code class="language-none">2 2 11 4 9 7 9<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><h4 id="输出样例："><a href="#输出样例：" class="headerlink" title="输出样例："></a>输出样例：</h4><pre class="line-numbers language-none"><code class="language-none">2 2 7<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><h4 id="题解："><a href="#题解：" class="headerlink" title="题解："></a>题解：</h4><p>一道非常简单的数学思维题，因为都是正整数，相加只会比原来的数字更大，排个序。最小的两个就是A，B，最大的一个必然是A+B+C，相减就得到了C</p><pre class="line-numbers language-C++" data-language="C++"><code class="language-C++">#include&lt;iostream&gt;#include&lt;algorithm&gt;using namespace std; typedef long long LL;LL arr[7];int main(){LL a,b,c;for(int i = 0;i&lt;7;i++){cin&gt;&gt;arr[i];}sort(arr,arr+7);c = arr[6]-arr[0]-arr[1];cout&lt;&lt;arr[0]&lt;&lt;" "&lt;&lt;arr[1]&lt;&lt;" "&lt;&lt;c;}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 算法 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 算法 </tag>
+            
+            <tag> acwing </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
   
   
 </search>
