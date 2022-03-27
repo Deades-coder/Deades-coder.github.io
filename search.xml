@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>xxxx</title>
+      <link href="/2022/03/27/xxxx/"/>
+      <url>/2022/03/27/xxxx/</url>
+      
+        <content type="html"><![CDATA[<p><img src="D:\Blog\source_posts\xxxx\image-20220327111633007.png" alt="image-20220327111633007"></p><pre class="line-numbers language-C++" data-language="C++"><code class="language-C++">#include&lt;iostream&gt;#include&lt;algorithm&gt;using namespace std; typedef long long LL;LL arr[7];int main(){LL a,b,c;for(int i = 0;i&lt;7;i++){cin&gt;&gt;arr[i];}sort(arr,arr+7);c = arr[6]-arr[0]-arr[1];cout&lt;&lt;arr[0]&lt;&lt;" "&lt;&lt;arr[1]&lt;&lt;" "&lt;&lt;c;}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p><img src="/image-20220327112328313.png"></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> test </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> test </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Hello World</title>
       <link href="/2022/03/26/hello-world/"/>
       <url>/2022/03/26/hello-world/</url>
