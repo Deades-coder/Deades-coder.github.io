@@ -461,14 +461,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    374
+                    1.5k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    5 分
                 </div>
                 
 
@@ -486,7 +486,7 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="你知道你的ABC吗"><a href="#你知道你的ABC吗" class="headerlink" title="你知道你的ABC吗"></a>你知道你的ABC吗</h1><p>Farmer John 的奶牛正在 <code>mooZ</code> 视频会议平台上举行每日集会。</p>
+                <h2 id="你知道你的ABC吗"><a href="#你知道你的ABC吗" class="headerlink" title="你知道你的ABC吗"></a>你知道你的ABC吗</h2><p>Farmer John 的奶牛正在 <code>mooZ</code> 视频会议平台上举行每日集会。</p>
 <p>她们发明了一个简单的数字游戏，为会议增添一些乐趣。</p>
 <p>Elsie 有三个正整数 A、BA、B 和 CC (A≤B≤CA≤B≤C）。</p>
 <p>这些数字是保密的，她不会直接透露给她的姐妹 Bessie。</p>
@@ -518,6 +518,80 @@ int main()
 	cout&lt;&lt;arr[0]&lt;&lt;" "&lt;&lt;arr[1]&lt;&lt;" "&lt;&lt;c;
 }<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
+<h2 id="放养但没有完全放养"><a href="#放养但没有完全放养" class="headerlink" title="放养但没有完全放养"></a>放养但没有完全放养</h2><p>一个鲜为人知的事实是，奶牛拥有自己的文字：「牛文」。</p>
+<p>牛文由 2626 个字母 <code>a</code> 到 <code>z</code> 组成，但是当奶牛说牛文时，可能与我们所熟悉的 <code>abcdefghijklmnopqrstuvwxyz</code> 不同，她会按某种特定的顺序排列字母。</p>
+<p>为了打发时间，奶牛 Bessie 在反复哼唱牛文字母歌，而 Farmer John 好奇她唱了多少遍。</p>
+<p>给定一个小写字母组成的字符串，为 Farmer John 听到 Bessie 唱的字母，计算 Bessie 至少唱了几遍完整的牛文字母歌，使得 Farmer John 能够听到给定的字符串。</p>
+<p>Farmer John 并不始终注意 Bessie 所唱的内容，所以他可能会漏听 Bessie 唱过的一些字母。</p>
+<p>给定的字符串仅包含他记得他所听到的字母。</p>
+<h4 id="输入格式-1"><a href="#输入格式-1" class="headerlink" title="输入格式"></a>输入格式</h4><p>输入的第一行包含 2626 个小写字母，为<code>a</code>到<code>z</code>的牛文字母表顺序。</p>
+<p>下一行包含一个小写字母组成的字符串，为 Farmer John 听到 Bessie 唱的字母。</p>
+<h4 id="输出格式-1"><a href="#输出格式-1" class="headerlink" title="输出格式"></a>输出格式</h4><p>输出 Bessie 所唱的完整的牛文字母歌的最小次数。</p>
+<h4 id="数据范围-1"><a href="#数据范围-1" class="headerlink" title="数据范围"></a>数据范围</h4><p>字符串的长度不小于 11 且不大于 10001000。</p>
+<h4 id="输入样例：-1"><a href="#输入样例：-1" class="headerlink" title="输入样例："></a>输入样例：</h4><pre class="line-numbers language-none"><code class="language-none">abcdefghijklmnopqrstuvwxyz
+mood<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h4 id="输出样例：-1"><a href="#输出样例：-1" class="headerlink" title="输出样例："></a>输出样例：</h4><pre class="line-numbers language-none"><code class="language-none">3<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h4 id="样例解释"><a href="#样例解释" class="headerlink" title="样例解释"></a>样例解释</h4><p>在这个样例中，牛文字母表与日常的字母表的排列一致。</p>
+<p>Bessie 至少唱了三遍牛文字母歌。</p>
+<p>有可能 Bessie 只唱了三遍牛文字母歌，而 Farmer John 听到了以下被标记为大写的字母。</p>
+<pre class="line-numbers language-none"><code class="language-none">abcdefghijklMnOpqrstuvwxyz
+abcdefghijklmnOpqrstuvwxyz
+abcDefghijklmnopqrstuvwxyz<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="题解：-1"><a href="#题解：-1" class="headerlink" title="题解："></a>题解：</h4><p>也是一道思维题，想明白就行了。其实，只要我后面的字符比前面的字符在牛文字母表的顺序中靠前或者相等，就得再听一遍牛文字母歌。</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;cstring&gt;
+using namespace std;
+string b,c;
+int a[26];
+int ans;
+int main()
+{
+	cin&gt;&gt;b;
+	for(int i = 0;i&lt;26;i++)
+	{
+		a[b[i]-'a'] = i;	
+	}
+	cin&gt;&gt;c;
+	for(int i = 1;i&lt;c.size();i++)
+	{
+		if(a[c[i]-'a']&lt;=a[c[i-1]-'a']) ans++;	
+	}
+	cout&lt;&lt;ans+1;	
+} <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="牛年"><a href="#牛年" class="headerlink" title="牛年"></a>牛年</h2><p>Farmer John 的奶牛们得知最近正在庆祝牛年的到来时十分兴奋。</p>
+<p>牛年总是奶牛们的最爱。</p>
+<p>我们知道，中国历法中每一年所对应的生肖遵循 1212 年的周期：<code>Ox, Tiger, Rabbit, Dragon, Snake, Horse, Goat, Monkey, Rooster, Dog, Pig, Rat</code>（牛、虎、兔、龙、蛇、马、羊、猴、鸡、狗、猪、鼠），然后回到牛。</p>
+<p>奶牛 Bessie 自豪地说她是在许多年前的一个牛年出生的。</p>
+<p>她的朋友 Elsie 想要知道她与 Bessie 出生相差多少年，并且希望你能够通过查看农场上若干奶牛出生年份之间的关系来帮助她推算。</p>
+<h4 id="输入格式-2"><a href="#输入格式-2" class="headerlink" title="输入格式"></a>输入格式</h4><p>输入的第一行包含一个整数 NN。</p>
+<p>以下 NN 行每行包含一个 88 个单词的短语，指定了两头奶牛的出生年份之间的关系，格式为 <code>Mildred born in previous Dragon year from Bessie</code>（Mildred 在 Bessie 出生的前一个龙年出生），或 <code>Mildred born in next Dragon year from Bessie</code>（Mildred 在 Bessie 出生的后一个龙年出生）。</p>
+<p>最后一个单词是农场上某一头奶牛的名字，为 “Bessie” 或一头已经在之前的输入中出现过的奶牛。</p>
+<p>第一个单词是农场上某一头奶牛的名字，不为 “Bessie” 且未在之前的输入中出现过。</p>
+<p>所有的奶牛名字不超过 1010 个字符，且仅包含字符 a..za..z 或 A..ZA..Z。</p>
+<p>第 55 个单词是上述十二生肖之一。</p>
+<p>第 44 个单词是 <code>previous</code>（之前）或 <code>next</code>（之后）之一。</p>
+<p>例如，如果短语为 <code>Mildred born in previous Dragon year from Bessie</code>，则 Mildred 的出生年份为最为接近且严格处于 Bessie 的出生年份之前（不等于）的龙年。</p>
+<h4 id="输出格式-2"><a href="#输出格式-2" class="headerlink" title="输出格式"></a>输出格式</h4><p>输出 Bessie 和 Elsie 的出生年份之间相差的年数。输入保证可以通过给定的信息求出结果。</p>
+<h4 id="数据范围-2"><a href="#数据范围-2" class="headerlink" title="数据范围"></a>数据范围</h4><p>1≤N≤1001≤N≤100</p>
+<h4 id="输入样例：-2"><a href="#输入样例：-2" class="headerlink" title="输入样例："></a>输入样例：</h4><pre class="line-numbers language-none"><code class="language-none">4
+Mildred born in previous Dragon year from Bessie
+Gretta born in previous Monkey year from Mildred
+Elsie born in next Ox year from Gretta
+Paulina born in next Dog year from Bessie<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="输出样例：-2"><a href="#输出样例：-2" class="headerlink" title="输出样例："></a>输出样例：</h4><pre class="line-numbers language-none"><code class="language-none">12<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h4 id="样例解释-1"><a href="#样例解释-1" class="headerlink" title="样例解释"></a>样例解释</h4><p>在以上的输入中，</p>
+<ul>
+<li>Elsie 在 Bessie 之前 1212 年出生。</li>
+<li>Mildred 在 Bessie 之前 99 年出生。</li>
+<li>Gretta 在 Bessie 之前 1717 年出生。</li>
+<li>Paulina 在 Bessie 之后 99 年出生。</li>
+</ul>
 
                 
             </div>
@@ -544,7 +618,7 @@ int main()
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://example.com/2022/03/27/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98%EF%BC%88%E4%B8%80%EF%BC%89/">http://example.com/2022/03/27/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98%EF%BC%88%E4%B8%80%EF%BC%89/</a>
+                    <a href="https://deades-coder.github.io/2022/03/27/mei-ri-yi-ti-yi/">https://deades-coder.github.io/2022/03/27/mei-ri-yi-ti-yi/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -977,7 +1051,7 @@ int main()
                 <i class="far fa-dot-circle"></i>&nbsp;本篇
             </div>
             <div class="card">
-                <a href="/2022/03/27/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98%EF%BC%88%E4%B8%80%EF%BC%89/">
+                <a href="/2022/03/27/mei-ri-yi-ti-yi/">
                     <div class="card-image">
                         
                         
@@ -1031,7 +1105,7 @@ int main()
                 本篇&nbsp;<i class="far fa-dot-circle"></i>
             </div>
             <div class="card">
-                <a href="/2022/03/27/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98%EF%BC%88%E4%B8%80%EF%BC%89/">
+                <a href="/2022/03/27/mei-ri-yi-ti-yi/">
                     <div class="card-image">
                         
                         
