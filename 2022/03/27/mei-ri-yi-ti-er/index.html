@@ -461,14 +461,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.3k
+                    3.4k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    9 分
+                    14 分
                 </div>
                 
 
@@ -632,6 +632,67 @@ vector<span class="token operator">&lt;</span>pair<span class="token operator">&
 <h4 id="样例解释-2"><a href="#样例解释-2" class="headerlink" title="样例解释"></a>样例解释</h4><p>在这个例子中，Farmer John 可以以这样的方式加入奶牛，使得牛栏分配变为 $10x010010x0010$，其中 $x$ 表示新来的奶牛。</p>
 <p>此时 $D=2$。</p>
 <p>不可能在加入奶牛之后取到更大的 $D$ 值。</p>
+<h4 id="题解：-2"><a href="#题解：-2" class="headerlink" title="题解："></a>题解：</h4><p>用到了贪心+二分，经典组合，和每日一题（一）的牛的学术圈差不多。</p>
+<p>重点是<strong>这个位置-上个奶牛位置 &gt;= x 且 下个奶牛位置-这个位置 &gt;= x</strong></p>
+<p>上个奶牛位置可以顺序扫描时存储，而下个奶牛位置可以逆序预处理nxt数组。</p>
+<p>最大正整数用<code>0x3f3f3f3f</code>表示，不要写个<code>1e7</code>会有问题</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span><span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span><span class="token string">&lt;cmath&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span><span class="token string">&lt;cstring&gt;</span></span>
+using namespace std<span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token keyword">int</span> N <span class="token operator">=</span> <span class="token number">1e5</span><span class="token operator">+</span><span class="token number">10</span><span class="token punctuation">,</span>INF <span class="token operator">=</span> <span class="token number">0x3f3f3f3f</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> a<span class="token punctuation">[</span>N<span class="token punctuation">]</span><span class="token punctuation">,</span>nxt<span class="token punctuation">[</span>N<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> n<span class="token punctuation">;</span>
+string s<span class="token punctuation">;</span>
+
+bool <span class="token function">check</span><span class="token punctuation">(</span><span class="token keyword">int</span> x<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+	<span class="token keyword">int</span> cnt <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> lst <span class="token operator">=</span> <span class="token operator">-</span>INF<span class="token punctuation">;</span>		<span class="token comment">//cnt计数，等于2就说明方案可行,lst表示上个牛所在的位置 </span>
+	<span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>i <span class="token operator">&lt;=</span> n<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span>
+	<span class="token punctuation">{</span>
+		<span class="token keyword">if</span><span class="token punctuation">(</span>a<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span> nxt<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">-</span> i <span class="token operator">&gt;=</span> x <span class="token operator">&amp;&amp;</span> i <span class="token operator">-</span> lst <span class="token operator">&gt;=</span> x<span class="token punctuation">)</span>   <span class="token comment">//牛应该放在0处且放置位置-上个奶牛位置 &gt;= x且下个奶牛位置-这个位置 &gt;= x</span>
+		<span class="token punctuation">{</span>
+			cnt<span class="token operator">++</span><span class="token punctuation">;</span>
+			lst <span class="token operator">=</span> i<span class="token punctuation">;</span>
+		<span class="token punctuation">}</span>
+		<span class="token keyword">if</span><span class="token punctuation">(</span>a<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">)</span> lst <span class="token operator">=</span> i<span class="token punctuation">;</span>
+		<span class="token keyword">if</span><span class="token punctuation">(</span>cnt <span class="token operator">==</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token number">1</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+	<span class="token function">memset</span><span class="token punctuation">(</span>nxt<span class="token punctuation">,</span> INF<span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>nxt<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	cin<span class="token operator">&gt;&gt;</span>n<span class="token operator">&gt;&gt;</span>s<span class="token punctuation">;</span>
+	<span class="token keyword">int</span> temp <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1e6</span><span class="token punctuation">;</span>
+	<span class="token keyword">int</span> d <span class="token operator">=</span> n<span class="token punctuation">;</span>
+	<span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>i <span class="token operator">&lt;=</span> n<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span>
+	<span class="token punctuation">{</span>
+		a<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> s<span class="token punctuation">[</span>i<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">-</span> <span class="token char">'0'</span><span class="token punctuation">;</span>
+		<span class="token keyword">if</span><span class="token punctuation">(</span>a<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">)</span> d <span class="token operator">=</span> <span class="token function">min</span><span class="token punctuation">(</span>d<span class="token punctuation">,</span>i <span class="token operator">-</span> temp<span class="token punctuation">)</span><span class="token punctuation">,</span> temp <span class="token operator">=</span> i<span class="token punctuation">;</span>     <span class="token comment">//找到最大的D值，答案会小于等于这个d值</span>
+	<span class="token punctuation">}</span>
+	<span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> n<span class="token punctuation">;</span>i <span class="token operator">&gt;=</span> <span class="token number">1</span><span class="token punctuation">;</span>i<span class="token operator">--</span><span class="token punctuation">)</span>
+	<span class="token punctuation">{</span>
+		<span class="token keyword">if</span><span class="token punctuation">(</span>a<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span>
+		<span class="token punctuation">{</span>
+			<span class="token keyword">if</span><span class="token punctuation">(</span>a<span class="token punctuation">[</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">)</span> nxt<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">;</span>
+			<span class="token keyword">else</span> nxt<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> nxt<span class="token punctuation">[</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+		<span class="token punctuation">}</span>
+	<span class="token punctuation">}</span>
+	<span class="token keyword">int</span> l <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> r <span class="token operator">=</span> d<span class="token punctuation">;</span>
+	<span class="token keyword">while</span><span class="token punctuation">(</span>l <span class="token operator">&lt;</span> r<span class="token punctuation">)</span>
+	<span class="token punctuation">{</span>
+		<span class="token keyword">int</span> mid <span class="token operator">=</span> l <span class="token operator">+</span> r <span class="token operator">+</span> <span class="token number">1</span> <span class="token operator">&gt;&gt;</span> <span class="token number">1</span><span class="token punctuation">;</span>
+		<span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">check</span><span class="token punctuation">(</span>mid<span class="token punctuation">)</span><span class="token punctuation">)</span> l <span class="token operator">=</span> mid<span class="token punctuation">;</span>
+		<span class="token keyword">else</span> r <span class="token operator">=</span> mid <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+	cout<span class="token operator">&lt;&lt;</span>l<span class="token operator">&lt;&lt;</span>endl<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
 <h2 id="混合牛奶"><a href="#混合牛奶" class="headerlink" title="混合牛奶"></a>混合牛奶</h2><p>农业，尤其是生产牛奶，是一个竞争激烈的行业。</p>
 <p>Farmer John 发现如果他不在牛奶生产工艺上有所创新，他的乳制品生意可能就会受到重创！</p>
 <p>幸运的是，Farmer John 想出了一个好主意。</p>
@@ -662,12 +723,12 @@ vector<span class="token operator">&lt;</span>pair<span class="token operator">&
 5. 桶2-&gt;3：  0  0  12
 （之后最后三个状态循环出现……）<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<h4 id="题解：-2"><a href="#题解：-2" class="headerlink" title="题解："></a>题解：</h4><p>简单模拟，三次操作写在一起成一次循环。</p>
+<h4 id="题解：-3"><a href="#题解：-3" class="headerlink" title="题解："></a>题解：</h4><p>简单模拟，三次操作写在一起成一次循环。</p>
 <p>每次对其中一个桶的当前牛奶量和另一个桶的剩余容量比较大小。</p>
 <p><code>c[]</code>为桶容量，<code>w[]</code>为当前桶中有多少牛奶。</p>
 <p>$a$桶倒入$b$桶时，$a$桶增加，$b$桶减少。</p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">minv = min(w[i], c[i + 1] - w[i + 1])   when i = 0, 1;
-minv = min(w[3], c[1] - w[1])   when i = 2;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">minv <span class="token operator">=</span> <span class="token function">min</span><span class="token punctuation">(</span>w<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> c<span class="token punctuation">[</span>i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">-</span> w<span class="token punctuation">[</span>i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>   when i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">;</span>
+minv <span class="token operator">=</span> <span class="token function">min</span><span class="token punctuation">(</span>w<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">,</span> c<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">-</span> w<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>   when i <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 
 <pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span><span class="token string">&lt;iostream&gt;</span></span>
 <span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span><span class="token string">&lt;cstring&gt;</span></span>
@@ -708,6 +769,57 @@ using namespace std<span class="token punctuation">;</span>
 	cout<span class="token operator">&lt;&lt;</span>w<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token operator">&lt;&lt;</span>endl<span class="token punctuation">;</span>
 	cout<span class="token operator">&lt;&lt;</span>w<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token operator">&lt;&lt;</span>endl<span class="token punctuation">;</span>
 <span class="token punctuation">}</span> <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h2 id="果壳游戏"><a href="#果壳游戏" class="headerlink" title="果壳游戏"></a>果壳游戏</h2><p>为了消磨时光，奶牛 Bessie 和她的朋友 Elsie 喜欢玩一种她们在农业展览会上看到的游戏。</p>
+<p>游戏准备阶段，Bessie 在桌子上放置三个倒置的坚果壳，<strong>1号坚果壳放在位置1，2号坚果壳放在位置2，3号坚果壳放在位置3</strong>。并在其中一个坚果壳下面藏了一块小的鹅卵石（至少她希望这是一块鹅卵石——她在一块牧场的地上找到的）。</p>
+<p>随后 Bessie 会两两调换坚果壳，鹅卵石会随着坚果壳一起移动，同时 Elsie 试着去猜鹅卵石的位置。</p>
+<p>奶牛们在农业展览会上看到的这个游戏的标准形式是玩家可以看到鹅卵石初始的位置，然后要求玩家猜所有交换完成之后鹅卵石最终的位置。</p>
+<p>然而，现在奶牛们想要去进行这样一种玩法，Elsie 不知道鹅卵石的初始位置，同时她可以在每一次交换之后猜一下鹅卵石的位置。</p>
+<p>Bessie 知道正确答案，在游戏结束后会给 Elsie 一个分数，等于她猜对的次数。</p>
+<p>给定所有的交换和 Elsie 的猜测，但是不给出鹅卵石的初始位置，请求出 Elsie 最高可能获得的分数。</p>
+<h4 id="输入格式-4"><a href="#输入格式-4" class="headerlink" title="输入格式"></a>输入格式</h4><p>输入的第一行包含一个整数 $N$，为交换的次数。</p>
+<p>以下 $N$ 行每行描述了游戏的一个回合，包含三个整数 $a、b$ 和 $g$，表示 Bessie 交换了<strong>位置</strong> $a$ 和 $b$ 的坚果壳，然后 Elsie 猜的是<strong>位置</strong> $g$。</p>
+<p>所有这三个数均为 $1、2、3$ 之一，并且 $a≠b$。</p>
+<h4 id="输出格式-4"><a href="#输出格式-4" class="headerlink" title="输出格式"></a>输出格式</h4><p>输出 Elsie 可以得到的最高分数。</p>
+<h4 id="数据范围-4"><a href="#数据范围-4" class="headerlink" title="数据范围"></a>数据范围</h4><p>$1 \le N \le 100$</p>
+<h4 id="输入样例：-4"><a href="#输入样例：-4" class="headerlink" title="输入样例："></a>输入样例：</h4><pre class="line-numbers language-none"><code class="language-none">3
+1 2 1
+3 2 1
+1 3 1<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="输出样例：-4"><a href="#输出样例：-4" class="headerlink" title="输出样例："></a>输出样例：</h4><pre class="line-numbers language-none"><code class="language-none">2<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h4 id="样例解释-4"><a href="#样例解释-4" class="headerlink" title="样例解释"></a>样例解释</h4><p>在这个例子中，Elsie 最多可以获得 $2$ 分。</p>
+<p>如果鹅卵石开始时位于坚果壳 $1$ 下面，那么她猜中了一次（最后一次）。</p>
+<p>如果鹅卵石开始时位于坚果壳 $2$ 下面，那么她猜中了两次（开始两次）。</p>
+<p>如果鹅卵石开始时位于坚果壳 $3$ 下面，那么她没有猜对任何一次。</p>
+<h4 id="题解：-4"><a href="#题解：-4" class="headerlink" title="题解："></a>题解：</h4><p>还是模拟枚举，比较绕。<span class="github-emoji"><span>😢</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f622.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span></p>
+<p>如果某次交换后，猜石头在编号为 x 的坚果壳下面，只有石子位置在编号坚果为 x 的壳所在位置上的时候，才得分。</p>
+<p>如果用 f[i] 保存编号为 i 的坚果壳的位置。猜编号为 x 的坚果壳，只有石子位置在 f[x] 的时候才得分。</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span><span class="token string">&lt;iostream&gt;</span></span>
+using namespace std<span class="token punctuation">;</span>
+<span class="token keyword">int</span> f<span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> cnt<span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">;</span>                                
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+	<span class="token keyword">int</span> n<span class="token punctuation">;</span>
+	cin<span class="token operator">&gt;&gt;</span>n<span class="token punctuation">;</span>
+	<span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>i <span class="token operator">&lt;=</span> <span class="token number">3</span><span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span> f<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> i<span class="token punctuation">;</span>    <span class="token comment">//编号为i的坚果壳在f[i] </span>
+	<span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>i <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span>
+	<span class="token punctuation">{</span>
+		<span class="token keyword">int</span> a<span class="token punctuation">,</span>b<span class="token punctuation">,</span>c<span class="token punctuation">;</span>
+		cin<span class="token operator">&gt;&gt;</span>a<span class="token operator">&gt;&gt;</span>b<span class="token operator">&gt;&gt;</span>c<span class="token punctuation">;</span>
+		<span class="token function">swap</span><span class="token punctuation">(</span>f<span class="token punctuation">[</span>a<span class="token punctuation">]</span><span class="token punctuation">,</span>f<span class="token punctuation">[</span>b<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		cnt<span class="token punctuation">[</span>f<span class="token punctuation">[</span>c<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token operator">++</span><span class="token punctuation">;</span>          <span class="token comment">//猜在c坚果壳中，所以只有石子位置为 f[c] 的情况下，猜 c 坚果壳才得分                 </span>
+	<span class="token punctuation">}</span>
+	<span class="token keyword">int</span> ans <span class="token operator">=</span> <span class="token function">max</span><span class="token punctuation">(</span>cnt<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token function">max</span><span class="token punctuation">(</span>cnt<span class="token punctuation">[</span>b<span class="token punctuation">]</span><span class="token punctuation">,</span>cnt<span class="token punctuation">[</span>c<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	cout<span class="token operator">&lt;&lt;</span>ans<span class="token punctuation">;</span>
+ <span class="token punctuation">}</span> <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
 
 
                 
