@@ -454,21 +454,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-03-27
+                    2022-03-28
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.2k
+                    2.3k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    4 分
+                    9 分
                 </div>
                 
 
@@ -486,7 +486,8 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="单词处理器"><a href="#单词处理器" class="headerlink" title="单词处理器"></a>单词处理器</h2><p>奶牛 Bessie 正在完成她的写作课的一篇作文。</p>
+                <p>这些题均取自于USACO。</p>
+<h2 id="单词处理器"><a href="#单词处理器" class="headerlink" title="单词处理器"></a>单词处理器</h2><p>奶牛 Bessie 正在完成她的写作课的一篇作文。</p>
 <p>由于她写字很难看，她决定用一个单词处理器来输入这篇作文。</p>
 <p>这篇作文共有 $N$ 个单词，用空格分隔。</p>
 <p>每个单词的长度在 $1$ 到 $15$ 之间，仅由大写和小写字母组成。</p>
@@ -517,6 +518,33 @@ essay<span aria-hidden="true" class="line-numbers-rows"><span></span><span></spa
 
 <h4 id="样例解释"><a href="#样例解释" class="headerlink" title="样例解释"></a>样例解释</h4><p>第一行包含 $7$ 个非空格字符，包括 “hello” 以及 “my”。</p>
 <p>再加入 “name” 会使得第一行包含 $11&gt;7$ 个非空格字符，所以这个单词会被放到下一行。</p>
+<h4 id="题解："><a href="#题解：" class="headerlink" title="题解："></a>题解：</h4><p>简单的模拟。字符串$b$类似于一个计数器，将输入的字符串赋值给$b$，$b$的$size$大于$k$时就换行，并将没被上一行输出的字符赋值给$b$。</p>
+<p>寻求方便能直接输出就直接输出，不需要另开字符串数组。</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span><span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span><span class="token string">&lt;cstring&gt;</span></span>
+using namespace std<span class="token punctuation">;</span>
+string a<span class="token punctuation">;</span>
+string b<span class="token punctuation">;</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+	<span class="token keyword">int</span> n<span class="token punctuation">,</span>k<span class="token punctuation">;</span>
+	cin<span class="token operator">&gt;&gt;</span>n<span class="token operator">&gt;&gt;</span>k<span class="token punctuation">;</span>
+	<span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>i <span class="token operator">&lt;=</span>n<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        cin<span class="token operator">&gt;&gt;</span>a<span class="token punctuation">;</span>
+        b <span class="token operator">+=</span> a<span class="token punctuation">;</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>b<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&gt;</span> k<span class="token punctuation">)</span><span class="token punctuation">{</span>
+            cout<span class="token operator">&lt;&lt;</span>endl<span class="token punctuation">;</span>
+            b <span class="token operator">=</span> a<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        cout<span class="token operator">&lt;&lt;</span>a<span class="token operator">&lt;&lt;</span><span class="token char">' '</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span> <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+
+
 <h2 id="三角形"><a href="#三角形" class="headerlink" title="三角形"></a>三角形</h2><p>Farmer John 想要给他的奶牛们建造一个三角形牧场。</p>
 <p>有 $N$ 个栅栏柱子分别位于农场的二维平面上不同的点 $(X_1,Y_1)…(X_N,Y_N)$。</p>
 <p>他可以选择其中三个点组成三角形牧场，只要三角形有一条边与 $x$ 轴平行，且有另一条边与 $y$ 轴平行。</p>
@@ -536,6 +564,51 @@ essay<span aria-hidden="true" class="line-numbers-rows"><span></span><span></spa
 
 <h4 id="样例解释-1"><a href="#样例解释-1" class="headerlink" title="样例解释"></a>样例解释</h4><p>位于点 $(0,0)、(1,0)$ 和 $(1,2)$ 的木桩组成了一个面积为 $1$ 的三角形。所以，答案为 $2⋅1=2$。</p>
 <p>只有一个其他的三角形，面积为 $0.5$。</p>
+<h4 id="题解：-1"><a href="#题解：-1" class="headerlink" title="题解："></a>题解：</h4><p>简单模拟，三重循环找到最长边，直接底$×$高。</p>
+<p>可以用数组存，用vetcor为了复习一下vector的语法。</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span><span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span><span class="token string">&lt;vector&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span><span class="token string">&lt;cmath&gt;</span></span>
+using namespace std<span class="token punctuation">;</span>
+using namespace std<span class="token punctuation">;</span>
+<span class="token keyword">int</span> n<span class="token punctuation">,</span> ans <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+vector<span class="token operator">&lt;</span>pair<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token punctuation">,</span> <span class="token keyword">int</span><span class="token operator">&gt;</span> <span class="token operator">&gt;</span>a<span class="token punctuation">;</span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> 
+<span class="token punctuation">{</span>
+   	cin<span class="token operator">&gt;&gt;</span>n<span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> n<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+    	<span class="token keyword">int</span> c<span class="token punctuation">,</span>d<span class="token punctuation">;</span>
+    	cin<span class="token operator">&gt;&gt;</span>c<span class="token operator">&gt;&gt;</span>d<span class="token punctuation">;</span>
+    	a<span class="token punctuation">.</span><span class="token function">push_back</span><span class="token punctuation">(</span><span class="token function">make_pair</span><span class="token punctuation">(</span>c<span class="token punctuation">,</span>d<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> n<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> j <span class="token operator">&lt;=</span> n<span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> k <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> k <span class="token operator">&lt;=</span> n<span class="token punctuation">;</span> k<span class="token operator">++</span><span class="token punctuation">)</span> 
+			<span class="token punctuation">{</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>i <span class="token operator">==</span> j <span class="token operator">||</span> i <span class="token operator">==</span> k <span class="token operator">||</span> j <span class="token operator">==</span> k<span class="token punctuation">)</span> <span class="token keyword">continue</span><span class="token punctuation">;</span>    <span class="token comment">//相同的点直接continue</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>a<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>first <span class="token operator">==</span> a<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">.</span>first <span class="token operator">&amp;&amp;</span> a<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">.</span>second <span class="token operator">==</span> a<span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token punctuation">.</span>second<span class="token punctuation">)</span> 
+				<span class="token punctuation">{</span>
+                    ans <span class="token operator">=</span> <span class="token function">max</span><span class="token punctuation">(</span>ans<span class="token punctuation">,</span> <span class="token function">abs</span><span class="token punctuation">(</span>a<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>second <span class="token operator">-</span> a<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">.</span>second<span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token function">abs</span><span class="token punctuation">(</span>a<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>first <span class="token operator">-</span> a<span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token punctuation">.</span>first<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+    cout<span class="token operator">&lt;&lt;</span>ans<span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
 <h2 id="社交距离-I"><a href="#社交距离-I" class="headerlink" title="社交距离 I"></a>社交距离 I</h2><p>一种新型疾病，COWVID-19，开始在全世界的奶牛之间传播。</p>
 <p>Farmer John 正在采取尽可能多的预防措施来防止他的牛群被感染。</p>
 <p>Farmer John 的牛棚是一个狭长的建筑物，有一排共 $N$ 个牛栏。</p>
@@ -559,6 +632,83 @@ essay<span aria-hidden="true" class="line-numbers-rows"><span></span><span></spa
 <h4 id="样例解释-2"><a href="#样例解释-2" class="headerlink" title="样例解释"></a>样例解释</h4><p>在这个例子中，Farmer John 可以以这样的方式加入奶牛，使得牛栏分配变为 $10x010010x0010$，其中 $x$ 表示新来的奶牛。</p>
 <p>此时 $D=2$。</p>
 <p>不可能在加入奶牛之后取到更大的 $D$ 值。</p>
+<h2 id="混合牛奶"><a href="#混合牛奶" class="headerlink" title="混合牛奶"></a>混合牛奶</h2><p>农业，尤其是生产牛奶，是一个竞争激烈的行业。</p>
+<p>Farmer John 发现如果他不在牛奶生产工艺上有所创新，他的乳制品生意可能就会受到重创！</p>
+<p>幸运的是，Farmer John 想出了一个好主意。</p>
+<p>他的三头获奖的乳牛，Bessie、Elsie 和 Mildred，各自产奶的口味有些许不同，他打算混合这三种牛奶调制出完美的口味。</p>
+<p>为了混合这三种不同的牛奶，他拿来三个桶，其中分别装有三头奶牛所产的奶。</p>
+<p>这些桶可能有不同的容积，也可能并没有完全装满。</p>
+<p>然后他将桶 $1$ 的牛奶倒入桶 $2$，然后将桶 $2$ 中的牛奶倒入桶 $3$，然后将桶 $3$ 中的牛奶倒入桶 $1$，然后再将桶 $1$ 的牛奶倒入桶 $2$，如此周期性地操作，共计进行 $100$ 次（所以第 $100$ 次操作会是桶 $1$ 倒入桶 $2$）。</p>
+<p>当 Farmer John 将桶 $a$ 中的牛奶倒入桶 $b$ 时，他会倒出尽可能多的牛奶，直到桶 $a$ 被倒空或是桶 $b$ 被倒满。</p>
+<p>请告诉 Farmer John 当他倒了 $100$ 次之后每个桶里将会有多少牛奶。</p>
+<h4 id="输入格式-3"><a href="#输入格式-3" class="headerlink" title="输入格式"></a>输入格式</h4><p>输入文件的第一行包含两个空格分隔的整数：第一个桶的容积 $c_1$，以及第一个桶里的牛奶量 $m_1$。</p>
+<p>第二和第三行类似地包含第二和第三个桶的容积和牛奶量。</p>
+<h4 id="输出格式-3"><a href="#输出格式-3" class="headerlink" title="输出格式"></a>输出格式</h4><p>输出三行，给出倒了 $100$ 次之后每个桶里的牛奶量。</p>
+<h4 id="数据范围-3"><a href="#数据范围-3" class="headerlink" title="数据范围"></a>数据范围</h4><p>$1 \le c_1,m_1 \le 10^9$</p>
+<h4 id="输入样例：-3"><a href="#输入样例：-3" class="headerlink" title="输入样例："></a>输入样例：</h4><pre class="line-numbers language-none"><code class="language-none">10 3
+11 4
+12 5<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="输出样例：-3"><a href="#输出样例：-3" class="headerlink" title="输出样例："></a>输出样例：</h4><pre class="line-numbers language-none"><code class="language-none">0
+10
+2<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="样例解释-3"><a href="#样例解释-3" class="headerlink" title="样例解释"></a>样例解释</h4><p>在这个例子中，每倒一次之后每个桶里的牛奶量如下：</p>
+<pre class="line-numbers language-none"><code class="language-none">初始状态：   3  4  5
+1. 桶1-&gt;2：  0  7  5
+2. 桶2-&gt;3：  0  0  12
+3. 桶3-&gt;1：  10 0  2
+4. 桶1-&gt;2：  0  10 2
+5. 桶2-&gt;3：  0  0  12
+（之后最后三个状态循环出现……）<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="题解：-2"><a href="#题解：-2" class="headerlink" title="题解："></a>题解：</h4><p>简单模拟，三次操作写在一起成一次循环。</p>
+<p>每次对其中一个桶的当前牛奶量和另一个桶的剩余容量比较大小。</p>
+<p><code>c[]</code>为桶容量，<code>w[]</code>为当前桶中有多少牛奶。</p>
+<p>$a$桶倒入$b$桶时，$a$桶增加，$b$桶减少。</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">minv = min(w[i], c[i + 1] - w[i + 1])   when i = 0, 1;
+minv = min(w[3], c[1] - w[1])   when i = 2;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span><span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span><span class="token string">&lt;cstring&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span><span class="token string">&lt;cmath&gt;</span></span>
+using namespace std<span class="token punctuation">;</span>
+<span class="token keyword">int</span> c<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">,</span>w<span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+	<span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span><span class="token number">3</span><span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span> cin<span class="token operator">&gt;&gt;</span>c<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">&gt;&gt;</span>w<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+	<span class="token keyword">int</span> time <span class="token operator">=</span> <span class="token number">100</span><span class="token punctuation">;</span>
+	<span class="token keyword">while</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+	<span class="token punctuation">{</span>
+		<span class="token keyword">if</span><span class="token punctuation">(</span>time<span class="token punctuation">)</span>
+		<span class="token punctuation">{</span>
+			<span class="token keyword">int</span> a <span class="token operator">=</span> <span class="token function">min</span><span class="token punctuation">(</span>w<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> c<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">-</span> w<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>	
+			w<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">-=</span> a<span class="token punctuation">;</span>
+			w<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">+=</span> a<span class="token punctuation">;</span>
+			time <span class="token operator">--</span><span class="token punctuation">;</span>
+		<span class="token punctuation">}</span>
+		<span class="token keyword">if</span><span class="token punctuation">(</span>time<span class="token punctuation">)</span>
+		<span class="token punctuation">{</span>
+			<span class="token keyword">int</span> a <span class="token operator">=</span> <span class="token function">min</span><span class="token punctuation">(</span>w<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> c<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">-</span> w<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>	
+			w<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">-=</span> a<span class="token punctuation">;</span>
+			w<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">+=</span> a<span class="token punctuation">;</span>
+			time <span class="token operator">--</span><span class="token punctuation">;</span>
+		<span class="token punctuation">}</span>
+		<span class="token keyword">if</span><span class="token punctuation">(</span>time<span class="token punctuation">)</span>
+		<span class="token punctuation">{</span>
+			<span class="token keyword">int</span> a <span class="token operator">=</span> <span class="token function">min</span><span class="token punctuation">(</span>w<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span> c<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">-</span> w<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>	
+			w<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">-=</span> a<span class="token punctuation">;</span>
+			w<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">+=</span> a<span class="token punctuation">;</span>
+			time <span class="token operator">--</span><span class="token punctuation">;</span>
+		<span class="token punctuation">}</span>
+		<span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span>time<span class="token punctuation">)</span> <span class="token keyword">break</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+	cout<span class="token operator">&lt;&lt;</span>w<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token operator">&lt;&lt;</span>endl<span class="token punctuation">;</span>
+	cout<span class="token operator">&lt;&lt;</span>w<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token operator">&lt;&lt;</span>endl<span class="token punctuation">;</span>
+	cout<span class="token operator">&lt;&lt;</span>w<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token operator">&lt;&lt;</span>endl<span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 
                 
             </div>
