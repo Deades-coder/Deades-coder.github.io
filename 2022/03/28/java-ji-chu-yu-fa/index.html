@@ -4,8 +4,8 @@
 
 <head>
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
-    <meta name="keywords" content="python信息搜集, HTML,CSS,JavaScript,JQuery,java,linux等">
-    <meta name="description" content="python进行信息搜集---联动子域名，whois，ip反差，cdn信息，端口信息，系统详情">
+    <meta name="keywords" content="Java基础语法, HTML,CSS,JavaScript,JQuery,java,linux等">
+    <meta name="description" content="Java的一些基础语法">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +17,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>python信息搜集 | 小小星仔</title>
+    <title>Java基础语法 | 小小星仔</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -297,12 +297,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/8.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">python信息搜集</h1>
+                    <h1 class="description center-align post-title">Java基础语法</h1>
                 </div>
             </div>
         </div>
@@ -418,16 +418,16 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/python/">
-                                <span class="chip bg-color">python</span>
+                            <a href="/tags/Java/">
+                                <span class="chip bg-color">Java</span>
                             </a>
                         
-                            <a href="/tags/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/">
-                                <span class="chip bg-color">信息收集</span>
+                            <a href="/tags/JavaSE/">
+                                <span class="chip bg-color">JavaSE</span>
                             </a>
                         
-                            <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">
-                                <span class="chip bg-color">渗透测试</span>
+                            <a href="/tags/Java%E5%9F%BA%E7%A1%80/">
+                                <span class="chip bg-color">Java基础</span>
                             </a>
                         
                     </div>
@@ -438,8 +438,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/python/" class="post-category">
-                                python
+                            <a href="/categories/Java/" class="post-category">
+                                Java
                             </a>
                         
                     </div>
@@ -465,14 +465,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    389
+                    1.1k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    3 分
                 </div>
                 
 
@@ -490,90 +490,103 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p><strong>一共六个模块，可在cmd选择调用哪个模块，参数all是全部进行调用</strong></p>
-<p><strong>子域名模块是自己的字典库，引入了nmap第三方库</strong></p>
-<p><strong>可以在powershell直接调用或者添加自己的输入语句</strong></p>
-<h2 id="源码："><a href="#源码：" class="headerlink" title="源码："></a>源码：</h2><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> socket<span class="token punctuation">,</span>os<span class="token punctuation">,</span>time<span class="token punctuation">,</span>sys<span class="token punctuation">,</span>whois
-<span class="token comment">#ip查询</span>
-<span class="token keyword">def</span> <span class="token function">ip_check</span><span class="token punctuation">(</span>url<span class="token punctuation">)</span><span class="token punctuation">:</span>
-    ip<span class="token operator">=</span>socket<span class="token punctuation">.</span>gethostbyname<span class="token punctuation">(</span>url<span class="token punctuation">)</span>
-    <span class="token keyword">print</span><span class="token punctuation">(</span>ip<span class="token punctuation">)</span>
-    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'------------------------------------++++++-------------------------------------------'</span><span class="token punctuation">)</span>
-<span class="token comment">#whois查询</span>
-<span class="token keyword">def</span> <span class="token function">whois_check</span><span class="token punctuation">(</span>url<span class="token punctuation">)</span><span class="token punctuation">:</span>
-    data <span class="token operator">=</span> whois<span class="token punctuation">.</span>whois<span class="token punctuation">(</span>url<span class="token punctuation">)</span>
-    <span class="token keyword">print</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span>
-    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'------------------------------------++++++-------------------------------------------'</span><span class="token punctuation">)</span>
+                <blockquote>
+<p>Java语言中没有全局变量的概念</p>
+<ul>
+<li>用public修饰的static成员变量和成员方法本质是全局变量和全局方法，当声明它类的对象时，不生成static变量的副本，而是类的所有实例共享同一个static变量。</li>
+</ul>
+</blockquote>
+<h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><img src="1639748785687.png" alt="1639748785687" style="zoom:80%;">
 
-<span class="token comment">#CDN判断-利用返回IP条数进行判断</span>
-<span class="token keyword">def</span> <span class="token function">cdn_check</span><span class="token punctuation">(</span>url<span class="token punctuation">)</span><span class="token punctuation">:</span>
-    ns<span class="token operator">=</span><span class="token string">"nslookup "</span><span class="token operator">+</span>url
-    <span class="token comment">#data=os.system(ns)</span>
-    <span class="token comment">#print(data) #结果无法读取操作</span>
-    data<span class="token operator">=</span>os<span class="token punctuation">.</span>popen<span class="token punctuation">(</span>ns<span class="token punctuation">,</span><span class="token string">"r"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>read<span class="token punctuation">(</span><span class="token punctuation">)</span>
-    <span class="token keyword">if</span> data<span class="token punctuation">.</span>count<span class="token punctuation">(</span><span class="token string">"."</span><span class="token punctuation">)</span><span class="token operator">&gt;</span><span class="token number">8</span><span class="token punctuation">:</span>
-        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"存在CDN"</span><span class="token punctuation">)</span>
-    <span class="token keyword">else</span><span class="token punctuation">:</span>
-        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"不存在CDN"</span><span class="token punctuation">)</span>
-    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'------------------------------------++++++-------------------------------------------'</span><span class="token punctuation">)</span>
-<span class="token comment">#子域名查询-</span>
-<span class="token comment">#1.利用字典记载爆破进行查询</span>
-<span class="token comment">#2.利用第三方接口进行查询</span>
-<span class="token keyword">def</span> <span class="token function">SubDomain_list_check</span><span class="token punctuation">(</span>url<span class="token punctuation">)</span><span class="token punctuation">:</span>
-    url<span class="token operator">=</span>url<span class="token punctuation">.</span>replace<span class="token punctuation">(</span><span class="token string">"www."</span><span class="token punctuation">,</span><span class="token string">""</span><span class="token punctuation">)</span>
-    <span class="token keyword">for</span> SubDomain_list <span class="token keyword">in</span> <span class="token builtin">open</span><span class="token punctuation">(</span><span class="token string">"[自己的字典地址]"</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
-        SubDomain_list<span class="token operator">=</span>SubDomain_list<span class="token punctuation">.</span>replace<span class="token punctuation">(</span><span class="token string">"\n"</span><span class="token punctuation">,</span><span class="token string">""</span><span class="token punctuation">)</span>
-        SubDomain_list_url<span class="token operator">=</span>SubDomain_list<span class="token operator">+</span><span class="token string">"."</span><span class="token operator">+</span>url
-        <span class="token keyword">try</span><span class="token punctuation">:</span>
-            ip<span class="token operator">=</span>socket<span class="token punctuation">.</span>gethostbyname<span class="token punctuation">(</span>SubDomain_list_url<span class="token punctuation">)</span>
-            <span class="token keyword">print</span><span class="token punctuation">(</span>SubDomain_list_url<span class="token operator">+</span><span class="token string">"-&gt;"</span><span class="token operator">+</span>ip<span class="token punctuation">)</span>
-            time<span class="token punctuation">.</span>sleep<span class="token punctuation">(</span><span class="token number">0.1</span><span class="token punctuation">)</span>
-        <span class="token keyword">except</span> Exception <span class="token keyword">as</span> e<span class="token punctuation">:</span>
-            time<span class="token punctuation">.</span>sleep<span class="token punctuation">(</span><span class="token number">0.1</span><span class="token punctuation">)</span>
-    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'------------------------------------++++++-------------------------------------------'</span><span class="token punctuation">)</span>
+<p>每种基本数据类型的内存占用和取值范围</p>
+<p><img src="/2022/03/28/java-ji-chu-yu-fa/1639748866566.png" alt="1639748866566"></p>
+<p>整数默认是：int类型</p>
+<p>浮点数默认是：double类型</p>
+<p>这样呢，我们就了解了Java中的 $8$ 种基本数据类型，以及每种数据类型占用字节的情况和取值范围。</p>
+<h2 id="运算符-amp-选择语句"><a href="#运算符-amp-选择语句" class="headerlink" title="运算符&amp;选择语句"></a>运算符&amp;选择语句</h2><h4 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h4><p><strong>隐式转换：</strong>把一个表示数据范围小的数值或者变量赋值给另一个表示数据范围大的变量</p>
+<p><strong>强制转换：</strong>把一个表示数据范围大的数值或者变量赋值给另一个表示数据范围小的变量</p>
+<blockquote>
+<p>数据类型 变量名 = (目标数据类型)(数值或者变量)</p>
+<p>扩展的赋值运算符包含了强制类型转换</p>
+</blockquote>
+<h2 id="Debug的基本使用"><a href="#Debug的基本使用" class="headerlink" title="Debug的基本使用"></a>Debug的基本使用</h2><ul>
+<li>添加断点后，在代码区域右键Debug执行</li>
+</ul>
+<img src="1639989693712.png" alt="1639989693712" style="zoom:80%;">
 
-<span class="token keyword">def</span> <span class="token function">SubDomain_api_check</span><span class="token punctuation">(</span>url<span class="token punctuation">)</span><span class="token punctuation">:</span>
-    url<span class="token operator">=</span>url<span class="token punctuation">.</span>replace<span class="token punctuation">(</span><span class="token string">"www."</span><span class="token punctuation">,</span> <span class="token string">""</span><span class="token punctuation">)</span>
+<ul>
+<li><p>看Debugger窗口，看Console窗口</p>
+<img src="1639989770511.png" alt="1639989770511" style="zoom:80%;">
+</li>
+<li><p>点(Step Over F8) 开始，点(Stop)结束</p>
+<p><img src="/2022/03/28/java-ji-chu-yu-fa/1639989859440.png"></p>
+</li>
+</ul>
+<h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><p><strong>数组(array)：</strong>是一种用于存储<strong>多个相同数据类型</strong>的存储模型(可以理解为容器)。</p>
+<p><strong>格式1：</strong>数据类型[] 变量名;</p>
+<p><strong>格式2：</strong>数据类型 变量名[];</p>
+<h4 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h4><p><strong>静态初始化：</strong>初始化时指定每个数组元素的初始值，由系统决定数组长度</p>
+<p><strong>格式：</strong>数据类型[] 变量名 = new 数据类型[]{数据1,数据2,数据3,…};</p>
+<p><strong>简化格式：</strong>数据类型[] 变量名 = {数据1,数据2,数据3,…};</p>
+<p><strong>动态初始化：</strong>初始化时只指定数组长度，由系统为数组分配初始值</p>
+<p><strong>格式：</strong>数据类型[] 变量名 = new 数据类型[数组长度];</p>
+<blockquote>
+<p>数组使用中的两个小问题</p>
+<p>1：索引越界：访问了数组中不存在的索引对应的元素，造成索引越界问题</p>
+<p>​        ArrayIndexOutOfBoundsException</p>
+<p>2：空指针异常：对象设置为null不再指向堆内存，还想继续访问数据，访问失败</p>
+<p>​        NullPointerException</p>
+</blockquote>
+<h2 id="循环语句"><a href="#循环语句" class="headerlink" title="循环语句"></a>循环语句</h2><p>和C++差不多</p>
+<p>看两个简单的案例感受一下即可</p>
+<h4 id="逢七过-for语句"><a href="#逢七过-for语句" class="headerlink" title="逢七过(for语句)"></a>逢七过(for语句)</h4><p>从任意一个数字开始报数，当你要报的数字包含 $7$ 或者是 $7$ 的倍数时都要说：过。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ForTest07</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">//1:获取1-100之间的数据，通过循环实现</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> <span class="token number">100</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">//2:判断数字包含7或者是7的倍数(判断数据：要么个位是7，要么十位是7，要么能够被7整除)</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>i <span class="token operator">%</span> <span class="token number">10</span> <span class="token operator">==</span> <span class="token number">7</span><span class="token punctuation">)</span> <span class="token operator">||</span> <span class="token punctuation">(</span>i <span class="token operator">/</span> <span class="token number">10</span> <span class="token operator">%</span> <span class="token number">10</span> <span class="token operator">==</span> <span class="token number">7</span><span class="token punctuation">)</span> <span class="token operator">||</span> <span class="token punctuation">(</span>i <span class="token operator">%</span> <span class="token number">7</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token comment">//3:在控制台输出满足条件的数据</span>
+                <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 
-<span class="token comment">#端口扫描</span>
-<span class="token keyword">def</span> <span class="token function">port_check</span><span class="token punctuation">(</span>url<span class="token punctuation">)</span><span class="token punctuation">:</span>
-    ip <span class="token operator">=</span> socket<span class="token punctuation">.</span>gethostbyname<span class="token punctuation">(</span>url<span class="token punctuation">)</span>
-    <span class="token comment">#ip="192.168.76.155"</span>
-    <span class="token comment">#ports={'21','22','135','443','445','80','1433','3306',"3389",'1521','8000','7002','7001','8080',"9090",'8089',"4848}</span>
-    server <span class="token operator">=</span> socket<span class="token punctuation">.</span>socket<span class="token punctuation">(</span>socket<span class="token punctuation">.</span>AF_INET<span class="token punctuation">,</span>socket<span class="token punctuation">.</span>SOCK_STREAM<span class="token punctuation">)</span>
-    <span class="token comment">#for port in ports:</span>
-    <span class="token keyword">try</span><span class="token punctuation">:</span>
-        data<span class="token operator">=</span>server<span class="token punctuation">.</span>connect_ex<span class="token punctuation">(</span><span class="token punctuation">(</span>ip<span class="token punctuation">,</span> <span class="token number">80</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-        <span class="token keyword">if</span> data<span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">:</span>
-            <span class="token keyword">print</span><span class="token punctuation">(</span>ip<span class="token operator">+</span><span class="token string">":"</span><span class="token operator">+</span><span class="token builtin">str</span><span class="token punctuation">(</span><span class="token number">80</span><span class="token punctuation">)</span><span class="token operator">+</span><span class="token string">"|open"</span><span class="token punctuation">)</span>
-        <span class="token keyword">else</span><span class="token punctuation">:</span>
-            <span class="token keyword">print</span><span class="token punctuation">(</span>ip<span class="token operator">+</span><span class="token string">":"</span><span class="token operator">+</span><span class="token builtin">str</span><span class="token punctuation">(</span><span class="token number">80</span><span class="token punctuation">)</span><span class="token operator">+</span><span class="token string">"|close"</span><span class="token punctuation">)</span>
-            <span class="token keyword">pass</span>
-    <span class="token keyword">except</span> Exception <span class="token keyword">as</span> err<span class="token punctuation">:</span>
-            <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"error"</span><span class="token punctuation">)</span>
-    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'------------------------------------++++++-------------------------------------------'</span><span class="token punctuation">)</span>
 
-<span class="token comment">#系统判断-</span>
-<span class="token comment">#1.基于TTL值进行判断</span>
-<span class="token comment">#2.基于第三方脚本（nmap）进行判断</span>
-<span class="token keyword">def</span> <span class="token function">os_check</span><span class="token punctuation">(</span>url<span class="token punctuation">)</span><span class="token punctuation">:</span>
-    data <span class="token operator">=</span> os<span class="token punctuation">.</span>popen<span class="token punctuation">(</span><span class="token string">"nmap\\nmap -O "</span><span class="token operator">+</span>url<span class="token punctuation">,</span> <span class="token string">"r"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>read<span class="token punctuation">(</span><span class="token punctuation">)</span>
-    <span class="token keyword">print</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span>
-    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'------------------------------------++++++-------------------------------------------'</span><span class="token punctuation">)</span>
+<h4 id="折纸（while语句）"><a href="#折纸（while语句）" class="headerlink" title="折纸（while语句）"></a>折纸（while语句）</h4><p>世界最高峰珠穆朗玛峰(8848.86m)，我现在有一张足够大的纸张，厚度为：0.001m。请问，我折叠多少次，就可以保证厚度不低于珠穆朗玛峰的高度?</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">WhileTest02</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">//1:定义统计变量，初始化值为0</span>
+        <span class="token keyword">int</span> count <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
 
-<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">'__main__'</span><span class="token punctuation">:</span>
-    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Test：python test.py www.dudu.com all"</span><span class="token punctuation">)</span>
-    url <span class="token operator">=</span> sys<span class="token punctuation">.</span>argv<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span>
-    check <span class="token operator">=</span> sys<span class="token punctuation">.</span>argv<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span>
-    <span class="token keyword">if</span> check<span class="token operator">==</span><span class="token string">"all"</span><span class="token punctuation">:</span>
-        ip_check<span class="token punctuation">(</span>url<span class="token punctuation">)</span>
-        whois_check<span class="token punctuation">(</span>url<span class="token punctuation">)</span>
-        port_check<span class="token punctuation">(</span>url<span class="token punctuation">)</span>
-        cdn_check<span class="token punctuation">(</span>url<span class="token punctuation">)</span>
-        os_check<span class="token punctuation">(</span>url<span class="token punctuation">)</span>
-        SubDomain_list_check<span class="token punctuation">(</span>url<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+        <span class="token comment">//2:定义纸张厚度变量和珠峰高度变量</span>
+        <span class="token keyword">double</span> paper <span class="token operator">=</span> <span class="token number">0.001</span><span class="token punctuation">;</span>
+        <span class="token keyword">double</span> zf <span class="token operator">=</span> <span class="token number">8848.86</span><span class="token punctuation">;</span>
 
+        <span class="token comment">//3:用while循环实现反复折叠，判断条件是纸张厚度小于珠峰高度</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>paper <span class="token operator">&lt;</span> zf<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">//4:循环体中要做两件事情：一是纸张厚度加倍，二是统计变量+1</span>
+            paper <span class="token operator">*=</span> <span class="token number">2</span><span class="token punctuation">;</span>
+
+            count<span class="token operator">++</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token comment">//5:当循环结束，输出统计变量的值</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"要折叠"</span> <span class="token operator">+</span> count <span class="token operator">+</span> <span class="token string">"次"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>for循环和while循环<strong>先判断条件是否成立</strong>，然后决定是否执行循环体（先判断后执行）</p>
+<p>do…while循环<strong>先执行一次循环体</strong>，然后判断条件是否成立，是否继续执行循环体（先执行后判断）</p>
+<h4 id="跳转关键字"><a href="#跳转关键字" class="headerlink" title="跳转关键字"></a>跳转关键字</h4><blockquote>
+<ul>
+<li><strong>continue</strong>      用在循环中，基于条件控制，跳过某次循环体内容的执行，继续下一次的执行</li>
+<li><strong>break</strong>               用在循环中，基于条件控制，终止循环体内容的执行，也就是说结束当前的整个循环</li>
+</ul>
+</blockquote>
 
                 
             </div>
@@ -600,7 +613,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://deades-coder.github.io/2022/03/28/python-xin-xi-sou-ji/">https://deades-coder.github.io/2022/03/28/python-xin-xi-sou-ji/</a>
+                    <a href="https://deades-coder.github.io/2022/03/28/java-ji-chu-yu-fa/">https://deades-coder.github.io/2022/03/28/java-ji-chu-yu-fa/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -638,16 +651,16 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/python/">
-                                    <span class="chip bg-color">python</span>
+                                <a href="/tags/Java/">
+                                    <span class="chip bg-color">Java</span>
                                 </a>
                             
-                                <a href="/tags/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/">
-                                    <span class="chip bg-color">信息收集</span>
+                                <a href="/tags/JavaSE/">
+                                    <span class="chip bg-color">JavaSE</span>
                                 </a>
                             
-                                <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">
-                                    <span class="chip bg-color">渗透测试</span>
+                                <a href="/tags/Java%E5%9F%BA%E7%A1%80/">
+                                    <span class="chip bg-color">Java基础</span>
                                 </a>
                             
                         </div>
@@ -1036,19 +1049,19 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2022/03/28/java-ji-chu-yu-fa/">
+                <a href="/2022/03/28/di-gui-suan-fa-yi/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="Java基础语法">
+                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="递归算法（一）">
                         
-                        <span class="card-title">Java基础语法</span>
+                        <span class="card-title">递归算法（一）</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Java的一些基础语法
+                            
                         
                     </div>
                     <div class="publish-info">
@@ -1057,31 +1070,11 @@
                         </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/Java/" class="post-category">
-                                    Java
-                                </a>
-                            
+                            <i class="fas fa-user fa-fw"></i>
+                            小小星仔
                             
                         </span>
                     </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/Java/">
-                        <span class="chip bg-color">Java</span>
-                    </a>
-                    
-                    <a href="/tags/JavaSE/">
-                        <span class="chip bg-color">JavaSE</span>
-                    </a>
-                    
-                    <a href="/tags/Java%E5%9F%BA%E7%A1%80/">
-                        <span class="chip bg-color">Java基础</span>
-                    </a>
-                    
                 </div>
                 
             </div>
@@ -1093,31 +1086,31 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2022/03/27/mei-ri-yi-ti-er/">
+                <a href="/2022/03/28/python-xin-xi-sou-ji/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="每日一题（二）">
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="python信息搜集">
                         
-                        <span class="card-title">每日一题（二）</span>
+                        <span class="card-title">python信息搜集</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            春季每日一题2022  Week 2
+                            python进行信息搜集---联动子域名，whois，ip反差，cdn信息，端口信息，系统详情
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-27
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-28
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
-                                    算法
+                            <a href="/categories/python/" class="post-category">
+                                    python
                                 </a>
                             
                             
@@ -1127,12 +1120,16 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E7%AE%97%E6%B3%95/">
-                        <span class="chip bg-color">算法</span>
+                    <a href="/tags/python/">
+                        <span class="chip bg-color">python</span>
                     </a>
                     
-                    <a href="/tags/acwing/">
-                        <span class="chip bg-color">acwing</span>
+                    <a href="/tags/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/">
+                        <span class="chip bg-color">信息收集</span>
+                    </a>
+                    
+                    <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">
+                        <span class="chip bg-color">渗透测试</span>
                     </a>
                     
                 </div>
