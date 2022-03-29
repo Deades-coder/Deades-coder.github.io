@@ -490,7 +490,8 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="键盘录入"><a href="#键盘录入" class="headerlink" title="键盘录入"></a>键盘录入</h2><p><strong>Scanner类 :</strong></p>
+                <h2 id="键盘录入"><a href="#键盘录入" class="headerlink" title="键盘录入"></a>键盘录入</h2><p>需要引入模块<code>java.util.Scanner</code></p>
+<p><strong>Scanner类 :</strong></p>
 <p>​    next() : 遇到了空格, 就不再录入数据了 , 结束标记: 空格, tab键</p>
 <p>​    nextLine() : 可以将数据完整的接收过来 , 结束标记: 回车换行符</p>
 <p>​    nextInt()：只读取数值</p>
@@ -544,12 +545,12 @@
 <li>== 比较引用数据类型：比较的是对象地址值</li>
 </ul>
 <p><img src="/2022/03/29/java-chang-yong-api/image-20220320152010229.png"></p>
-<h4 id="字符串截取"><a href="#字符串截取" class="headerlink" title="字符串截取"></a>字符串截取</h4><p>**subString()**方法</p>
+<h4 id="字符串截取"><a href="#字符串截取" class="headerlink" title="字符串截取"></a>字符串截取</h4><p><strong>subString()方法</strong></p>
 <blockquote>
-<p>**只传一个参数：subString(int beginIndex)**：将字符串从索引号为beginIndex开始截取，一直到字符串末尾。（注意索引值从0开始）</p>
-<p><strong>传入两个参数：substring(int beginIndex, int endIndex)<strong>：从索引号</strong>beginIndex</strong>开始到索引号<strong>endIndex</strong>结束</p>
+<p><strong>只传一个参数：subString(int beginIndex)：</strong>将字符串从索引号为beginIndex开始截取，一直到字符串末尾。（注意索引值从0开始）</p>
+<p><strong>传入两个参数：substring(int beginIndex, int endIndex)：</strong>从索引号<strong>beginIndex</strong>开始到索引号<strong>endIndex</strong>结束</p>
 </blockquote>
-<p>**public String[] split(String regex)**：  根据传入的规则切割字符串，得到字符串数组</p>
+<p><strong>public String[] split(String regex)：</strong>  根据传入的规则切割字符串，得到字符串数组</p>
 <p>样例：<code>String[] sArr = str.split(",");</code>： 根据逗号切割字符串</p>
 <h4 id="字符串遍历"><a href="#字符串遍历" class="headerlink" title="字符串遍历"></a>字符串遍历</h4><p><strong>public char charAt(int index)</strong>  ：返回指定索引处的 char 值</p>
 <p>代码样例（遍历字符串）：</p>
@@ -579,22 +580,22 @@
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<h4 id="其他的常用方法："><a href="#其他的常用方法：" class="headerlink" title="其他的常用方法："></a>其他的常用方法：</h4><p>**public String concat(String str)**：将参数中的字符串str连接到当前字符串的后面，效果等价于”+”。</p>
-<p>**public int compareTo(String anotherString)**：该方法是对字符串内容按字典顺序进行大小比较，通过返回的整数值指明当前字符串与参数字符串的大小关系。若当前对象比参数大则返回正整数，反之返回负整数，相等返回0。</p>
-<p>**String trim()**：截去字符串两端的空格，但对于中间的空格不处理。</p>
-<p><strong>contains(String</strong> **str)**：判断参数s是否被包含在字符串中，并返回一个布尔类型的值。</p>
+<h4 id="其他的常用方法："><a href="#其他的常用方法：" class="headerlink" title="其他的常用方法："></a>其他的常用方法：</h4><p><strong>public String concat(String str)：</strong>将参数中的字符串str连接到当前字符串的后面，效果等价于”+”。</p>
+<p><strong>public int compareTo(String anotherString)：</strong>该方法是对字符串内容按字典顺序进行大小比较，通过返回的整数值指明当前字符串与参数字符串的大小关系。若当前对象比参数大则返回正整数，反之返回负整数，相等返回0。</p>
+<p><strong>String trim()：</strong>截去字符串两端的空格，但对于中间的空格不处理。</p>
+<p><strong>contains(String str)：</strong>判断参数s是否被包含在字符串中，并返回一个布尔类型的值。</p>
 <pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">String</span> str <span class="token operator">=</span> <span class="token string">"student"</span><span class="token punctuation">;</span>
 str<span class="token punctuation">.</span><span class="token function">contains</span><span class="token punctuation">(</span><span class="token string">"stu"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//true</span>
 str<span class="token punctuation">.</span><span class="token function">contains</span><span class="token punctuation">(</span><span class="token string">"ok"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//false</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
 <p><strong>基本类型转换为字符串类型</strong></p>
 <blockquote>
-<p>**String valueOf(数据类型)**：</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token operator">&gt;</span><span class="token class-name">String</span> s1 <span class="token operator">=</span> <span class="token class-name">String</span><span class="token punctuation">.</span><span class="token function">valueOf</span><span class="token punctuation">(</span><span class="token number">12</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p><strong>String valueOf(数据类型)：</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">&gt;String s1 = String.valueOf(12);<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 </blockquote>
 <p><strong>进制转换</strong></p>
 <blockquote>
-<p>使用Long类中的方法得到整数之间的各种进制转换的方法：<br>**Long.toBinaryString(long l)<br>Long.toOctalString(long l)<br>Long.toHexString(long l)<br>Long.toString(long l, int p)**：p作为任意进制</p>
+<p>使用Long类中的方法得到整数之间的各种进制转换的方法：<br><strong>Long.toBinaryString(long l)<br>Long.toOctalString(long l)<br>Long.toHexString(long l)<br>Long.toString(long l, int p)：</strong>p作为任意进制</p>
 </blockquote>
 <h2 id="StringBuilder类"><a href="#StringBuilder类" class="headerlink" title="StringBuilder类"></a>StringBuilder类</h2><blockquote>
 <p>StringBuilder 是一个可变的字符串类，我们可以把它看成是一个容器，这里的可变指的是 StringBuilder 对象中的内容是可变的</p>
@@ -1141,30 +1142,29 @@ str<span class="token punctuation">.</span><span class="token function">contains
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2022/03/29/java-chang-yong-api/">
+                <a href="/2022/03/29/spring-kuang-jia-yi/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="Java常用API">
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="Spring框架（一）">
                         
-                        <span class="card-title">Java常用API</span>
+                        <span class="card-title">Spring框架（一）</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Java的一些常用API
+                            Spring框架的基础认识
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-29
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-03-29
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -1177,7 +1177,6 @@ str<span class="token punctuation">.</span><span class="token function">contains
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
@@ -1185,12 +1184,12 @@ str<span class="token punctuation">.</span><span class="token function">contains
                         <span class="chip bg-color">Java</span>
                     </a>
                     
-                    <a href="/tags/JavaSE/">
-                        <span class="chip bg-color">JavaSE</span>
+                    <a href="/tags/JavaEE/">
+                        <span class="chip bg-color">JavaEE</span>
                     </a>
                     
-                    <a href="/tags/Java%E5%9F%BA%E7%A1%80/">
-                        <span class="chip bg-color">Java基础</span>
+                    <a href="/tags/Spring/">
+                        <span class="chip bg-color">Spring</span>
                     </a>
                     
                 </div>
@@ -1216,7 +1215,7 @@ str<span class="token punctuation">.</span><span class="token function">contains
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            关于递归算法结构的详解
+                            关于递归算法结构的例题
                         
                     </div>
                     <div class="publish-info">

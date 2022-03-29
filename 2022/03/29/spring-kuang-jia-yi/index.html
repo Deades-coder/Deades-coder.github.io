@@ -4,8 +4,8 @@
 
 <head>
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
-    <meta name="keywords" content="Java基础语法, HTML,CSS,JavaScript,JQuery,java,linux等">
-    <meta name="description" content="Java的一些基础语法">
+    <meta name="keywords" content="Spring框架（一）, HTML,CSS,JavaScript,JQuery,java,linux等">
+    <meta name="description" content="Spring框架的基础认识">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +17,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Java基础语法 | 小小星仔</title>
+    <title>Spring框架（一） | 小小星仔</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -297,12 +297,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/8.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/20.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Java基础语法</h1>
+                    <h1 class="description center-align post-title">Spring框架（一）</h1>
                 </div>
             </div>
         </div>
@@ -422,12 +422,12 @@
                                 <span class="chip bg-color">Java</span>
                             </a>
                         
-                            <a href="/tags/JavaSE/">
-                                <span class="chip bg-color">JavaSE</span>
+                            <a href="/tags/JavaEE/">
+                                <span class="chip bg-color">JavaEE</span>
                             </a>
                         
-                            <a href="/tags/Java%E5%9F%BA%E7%A1%80/">
-                                <span class="chip bg-color">Java基础</span>
+                            <a href="/tags/Spring/">
+                                <span class="chip bg-color">Spring</span>
                             </a>
                         
                     </div>
@@ -451,28 +451,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-03-28
+                    2022-03-29
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-03-28
+                    2022-03-29
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.1k
+                    907
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    3 分
+                    4 分
                 </div>
                 
 
@@ -490,102 +490,190 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <blockquote>
-<p>Java语言中没有全局变量的概念</p>
-<ul>
-<li>用public修饰的static成员变量和成员方法本质是全局变量和全局方法，当声明它类的对象时，不生成static变量的副本，而是类的所有实例共享同一个static变量。</li>
+                <h2 id="Spring-简介"><a href="#Spring-简介" class="headerlink" title="Spring 简介"></a>Spring 简介</h2><h4 id="特点："><a href="#特点：" class="headerlink" title="特点："></a>特点：</h4><ul>
+<li><strong>简化开发</strong>，降低企业级开发的复杂性</li>
 </ul>
-</blockquote>
-<h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><img src="1639748785687.png" alt="1639748785687" style="zoom:80%;">
-
-<p>每种基本数据类型的内存占用和取值范围</p>
-<p><img src="/2022/03/28/java-ji-chu-yu-fa/1639748866566.png" alt="1639748866566"></p>
-<p>整数默认是：int类型</p>
-<p>浮点数默认是：double类型</p>
-<p>这样呢，我们就了解了Java中的 $8$ 种基本数据类型，以及每种数据类型占用字节的情况和取值范围。</p>
-<h2 id="运算符-amp-选择语句"><a href="#运算符-amp-选择语句" class="headerlink" title="运算符&amp;选择语句"></a>运算符&amp;选择语句</h2><h4 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h4><p><strong>隐式转换：</strong>把一个表示数据范围小的数值或者变量赋值给另一个表示数据范围大的变量</p>
-<p><strong>强制转换：</strong>把一个表示数据范围大的数值或者变量赋值给另一个表示数据范围小的变量</p>
 <blockquote>
-<p>数据类型 变量名 = (目标数据类型)(数值或者变量)</p>
-<p>扩展的赋值运算符包含了强制类型转换</p>
-</blockquote>
-<h2 id="Debug的基本使用"><a href="#Debug的基本使用" class="headerlink" title="Debug的基本使用"></a>Debug的基本使用</h2><ul>
-<li>添加断点后，在代码区域右键Debug执行</li>
-</ul>
-<p><img src="/2022/03/28/java-ji-chu-yu-fa/1639989693712.png"></p>
+<p>IOC(反转控制)</p>
+<p>AOP(面向切面编程)</p>
 <ul>
-<li><p>看Debugger窗口，看Console窗口</p>
-<p><img src="/2022/03/28/java-ji-chu-yu-fa/1639989770511.png"></p>
-</li>
-<li><p>点(Step Over F8) 开始，点(Stop)结束</p>
-<p><img src="/2022/03/28/java-ji-chu-yu-fa/1639989859440-16484803426981.png"></p>
-</li>
+<li>事务处理</li>
 </ul>
-<h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><p><strong>数组(array)：</strong>是一种用于存储<strong>多个相同数据类型</strong>的存储模型(可以理解为容器)。</p>
-<p><strong>格式1：</strong>数据类型[] 变量名;</p>
-<p><strong>格式2：</strong>数据类型 变量名[];</p>
-<h4 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h4><p><strong>静态初始化：</strong>初始化时指定每个数组元素的初始值，由系统决定数组长度</p>
-<p><strong>格式：</strong>数据类型[] 变量名 = new 数据类型[]{数据1,数据2,数据3,…};</p>
-<p><strong>简化格式：</strong>数据类型[] 变量名 = {数据1,数据2,数据3,…};</p>
-<p><strong>动态初始化：</strong>初始化时只指定数组长度，由系统为数组分配初始值</p>
-<p><strong>格式：</strong>数据类型[] 变量名 = new 数据类型[数组长度];</p>
+</blockquote>
+<ul>
+<li><strong>框架整合</strong>，高效整合其他技术，提高企业级应用开发与运行效率</li>
+</ul>
 <blockquote>
-<p>数组使用中的两个小问题</p>
-<p>1：索引越界：访问了数组中不存在的索引对应的元素，造成索引越界问题</p>
-<p>​        ArrayIndexOutOfBoundsException</p>
-<p>2：空指针异常：对象设置为null不再指向堆内存，还想继续访问数据，访问失败</p>
-<p>​        NullPointerException</p>
+<p>MyBatis</p>
+<p>MyBatis-plus</p>
+<p>Struts</p>
+<p>Struts2</p>
+<p>Hibernate</p>
+<p>……</p>
 </blockquote>
-<h2 id="循环语句"><a href="#循环语句" class="headerlink" title="循环语句"></a>循环语句</h2><p>和C++差不多</p>
-<p>看两个简单的案例感受一下即可</p>
-<h4 id="逢七过-for语句"><a href="#逢七过-for语句" class="headerlink" title="逢七过(for语句)"></a>逢七过(for语句)</h4><p>从任意一个数字开始报数，当你要报的数字包含 $7$ 或者是 $7$ 的倍数时都要说：过。</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ForTest07</span> <span class="token punctuation">{</span>
-    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token comment">//1:获取1-100之间的数据，通过循环实现</span>
-        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> <span class="token number">100</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-            <span class="token comment">//2:判断数字包含7或者是7的倍数(判断数据：要么个位是7，要么十位是7，要么能够被7整除)</span>
-            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>i <span class="token operator">%</span> <span class="token number">10</span> <span class="token operator">==</span> <span class="token number">7</span><span class="token punctuation">)</span> <span class="token operator">||</span> <span class="token punctuation">(</span>i <span class="token operator">/</span> <span class="token number">10</span> <span class="token operator">%</span> <span class="token number">10</span> <span class="token operator">==</span> <span class="token number">7</span><span class="token punctuation">)</span> <span class="token operator">||</span> <span class="token punctuation">(</span>i <span class="token operator">%</span> <span class="token number">7</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-                <span class="token comment">//3:在控制台输出满足条件的数据</span>
-                <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token punctuation">}</span>
-        <span class="token punctuation">}</span>
-
-    <span class="token punctuation">}</span>
-<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-
-
-<h4 id="折纸（while语句）"><a href="#折纸（while语句）" class="headerlink" title="折纸（while语句）"></a>折纸（while语句）</h4><p>世界最高峰珠穆朗玛峰(8848.86m)，我现在有一张足够大的纸张，厚度为：0.001m。请问，我折叠多少次，就可以保证厚度不低于珠穆朗玛峰的高度?</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">WhileTest02</span> <span class="token punctuation">{</span>
-    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token comment">//1:定义统计变量，初始化值为0</span>
-        <span class="token keyword">int</span> count <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-
-        <span class="token comment">//2:定义纸张厚度变量和珠峰高度变量</span>
-        <span class="token keyword">double</span> paper <span class="token operator">=</span> <span class="token number">0.001</span><span class="token punctuation">;</span>
-        <span class="token keyword">double</span> zf <span class="token operator">=</span> <span class="token number">8848.86</span><span class="token punctuation">;</span>
-
-        <span class="token comment">//3:用while循环实现反复折叠，判断条件是纸张厚度小于珠峰高度</span>
-        <span class="token keyword">while</span> <span class="token punctuation">(</span>paper <span class="token operator">&lt;</span> zf<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-            <span class="token comment">//4:循环体中要做两件事情：一是纸张厚度加倍，二是统计变量+1</span>
-            paper <span class="token operator">*=</span> <span class="token number">2</span><span class="token punctuation">;</span>
-
-            count<span class="token operator">++</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-
-        <span class="token comment">//5:当循环结束，输出统计变量的值</span>
-        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"要折叠"</span> <span class="token operator">+</span> count <span class="token operator">+</span> <span class="token string">"次"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>for循环和while循环<strong>先判断条件是否成立</strong>，然后决定是否执行循环体（先判断后执行）</p>
-<p>do…while循环<strong>先执行一次循环体</strong>，然后判断条件是否成立，是否继续执行循环体（先执行后判断）</p>
-<h4 id="跳转关键字"><a href="#跳转关键字" class="headerlink" title="跳转关键字"></a>跳转关键字</h4><blockquote>
-<ul>
-<li><strong>continue</strong>      用在循环中，基于条件控制，跳过某次循环体内容的执行，继续下一次的执行</li>
-<li><strong>break</strong>               用在循环中，基于条件控制，终止循环体内容的执行，也就是说结束当前的整个循环</li>
+<h4 id="初始Spring："><a href="#初始Spring：" class="headerlink" title="初始Spring："></a>初始Spring：</h4><p>官网：<a target="_blank" rel="noopener" href="https://spring.io/">https://spring.io</a></p>
+<p>Spring的生态圈</p>
+<p><img src="/2022/03/29/spring-kuang-jia-yi/image-20220329214242729.png"></p>
+<p>主要学习Spring framework（Spring的基础），Springboot（更简单，更方便）和Spring Cloud</p>
+<h4 id="Spring-Framework系统架构："><a href="#Spring-Framework系统架构：" class="headerlink" title="Spring Framework系统架构："></a>Spring Framework系统架构：</h4><p><img src="/2022/03/29/spring-kuang-jia-yi/image-20210729172352627.png"></p>
+<h4 id="Spring基础概念："><a href="#Spring基础概念：" class="headerlink" title="Spring基础概念："></a>Spring基础概念：</h4><ul>
+<li>目前代码的问题在于高耦合性</li>
 </ul>
+<blockquote>
+<p><img src="/2022/03/29/spring-kuang-jia-yi/image-20210729173516149.png"></p>
 </blockquote>
+<p>但是想要使用，必须创建对象。</p>
+<p>解决方案</p>
+<ul>
+<li>使用对象时，在程序中不要主动使用new产生对象，转换为由外部提供对象</li>
+</ul>
+<ul>
+<li>引入IOC（控制反转）：</li>
+</ul>
+<blockquote>
+<p>使用对象时，由主动new产生对象转换为由外部提供对象，此过程中对象创建控制权由程序转移到外部，此思想称为控制反转。通俗的讲就是“将new对象的权利交给Spring，我们从Spring中获取对象使用即可”</p>
+</blockquote>
+<ul>
+<li><p>Spring技术对IoC思想进行了实现</p>
+<ul>
+<li>Spring提供了一个容器，称为IOC容器，用来充当IoC思想中的“外部”</li>
+<li>IOC容器负责对象的创建、初始化等一系列工作，被创建或被管理的对象在IoC容器中统称为<strong>Bean</strong></li>
+<li><img src="/2022/03/29/spring-kuang-jia-yi/image-20220329220927129.png"></li>
+</ul>
+</li>
+<li><p>DI（Dependency Injection）依赖注入（放入了Service和Dao两个对象，两个对象是有依赖关系（implements））</p>
+<ul>
+<li>在容器中建立bean与bean之间的依赖关系的整个过程，称为依赖注入。</li>
+</ul>
+</li>
+<li><p>最终效果</p>
+<ul>
+<li>使用对象时不仅可以直接从IoC容器中获取，并且获取到的bean已经绑定了所有的依赖关系</li>
+</ul>
+</li>
+</ul>
+<h4 id="IOC实例："><a href="#IOC实例：" class="headerlink" title="IOC实例："></a>IOC实例：</h4><p><strong>原本实现：</strong></p>
+<p>项目目录：</p>
+<img src="image-20220329231730590.png" style="zoom:50%;">
+
+<p>bookimpl和bookdao</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">package</span> <span class="token namespace">com<span class="token punctuation">.</span>yang<span class="token punctuation">.</span>dao<span class="token punctuation">.</span>impl</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token namespace">com<span class="token punctuation">.</span>yang<span class="token punctuation">.</span>dao<span class="token punctuation">.</span></span><span class="token class-name">Bookdao</span><span class="token punctuation">;</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Bookimpl</span> <span class="token keyword">implements</span> <span class="token class-name">Bookdao</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">save</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"book dao save ..."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+
+<span class="token keyword">package</span> <span class="token namespace">com<span class="token punctuation">.</span>yang<span class="token punctuation">.</span>dao</span><span class="token punctuation">;</span>
+
+<span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">Bookdao</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">save</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>serviceimpl和servicedao</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">package</span> <span class="token namespace">com<span class="token punctuation">.</span>yang<span class="token punctuation">.</span>service<span class="token punctuation">.</span>impl</span><span class="token punctuation">;</span>
+
+<span class="token keyword">import</span> <span class="token namespace">com<span class="token punctuation">.</span>yang<span class="token punctuation">.</span>dao<span class="token punctuation">.</span></span><span class="token class-name">Bookdao</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token namespace">com<span class="token punctuation">.</span>yang<span class="token punctuation">.</span>dao<span class="token punctuation">.</span>impl<span class="token punctuation">.</span></span><span class="token class-name">Bookimpl</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token namespace">com<span class="token punctuation">.</span>yang<span class="token punctuation">.</span>service<span class="token punctuation">.</span>servicedao</span><span class="token punctuation">;</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> serviceimpl <span class="token keyword">implements</span> servicedao <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token class-name">Bookdao</span> bookdao <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Bookimpl</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">save</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"book service save ..."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        bookdao<span class="token punctuation">.</span><span class="token function">save</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+
+
+<span class="token keyword">package</span> <span class="token namespace">com<span class="token punctuation">.</span>yang<span class="token punctuation">.</span>service</span><span class="token punctuation">;</span>
+
+<span class="token keyword">public</span> <span class="token keyword">interface</span> servicedao <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">save</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>app执行类</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">package</span> <span class="token namespace">com<span class="token punctuation">.</span>yang</span><span class="token punctuation">;</span>
+
+<span class="token keyword">import</span> <span class="token namespace">com<span class="token punctuation">.</span>yang<span class="token punctuation">.</span>service<span class="token punctuation">.</span>impl<span class="token punctuation">.</span>serviceimpl</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token namespace">com<span class="token punctuation">.</span>yang<span class="token punctuation">.</span>service<span class="token punctuation">.</span>servicedao</span><span class="token punctuation">;</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> app <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        servicedao bookService <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token function">serviceimpl</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        bookService<span class="token punctuation">.</span><span class="token function">save</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>显而易见执行结果</p>
+<img src="image-20220329232136460.png" style="zoom:50%;">
+
+<p><strong>使用IOC实现：</strong></p>
+<p>实现步骤：</p>
+<ul>
+<li>【第一步】导入Spring坐标</li>
+</ul>
+<pre class="line-numbers language-xml" data-language="xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependencies</span><span class="token punctuation">&gt;</span></span>
+    <span class="token comment">&lt;!--导入spring的坐标spring-context，对应版本是5.2.10.RELEASE--&gt;</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">&gt;</span></span>org.springframework<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">&gt;</span></span>spring-context<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">&gt;</span></span>5.2.10.RELEASE<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependencies</span><span class="token punctuation">&gt;</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li><p>【第二步】定义Spring管理的类（接口）</p>
+<blockquote>
+<p>原本已经定义好了</p>
+</blockquote>
+</li>
+<li><p>【第三步】创建Spring配置文件，配置对应类作为Spring管理的bean对象</p>
+<blockquote>
+<p>定义applicationContext.xml配置文件并配置BookServiceImpl</p>
+</blockquote>
+<pre class="line-numbers language-xml" data-language="xml"><code class="language-xml"><span class="token prolog">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>beans</span> <span class="token attr-name">xmlns</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>http://www.springframework.org/schema/beans<span class="token punctuation">"</span></span>
+       <span class="token attr-name"><span class="token namespace">xmlns:</span>xsi</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>http://www.w3.org/2001/XMLSchema-instance<span class="token punctuation">"</span></span>
+       <span class="token attr-name"><span class="token namespace">xsi:</span>schemaLocation</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+<span class="token comment">&lt;!--    1.导入Spring的坐标Spring—context，对应版本是5.2.10 RELEASE--&gt;</span>
+<span class="token comment">&lt;!--    2.配置bean,
+		id相当于名字方便取东西
+		class属性：表示给bean定义类型
+--&gt;</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>bean</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>bookdao<span class="token punctuation">"</span></span> <span class="token attr-name">class</span> <span class="token attr-value"><span class="token punctuation attr-equals">=</span> <span class="token punctuation">"</span>com.yang.dao.impl.Bookimpl<span class="token punctuation">"</span></span><span class="token punctuation">/&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>bean</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>servicedao<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>com.yang.service.impl.serviceimpl<span class="token punctuation">"</span></span><span class="token punctuation">/&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>beans</span><span class="token punctuation">&gt;</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+</li>
+<li><p>【第四步】初始化IOC容器（Spring核心容器/Spring容器），通过容器获取bean对象</p>
+<p>在app2进行实现</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">import</span> <span class="token namespace">com<span class="token punctuation">.</span>yang<span class="token punctuation">.</span>service<span class="token punctuation">.</span>servicedao</span><span class="token punctuation">;</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> app2 <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">//获取IOC容器</span>
+        <span class="token class-name">ApplicationContext</span> ctx <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ClassPathXmlApplicationContext</span><span class="token punctuation">(</span><span class="token string">"applicationContext.xml"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">//获取bookimp的bean</span>
+<span class="token comment">//        Bookdao Bookdao = (Bookdao) ctx.getBean("bookdao");</span>
+<span class="token comment">//        Bookdao.save();</span>
+        <span class="token comment">//获取serviceimpl的bean</span>
+        servicedao servicedao <span class="token operator">=</span> <span class="token punctuation">(</span>servicedao<span class="token punctuation">)</span> ctx<span class="token punctuation">.</span><span class="token function">getBean</span><span class="token punctuation">(</span><span class="token string">"servicedao"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        servicedao<span class="token punctuation">.</span><span class="token function">save</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>同样可以得到以上的原本实现的结果。</p>
+</li>
+</ul>
 
                 
             </div>
@@ -612,7 +700,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://deades-coder.github.io/2022/03/28/java-ji-chu-yu-fa/">https://deades-coder.github.io/2022/03/28/java-ji-chu-yu-fa/</a>
+                    <a href="https://deades-coder.github.io/2022/03/29/spring-kuang-jia-yi/">https://deades-coder.github.io/2022/03/29/spring-kuang-jia-yi/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -654,12 +742,12 @@
                                     <span class="chip bg-color">Java</span>
                                 </a>
                             
-                                <a href="/tags/JavaSE/">
-                                    <span class="chip bg-color">JavaSE</span>
+                                <a href="/tags/JavaEE/">
+                                    <span class="chip bg-color">JavaEE</span>
                                 </a>
                             
-                                <a href="/tags/Java%E5%9F%BA%E7%A1%80/">
-                                    <span class="chip bg-color">Java基础</span>
+                                <a href="/tags/Spring/">
+                                    <span class="chip bg-color">Spring</span>
                                 </a>
                             
                         </div>
@@ -1044,50 +1132,56 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2022/03/28/di-gui-suan-fa-yi/">
+                <a href="/2022/03/29/spring-kuang-jia-yi/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="递归算法（一）">
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="Spring框架（一）">
                         
-                        <span class="card-title">递归算法（一）</span>
+                        <span class="card-title">Spring框架（一）</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            关于递归算法结构的例题
+                            Spring框架的基础认识
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-03-28
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-29
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
-                                    算法
+                            <a href="/categories/Java/" class="post-category">
+                                    Java
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E7%AE%97%E6%B3%95/">
-                        <span class="chip bg-color">算法</span>
+                    <a href="/tags/Java/">
+                        <span class="chip bg-color">Java</span>
                     </a>
                     
-                    <a href="/tags/%E9%80%92%E5%BD%92/">
-                        <span class="chip bg-color">递归</span>
+                    <a href="/tags/JavaEE/">
+                        <span class="chip bg-color">JavaEE</span>
+                    </a>
+                    
+                    <a href="/tags/Spring/">
+                        <span class="chip bg-color">Spring</span>
                     </a>
                     
                 </div>
@@ -1101,31 +1195,31 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2022/03/28/python-xin-xi-sou-ji/">
+                <a href="/2022/03/29/java-chang-yong-api/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="python信息搜集">
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="Java常用API">
                         
-                        <span class="card-title">python信息搜集</span>
+                        <span class="card-title">Java常用API</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            python信息搜集---联动子域名，whois，ip反差，cdn信息，端口信息，系统详情
+                            Java的一些常用API
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-28
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-29
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/python/" class="post-category">
-                                    python
+                            <a href="/categories/Java/" class="post-category">
+                                    Java
                                 </a>
                             
                             
@@ -1135,16 +1229,16 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/python/">
-                        <span class="chip bg-color">python</span>
+                    <a href="/tags/Java/">
+                        <span class="chip bg-color">Java</span>
                     </a>
                     
-                    <a href="/tags/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/">
-                        <span class="chip bg-color">信息收集</span>
+                    <a href="/tags/JavaSE/">
+                        <span class="chip bg-color">JavaSE</span>
                     </a>
                     
-                    <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">
-                        <span class="chip bg-color">渗透测试</span>
+                    <a href="/tags/Java%E5%9F%BA%E7%A1%80/">
+                        <span class="chip bg-color">Java基础</span>
                     </a>
                     
                 </div>
