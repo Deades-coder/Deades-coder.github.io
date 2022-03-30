@@ -458,21 +458,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-03-29
+                    2022-03-30
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    907
+                    1.3k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    4 分
+                    5 分
                 </div>
                 
 
@@ -490,7 +490,7 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="Spring-简介"><a href="#Spring-简介" class="headerlink" title="Spring 简介"></a>Spring 简介</h2><h4 id="特点："><a href="#特点：" class="headerlink" title="特点："></a>特点：</h4><ul>
+                <h4 id="Spring-简介"><a href="#Spring-简介" class="headerlink" title="Spring 简介"></a>Spring 简介</h4><h4 id="特点："><a href="#特点：" class="headerlink" title="特点："></a>特点：</h4><ul>
 <li><strong>简化开发</strong>，降低企业级开发的复杂性</li>
 </ul>
 <blockquote>
@@ -552,7 +552,7 @@
 </ul>
 </li>
 </ul>
-<h4 id="IOC实例："><a href="#IOC实例：" class="headerlink" title="IOC实例："></a>IOC实例：</h4><p><strong>原本实现：</strong></p>
+<h4 id="IOC入门实例："><a href="#IOC入门实例：" class="headerlink" title="IOC入门实例："></a>IOC入门实例：</h4><p><strong>原本实现：</strong></p>
 <p>项目目录：</p>
 <img src="image-20220329231730590.png" style="zoom:50%;">
 
@@ -674,6 +674,71 @@
 <p>同样可以得到以上的原本实现的结果。</p>
 </li>
 </ul>
+<h4 id="DI入门案例："><a href="#DI入门案例：" class="headerlink" title="DI入门案例："></a>DI入门案例：</h4><blockquote>
+<ol>
+<li>基于IOC管理bean</li>
+<li>Service中使用new形式创建的Dao对象是否保留？(否)</li>
+<li>Service中需要的Dao对象如何进入到Service中？(提供方法)</li>
+<li>Service与Dao间的关系如何描述？(配置)</li>
+</ol>
+</blockquote>
+<p><strong>实现步骤：</strong></p>
+<ul>
+<li>【第一步】删除使用new的形式创建对象的代码</li>
+</ul>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">package</span> <span class="token namespace">com<span class="token punctuation">.</span>yang<span class="token punctuation">.</span>service<span class="token punctuation">.</span>impl</span><span class="token punctuation">;</span>
+
+<span class="token keyword">import</span> <span class="token namespace">com<span class="token punctuation">.</span>yang<span class="token punctuation">.</span>dao<span class="token punctuation">.</span></span><span class="token class-name">Bookdao</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token namespace">com<span class="token punctuation">.</span>yang<span class="token punctuation">.</span>service<span class="token punctuation">.</span>servicedao</span><span class="token punctuation">;</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> serviceimpl <span class="token keyword">implements</span> servicedao <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token class-name">Bookdao</span> bookdao<span class="token punctuation">;</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">save</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"book service save ..."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        bookdao<span class="token punctuation">.</span><span class="token function">save</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li>【第二步】提供依赖对象对应的setter方法</li>
+</ul>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">// 提供对应的setter方法</span>
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">setBookdao</span><span class="token punctuation">(</span><span class="token class-name">Bookdao</span> bookdao<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>bookdao <span class="token operator">=</span> bookdao<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li><p>【第三步】配置service与dao之间的关系</p>
+<blockquote>
+<p>在application.xml中配置</p>
+</blockquote>
+</li>
+</ul>
+<pre class="line-numbers language-xml" data-language="xml"><code class="language-xml"><span class="token prolog">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>beans</span> <span class="token attr-name">xmlns</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>http://www.springframework.org/schema/beans<span class="token punctuation">"</span></span>
+       <span class="token attr-name"><span class="token namespace">xmlns:</span>xsi</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>http://www.w3.org/2001/XMLSchema-instance<span class="token punctuation">"</span></span> <span class="token attr-name"><span class="token namespace">xmlns:</span>util</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>http://www.springframework.org/schema/util<span class="token punctuation">"</span></span>
+       <span class="token attr-name"><span class="token namespace">xsi:</span>schemaLocation</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+<span class="token comment">&lt;!--    1.导入Spring的坐标Spring—context，对应版本是5.2.10 RELEASE--&gt;</span>
+<span class="token comment">&lt;!--    2.配置bean,id相当于名字方便取东西--&gt;</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>bean</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>bookdao<span class="token punctuation">"</span></span> <span class="token attr-name">class</span> <span class="token attr-value"><span class="token punctuation attr-equals">=</span> <span class="token punctuation">"</span>com.yang.dao.impl.Bookimpl<span class="token punctuation">"</span></span><span class="token punctuation">/&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>bean</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>servicedao<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>com.yang.service.impl.serviceimpl<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token comment">&lt;!--  配置server和dao的关系--&gt;</span>
+        <span class="token comment">&lt;!--配置server与dao的关系
+			property标签：表示配置当前bean的属性
+        	name属性：表示配置哪一个具体的属性
+        	ref属性：表示参照哪一个bean
+		--&gt;</span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span> <span class="token attr-name">name</span> <span class="token attr-value"><span class="token punctuation attr-equals">=</span> <span class="token punctuation">"</span>bookdao<span class="token punctuation">"</span></span> <span class="token attr-name">ref</span> <span class="token attr-value"><span class="token punctuation attr-equals">=</span> <span class="token punctuation">"</span>bookdao<span class="token punctuation">"</span></span><span class="token punctuation">/&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>bean</span><span class="token punctuation">&gt;</span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>beans</span><span class="token punctuation">&gt;</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>运行app2，结果一样。</p>
+<p><strong>两个bookdao指向不一样</strong>。</p>
+<img src="image-20220330110831415.png" style="zoom:50%;">
+
 
                 
             </div>
