@@ -787,8 +787,8 @@
 <ul>
 <li>applicationContext.xml配置</li>
 </ul>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token operator">&lt;</span><span class="token operator">!</span><span class="token operator">--</span>方式二：使用静态工厂实例化bean<span class="token operator">--</span><span class="token operator">&gt;</span>
-<span class="token operator">&lt;</span>bean id<span class="token operator">=</span><span class="token string">"orderDao"</span> <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"com.itheima.factory.OrderDaoFactory"</span> factory<span class="token operator">-</span>method<span class="token operator">=</span><span class="token string">"getOrderDao"</span><span class="token operator">/</span><span class="token operator">&gt;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-xml" data-language="xml"><code class="language-xml"><span class="token comment">&lt;!--方式二：使用静态工厂实例化bean--&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>bean</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>orderDao<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>com.itheima.factory.OrderDaoFactory<span class="token punctuation">"</span></span> <span class="token attr-name">factory-method</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>getOrderDao<span class="token punctuation">"</span></span><span class="token punctuation">/&gt;</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 
 <ul>
 <li>AppForInstanceOrder测试类</li>
