@@ -4,8 +4,8 @@
 
 <head>
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
-    <meta name="keywords" content="递归算法（二）, HTML,CSS,JavaScript,JQuery,java,linux等">
-    <meta name="description" content="关于递归算法结构的一些经典例题">
+    <meta name="keywords" content="VMware使用说明, HTML,CSS,JavaScript,JQuery,java,linux等">
+    <meta name="description" content="VMware使用说明">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +17,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>递归算法（二） | 小小星仔</title>
+    <title>VMware使用说明 | 小小星仔</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -302,7 +302,7 @@
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">递归算法（二）</h1>
+                    <h1 class="description center-align post-title">VMware使用说明</h1>
                 </div>
             </div>
         </div>
@@ -418,12 +418,12 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/%E7%AE%97%E6%B3%95/">
-                                <span class="chip bg-color">算法</span>
+                            <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">
+                                <span class="chip bg-color">渗透测试</span>
                             </a>
                         
-                            <a href="/tags/%E9%80%92%E5%BD%92/">
-                                <span class="chip bg-color">递归</span>
+                            <a href="/tags/%E5%B7%A5%E5%85%B7%E8%AF%B4%E6%98%8E/">
+                                <span class="chip bg-color">工具说明</span>
                             </a>
                         
                     </div>
@@ -434,8 +434,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
-                                算法
+                            <a href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" class="post-category">
+                                渗透测试
                             </a>
                         
                     </div>
@@ -447,28 +447,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-03-30
+                    2022-03-31
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-03-30
+                    2022-03-31
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.6k
+                    1.2k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    6 分
+                    4 分
                 </div>
                 
 
@@ -486,154 +486,52 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="国际象棋"><a href="#国际象棋" class="headerlink" title="国际象棋"></a>国际象棋</h2><p>众所周知，“八皇后” 问题是求解在国际象棋棋盘上摆放 $8$ 个皇后，使得两两之间互不攻击的方案数。</p>
-<p>已经学习了很多算法的小蓝觉得 “八皇后” 问题太简单了，意犹未尽。作为一个国际象棋迷，他想研究在 $N \times M$ 的棋盘上，摆放 $K$ 个马，使得两两之间互不攻击有多少种摆放方案。</p>
-<p>由于方案数可能很大，只需计算答案除以 $1000000007$ (即 $10^9 + 7$) 的余数。</p>
-<p>如下图所示，国际象棋中的马摆放在棋盘的方格内，走 “日” 字，位于 $(x, y)$ 格的马（第 $x$ 行第 $y$ 列）可以攻击 $(x + 1, y + 2)$、$(x + 1, y − 2)$、$(x − 1, y + 2)$、$(x − 1, y − 2)$、$(x + 2, y + 1)$、$(x + 2, y − 1)$、$(x − 2, y + 1)$ 和 $(x − 2, y − 1)$ 共 $8$ 个格子。</p>
-<img src="19_3c6f425bb2-QQ截图20210512104039.png" style="zoom:80%;">
-
-<h4 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式"></a>输入格式</h4><p>输入一行包含三个正整数 $N, M, K$，分别表示棋盘的行数、列数和马的个数。</p>
-<h4 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a>输出格式</h4><p>输出一个整数，表示摆放的方案数除以 $1000000007$ (即 $10^9 + 7$) 的余数。</p>
-<h4 id="数据范围"><a href="#数据范围" class="headerlink" title="数据范围"></a>数据范围</h4><p>对于 $5%$ 的评测用例，$K = 1$；<br>对于另外 $10%$ 的评测用例，$K = 2$；<br>对于另外 $10%$ 的评测用例，$N = 1$；<br>对于另外 $20%$ 的评测用例，$N, M ≤ 6，K ≤ 5$；<br>对于另外 $25%$ 的评测用例，$N ≤ 3，M ≤ 20，K ≤ 12$；<br>对于所有评测用例，$1 ≤ N ≤ 6，1 ≤ M ≤ 100，1 ≤ K ≤ 20$。</p>
-<h4 id="输入样例1："><a href="#输入样例1：" class="headerlink" title="输入样例1："></a>输入样例1：</h4><pre class="line-numbers language-none"><code class="language-none">1 2 1<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h4 id="输出样例1："><a href="#输出样例1：" class="headerlink" title="输出样例1："></a>输出样例1：</h4><pre class="line-numbers language-none"><code class="language-none">2<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h4 id="输入样例2："><a href="#输入样例2：" class="headerlink" title="输入样例2："></a>输入样例2：</h4><pre class="line-numbers language-none"><code class="language-none">4 4 3<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h4 id="输出样例2："><a href="#输出样例2：" class="headerlink" title="输出样例2："></a>输出样例2：</h4><pre class="line-numbers language-none"><code class="language-none">276<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h4 id="输入样例3："><a href="#输入样例3：" class="headerlink" title="输入样例3："></a>输入样例3：</h4><pre class="line-numbers language-none"><code class="language-none">3 20 12<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h4 id="输出样例3："><a href="#输出样例3：" class="headerlink" title="输出样例3："></a>输出样例3：</h4><pre class="line-numbers language-none"><code class="language-none">914051446<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h4 id="题解："><a href="#题解：" class="headerlink" title="题解："></a>题解：</h4><p>这道题正解用状态压缩 $dp$（深搜求方案数的基本上可以用 $dp$ 来更快的解决，毕竟空间换时间嘛），这里使用暴力深搜，虽然只能过一半，但是可以很好的训练深搜回溯算法。</p>
-<p>深搜树就是八个分支（对应八个方向）。dfs函数有三个参数，横纵坐标，当前放了多少马。</p>
-<p>对于递归出口有两个，一个是我走到最后一行了，不能往下走路，但还没有放到 $k$ 个马的数量；第二个就是我放到了 $k$ 个马的数量。当然还要回溯将放马的地方还原出来（用个bool数组就可以了）。</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;cstring&gt;</span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;algorithm&gt;</span></span>
-using namespace std<span class="token punctuation">;</span>
-<span class="token keyword">typedef</span> <span class="token keyword">long</span> <span class="token keyword">long</span> LL<span class="token punctuation">;</span>
-
-<span class="token keyword">const</span> <span class="token keyword">int</span> N <span class="token operator">=</span> <span class="token number">110</span><span class="token punctuation">,</span>mod<span class="token operator">=</span><span class="token number">1e9</span><span class="token operator">+</span><span class="token number">7</span><span class="token punctuation">;</span>
-<span class="token keyword">int</span> cnt<span class="token punctuation">[</span>N<span class="token punctuation">]</span><span class="token punctuation">[</span>N<span class="token punctuation">]</span><span class="token punctuation">;</span>
-<span class="token keyword">int</span> res<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token keyword">int</span> dx<span class="token punctuation">[</span><span class="token number">8</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
-<span class="token keyword">int</span> dy<span class="token punctuation">[</span><span class="token number">8</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
-<span class="token keyword">int</span> n<span class="token punctuation">,</span>m<span class="token punctuation">,</span>k<span class="token punctuation">;</span>
-<span class="token keyword">void</span> <span class="token function">dfs</span><span class="token punctuation">(</span><span class="token keyword">int</span> x<span class="token punctuation">,</span><span class="token keyword">int</span> y<span class="token punctuation">,</span><span class="token keyword">int</span> sum<span class="token punctuation">)</span>				<span class="token comment">//分别枚举棋盘的每个位置放马或不放马。</span>
-<span class="token punctuation">{</span> 
-    <span class="token keyword">if</span><span class="token punctuation">(</span>sum<span class="token operator">==</span>k<span class="token punctuation">)</span>
-    <span class="token punctuation">{</span>
-        res<span class="token operator">=</span><span class="token punctuation">(</span>res<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">%</span>mod<span class="token punctuation">;</span>
-        <span class="token keyword">return</span> <span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-    <span class="token keyword">if</span><span class="token punctuation">(</span>y<span class="token operator">&gt;</span>m<span class="token punctuation">)</span>
-    <span class="token punctuation">{</span>
-        y<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span>x<span class="token operator">++</span><span class="token punctuation">;</span>
-        <span class="token keyword">if</span><span class="token punctuation">(</span>x<span class="token operator">&gt;</span>n<span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-
-    <span class="token function">dfs</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span>y<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span>sum<span class="token punctuation">)</span><span class="token punctuation">;</span>							<span class="token comment">//(x,y)不放马</span>
-
-    <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span>cnt<span class="token punctuation">[</span>x<span class="token punctuation">]</span><span class="token punctuation">[</span>y<span class="token punctuation">]</span><span class="token punctuation">)</span>							<span class="token comment">//如果(x,y)可以放马，就放马</span>
-    <span class="token punctuation">{</span>
-    	<span class="token comment">//更新一下状态(在(x,y)处放马后，哪些位置不能放马了)</span>
-        cnt<span class="token punctuation">[</span>x<span class="token punctuation">]</span><span class="token punctuation">[</span>y<span class="token punctuation">]</span><span class="token operator">++</span><span class="token punctuation">;</span>
-        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span><span class="token number">8</span><span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span>
-        <span class="token punctuation">{</span>
-            <span class="token keyword">int</span> a<span class="token operator">=</span>x<span class="token operator">+</span>dx<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span>b<span class="token operator">=</span>y<span class="token operator">+</span>dy<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
-            <span class="token keyword">if</span><span class="token punctuation">(</span>a<span class="token operator">&lt;</span><span class="token number">1</span><span class="token operator">||</span>a<span class="token operator">&gt;</span>n<span class="token operator">||</span>b<span class="token operator">&lt;</span><span class="token number">1</span><span class="token operator">||</span>b<span class="token operator">&gt;</span>m<span class="token punctuation">)</span> <span class="token keyword">continue</span><span class="token punctuation">;</span>
-            cnt<span class="token punctuation">[</span>a<span class="token punctuation">]</span><span class="token punctuation">[</span>b<span class="token punctuation">]</span><span class="token operator">++</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-
-        <span class="token function">dfs</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span>y<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span>sum<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>					<span class="token comment">//放马后，马的数量sum要 +1</span>
-    	<span class="token comment">//恢复现场</span>
-        cnt<span class="token punctuation">[</span>x<span class="token punctuation">]</span><span class="token punctuation">[</span>y<span class="token punctuation">]</span><span class="token operator">--</span><span class="token punctuation">;</span>
-        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span><span class="token number">8</span><span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span>
-        <span class="token punctuation">{</span>
-            <span class="token keyword">int</span> a<span class="token operator">=</span>x<span class="token operator">+</span>dx<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span>b<span class="token operator">=</span>y<span class="token operator">+</span>dy<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
-            <span class="token keyword">if</span><span class="token punctuation">(</span>a<span class="token operator">&lt;</span><span class="token number">1</span><span class="token operator">||</span>a<span class="token operator">&gt;</span>n<span class="token operator">||</span>b<span class="token operator">&lt;</span><span class="token number">1</span><span class="token operator">||</span>b<span class="token operator">&gt;</span>m<span class="token punctuation">)</span> <span class="token keyword">continue</span><span class="token punctuation">;</span>
-            cnt<span class="token punctuation">[</span>a<span class="token punctuation">]</span><span class="token punctuation">[</span>b<span class="token punctuation">]</span><span class="token operator">--</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-    <span class="token punctuation">}</span>
-
-<span class="token punctuation">}</span>
-<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span class="token punctuation">{</span>
-    cin<span class="token operator">&gt;&gt;</span>n<span class="token operator">&gt;&gt;</span>m<span class="token operator">&gt;&gt;</span>k<span class="token punctuation">;</span>
-    <span class="token function">dfs</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>							<span class="token comment">//从（1，1）这个位置开始放马，最开始总共放了0个马</span>
-    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d"</span><span class="token punctuation">,</span>res<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="地宫取宝"><a href="#地宫取宝" class="headerlink" title="地宫取宝"></a>地宫取宝</h2><p>X 国王有一个地宫宝库，是 $n \times m$ 个格子的矩阵，每个格子放一件宝贝，每个宝贝贴着价值标签。</p>
-<p>地宫的入口在左上角，出口在右下角。</p>
-<p>小明被带到地宫的入口，国王要求他只能向右或向下行走。</p>
-<p>走过某个格子时，如果那个格子中的宝贝价值比小明手中任意宝贝价值都大，小明就可以拿起它（当然，也可以不拿）。</p>
-<p>当小明走到出口时，如果他手中的宝贝恰好是 $k$ 件，则这些宝贝就可以送给小明。</p>
-<p>请你帮小明算一算，在给定的局面下，他有多少种不同的行动方案能获得这 $k$ 件宝贝。</p>
-<h4 id="输入格式-1"><a href="#输入格式-1" class="headerlink" title="输入格式"></a>输入格式</h4><p>第一行 $3$ 个整数，$n,m,k$，含义见题目描述。</p>
-<p>接下来 $n$ 行，每行有 $m$ 个整数 $C_i$ 用来描述宝库矩阵每个格子的宝贝价值。</p>
-<h4 id="输出格式-1"><a href="#输出格式-1" class="headerlink" title="输出格式"></a>输出格式</h4><p>输出一个整数，表示正好取 $k$ 个宝贝的行动方案数。</p>
-<p>该数字可能很大，输出它对 $1000000007$ 取模的结果。</p>
-<h4 id="数据范围-1"><a href="#数据范围-1" class="headerlink" title="数据范围"></a>数据范围</h4><p>$1 \le n,m \le 50$,<br>$1 \le k \le 12$,<br>$0 \le C_i \le 12$</p>
-<h4 id="输入样例1：-1"><a href="#输入样例1：-1" class="headerlink" title="输入样例1："></a>输入样例1：</h4><pre class="line-numbers language-none"><code class="language-none">2 2 2
-1 2
-2 1<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-
-<h4 id="输出样例1：-1"><a href="#输出样例1：-1" class="headerlink" title="输出样例1："></a>输出样例1：</h4><pre class="line-numbers language-none"><code class="language-none">2<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h4 id="输入样例2：-1"><a href="#输入样例2：-1" class="headerlink" title="输入样例2："></a>输入样例2：</h4><pre class="line-numbers language-none"><code class="language-none">2 3 2
-1 2 3
-2 1 5<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-
-<h4 id="输出样例2：-1"><a href="#输出样例2：-1" class="headerlink" title="输出样例2："></a>输出样例2：</h4><pre class="line-numbers language-none"><code class="language-none">14<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h4 id="题解：-1"><a href="#题解：-1" class="headerlink" title="题解："></a>题解：</h4><p>还是一样，递归求方案数，还是可以用dp解决。但是这里数据小，dfs也可以AC。</p>
-<p>每步的数据是坐标位置、手中物品数量、当前物品价值的最大值，因此dfs函数有四个参数</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span><span class="token string">&lt;iostream&gt;</span></span>
-using namespace std<span class="token punctuation">;</span>
-<span class="token keyword">const</span> <span class="token keyword">int</span> N <span class="token operator">=</span> <span class="token number">55</span><span class="token punctuation">;</span>
-<span class="token keyword">int</span> g<span class="token punctuation">[</span>N<span class="token punctuation">]</span><span class="token punctuation">[</span>N<span class="token punctuation">]</span><span class="token punctuation">;</span>
-<span class="token keyword">int</span> n<span class="token punctuation">,</span>m<span class="token punctuation">,</span>k<span class="token punctuation">;</span>
-<span class="token keyword">int</span> res<span class="token punctuation">;</span>
-<span class="token keyword">int</span> MOD <span class="token operator">=</span> <span class="token number">1000000007</span><span class="token punctuation">;</span>
-
-<span class="token keyword">int</span> <span class="token function">dfs</span><span class="token punctuation">(</span><span class="token keyword">int</span> x<span class="token punctuation">,</span><span class="token keyword">int</span> y<span class="token punctuation">,</span><span class="token keyword">int</span> cnt<span class="token punctuation">,</span><span class="token keyword">int</span> value<span class="token punctuation">)</span>   <span class="token comment">//x,y坐标，手里物品数，手里最大价值</span>
-<span class="token punctuation">{</span>
-	<span class="token keyword">if</span><span class="token punctuation">(</span>x<span class="token operator">&gt;</span>n<span class="token operator">||</span>y<span class="token operator">&gt;</span>m<span class="token operator">||</span>cnt<span class="token operator">&gt;</span>k<span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>  <span class="token comment">//越界</span>
-	<span class="token keyword">if</span><span class="token punctuation">(</span>x<span class="token operator">==</span>n<span class="token operator">&amp;&amp;</span>y<span class="token operator">==</span>m<span class="token punctuation">)</span>						<span class="token comment">//到达终点</span>
-	<span class="token punctuation">{</span>
-        <span class="token keyword">if</span><span class="token punctuation">(</span>cnt<span class="token operator">==</span>k<span class="token operator">||</span><span class="token punctuation">(</span>cnt<span class="token operator">==</span>k<span class="token operator">-</span><span class="token number">1</span><span class="token operator">&amp;&amp;</span>g<span class="token punctuation">[</span>x<span class="token punctuation">]</span><span class="token punctuation">[</span>y<span class="token punctuation">]</span><span class="token operator">&gt;</span>value<span class="token punctuation">)</span><span class="token punctuation">)</span>  		<span class="token comment">//若在最后手中数量等于k，</span>
-            <span class="token keyword">return</span> <span class="token number">1</span><span class="token punctuation">;</span>                       		<span class="token comment">//或者最后手中数量等于k-1且最后的物品价值大于前面所有的物品价值的最大值                        </span>
-        <span class="token keyword">else</span>                               			<span class="token comment">//（意思可以拿最后一件，拿了正好手中物品数量等于k）</span>
-            <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
-	<span class="token punctuation">}</span>	
-	<span class="token keyword">if</span><span class="token punctuation">(</span>g<span class="token punctuation">[</span>x<span class="token punctuation">]</span><span class="token punctuation">[</span>y<span class="token punctuation">]</span> <span class="token operator">&gt;</span> value<span class="token punctuation">)</span>
-	<span class="token punctuation">{</span>
-		<span class="token keyword">return</span> <span class="token function">dfs</span><span class="token punctuation">(</span>x<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span>y<span class="token punctuation">,</span>cnt<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span>g<span class="token punctuation">[</span>x<span class="token punctuation">]</span><span class="token punctuation">[</span>y<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token function">dfs</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span>y<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span>cnt<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span>g<span class="token punctuation">[</span>x<span class="token punctuation">]</span><span class="token punctuation">[</span>y<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token function">dfs</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span>y<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span>cnt<span class="token punctuation">,</span>value<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token function">dfs</span><span class="token punctuation">(</span>x<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span>y<span class="token punctuation">,</span>cnt<span class="token punctuation">,</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token comment">//取，去下一步，取，去右一步，不取，去右一步，取，去下一步</span>
-	<span class="token punctuation">}</span>
-	<span class="token keyword">else</span> <span class="token keyword">return</span> <span class="token function">dfs</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span>y<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span>cnt<span class="token punctuation">,</span>value<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token function">dfs</span><span class="token punctuation">(</span>x<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span>y<span class="token punctuation">,</span>cnt<span class="token punctuation">,</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-
-<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span class="token punctuation">{</span>
-	cin<span class="token operator">&gt;&gt;</span>n<span class="token operator">&gt;&gt;</span>m<span class="token operator">&gt;&gt;</span>k<span class="token punctuation">;</span>
-	<span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>i<span class="token operator">&lt;=</span>n<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span>
-	<span class="token punctuation">{</span>
-		<span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>j<span class="token operator">&lt;=</span>m<span class="token punctuation">;</span>j<span class="token operator">++</span><span class="token punctuation">)</span> cin<span class="token operator">&gt;&gt;</span>g<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">;</span>
-	<span class="token punctuation">}</span>
-	 <span class="token function">dfs</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   							<span class="token comment">//表示从(1,1)开始，手中没有物品且价值为-1。</span>
-	 res <span class="token operator">=</span> <span class="token function">dfs</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">%</span>MOD<span class="token punctuation">;</span>
-	 cout<span class="token operator">&lt;&lt;</span>res<span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-
-
+                <h2 id="网络模式"><a href="#网络模式" class="headerlink" title="网络模式"></a>网络模式</h2><p>我们了解一下VMware 3种网络模式的功能和通信规则</p>
+<p>我们首先说一下VMware的几个虚拟设备</p>
+<p>VMnet0：用于虚拟桥接网络下的虚拟交换机</p>
+<p>VMnet1：用于虚拟Host-Only网络下的虚拟交换机</p>
+<p>VMnet8：用于虚拟NAT网络下的虚拟交换机</p>
+<p>VMware Network Adepter VMnet1：Host用于与Host-Only虚拟网络进行通信的虚拟网卡</p>
+<p>VMware Network Adepter VMnet8：Host用于与NAT虚拟网络进行通信的虚拟网卡</p>
+<p>安装了VMware虚拟机后，会在网络连接对话框中多出两个虚拟网卡（VMnet是我新添加的），如图：</p>
+<p><img src="/2022/03/31/vmware-shi-yong-shuo-ming/image-20220331150459041.png"></p>
+<p>也可以新添加网卡</p>
+<p><img src="/2022/03/31/vmware-shi-yong-shuo-ming/image-20220331150548164.png"></p>
+<h4 id="桥接网络（Bridged-Networking）："><a href="#桥接网络（Bridged-Networking）：" class="headerlink" title="桥接网络（Bridged Networking）："></a>桥接网络（Bridged Networking）：</h4><p>桥接网络是指本地物理网卡和虚拟网卡通过VMnet0虚拟交换机进行桥接，物理网卡和虚拟网卡在拓扑图上处于同等地位（虚拟网卡既不是Adepter VMnet1也不是Adepter VMnet8）。</p>
+<p><img src="/2022/03/31/vmware-shi-yong-shuo-ming/clip_image001.jpg" alt="桥接网络拓扑图"></p>
+<p>​    </p>
+<p>那么物理网卡和虚拟网卡就相当于处于同一个网段，虚拟交换机就相当于一台现实网络中的交换机。所以两个网卡的IP地址也要设置为同一网段。</p>
+<h4 id="NAT模式："><a href="#NAT模式：" class="headerlink" title="NAT模式："></a>NAT模式：</h4><p>在NAT网络中，会用到VMware Network Adepter VMnet8虚拟网卡，主机上的VMware Network Adepter VMnet8虚拟网卡被直接连接到VMnet8虚拟交换机上与虚拟网卡进行通信。</p>
+<p><img src="/2022/03/31/vmware-shi-yong-shuo-ming/clip_image001-16487105950802.jpg" alt="NAT网络模式"></p>
+<p>VMware Network Adepter VMnet8虚拟网卡的作用仅限于和VMnet8网段进行通信，它不给VMnet8网段提供路由功能，所以虚拟机虚拟一个NAT服务器，使虚拟网卡可以连 接到Internet。在这种情况下，我们就可以使用端口映射功能，让访问主机80端口的请求映射到虚拟机的80端口上。</p>
+<p>VMware Network Adepter VMnet8虚拟网卡的IP地址是在安装VMware时由系统指定生成的，我们不要修改这个数值，否则会使主机和虚拟机无法通信。</p>
+<p>虚拟出来的网段和NAT模式虚拟网卡的网段是一样的，都为192.168.111.X，包括NAT服务器的IP地址也是这个网段。在安装VMware之后同样会生成一个虚拟DHCP服务器，为NAT服务器分配IP地址。<br> 当主机和虚拟机进行通信的时候就会调用VMware Network Adepter VMnet8虚拟网卡，因为他们都在一个网段，所以通信就不成问题了。</p>
+<p>实际上，VMware Network Adepter VMnet8虚拟网卡的作用就是为主机和虚拟机的通信提供一个接口，即使主机的物理网卡被关闭，虚拟机仍然可以连接到Internet，但是主机和虚拟机之间就不能互访了。</p>
+<h4 id="Host-Only模式："><a href="#Host-Only模式：" class="headerlink" title="Host-Only模式："></a>Host-Only模式：</h4><p>在Host-Only模式下，虚拟网络是一个全封闭的网络，它唯一能够访问的就是主机。其实Host-Only网络和NAT网络很相似，不同的 地方就是Host-Only网络没有NAT服务，所以虚拟网络不能连接到Internet。主机和虚拟机之间的通信是通过VMware Network Adepter VMnet1虚拟网卡来实现的。</p>
+<p><img src="/2022/03/31/vmware-shi-yong-shuo-ming/clip_image001-16487106380803.jpg" alt="仅主机模式"></p>
+<p>同NAT一样，VMware Network Adepter VMnet1虚拟网卡的IP地址也是VMware系统指定的，同时生成的虚拟DHCP服务器和虚拟网卡的IP地址位于同一网段，但和物理网卡的IP地址不在同一网段。</p>
+<p>Host-Only的宗旨就是建立一个与外界隔绝的内部网络，来提高内网的安全性。这个功能或许对普通用户来说没有多大意义，但大型服务商会常 常利用这个功能。如果你想为VMnet1网段提供路由功能，那就需要使用RRAS，而不能使用XP或2000的ICS，因为ICS会把内网的IP地址改为 192.168.0.1，但虚拟机是不会给VMnet1虚拟网卡分配这个地址的，那么主机和虚拟机之间就不能通信了。</p>
+<h4 id="综述"><a href="#综述" class="headerlink" title="综述"></a>综述</h4><p>在VMware的3中网络模式中，NAT模式是最简单的，基本不需要手动配置IP地址等相关参数。至于桥接模式则需要额外的IP地址，如果是在内网环境中还很容易，如果是ADSL宽带就比较麻烦了，ISP一般是不会大方的多提供一个公网IP的。 </p>
+<h4 id="通俗理解："><a href="#通俗理解：" class="headerlink" title="通俗理解："></a>通俗理解：</h4><table>
+<thead>
+<tr>
+<th>模式</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>NAT模式</td>
+<td>不在一个网段内 能上网 也能访问内网其他机器，但是其他机子访问不了。</td>
+</tr>
+<tr>
+<td>Host模式</td>
+<td>物理机能访问。不能不上网 不能访问局域网其他机子。</td>
+</tr>
+<tr>
+<td>桥接模式</td>
+<td>同一个网段内访问 能访问互联网。</td>
+</tr>
+</tbody></table>
 
                 
             </div>
@@ -660,7 +558,7 @@ using namespace std<span class="token punctuation">;</span>
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://deades-coder.github.io/2022/03/30/di-gui-suan-fa-er/">https://deades-coder.github.io/2022/03/30/di-gui-suan-fa-er/</a>
+                    <a href="https://deades-coder.github.io/2022/03/31/vmware-shi-yong-shuo-ming/">https://deades-coder.github.io/2022/03/31/vmware-shi-yong-shuo-ming/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -698,12 +596,12 @@ using namespace std<span class="token punctuation">;</span>
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/%E7%AE%97%E6%B3%95/">
-                                    <span class="chip bg-color">算法</span>
+                                <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">
+                                    <span class="chip bg-color">渗透测试</span>
                                 </a>
                             
-                                <a href="/tags/%E9%80%92%E5%BD%92/">
-                                    <span class="chip bg-color">递归</span>
+                                <a href="/tags/%E5%B7%A5%E5%85%B7%E8%AF%B4%E6%98%8E/">
+                                    <span class="chip bg-color">工具说明</span>
                                 </a>
                             
                         </div>
@@ -1088,9 +986,64 @@ using namespace std<span class="token punctuation">;</span>
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2022/03/31/vmware-shi-yong-shuo-ming/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="VMware使用说明">
+                        
+                        <span class="card-title">VMware使用说明</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            VMware使用说明
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-31
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" class="post-category">
+                                    渗透测试
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">
+                        <span class="chip bg-color">渗透测试</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%B7%A5%E5%85%B7%E8%AF%B4%E6%98%8E/">
+                        <span class="chip bg-color">工具说明</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
             <div class="card">
                 <a href="/2022/03/31/cncat-ba-chang-yi/">
                     <div class="card-image">
@@ -1108,9 +1061,9 @@ using namespace std<span class="token punctuation">;</span>
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-03-31
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-31
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -1136,63 +1089,6 @@ using namespace std<span class="token punctuation">;</span>
                     
                     <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">
                         <span class="chip bg-color">内网渗透</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2022/03/30/spring-kuang-jia-san/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="Spring框架（三）">
-                        
-                        <span class="card-title">Spring框架（三）</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            Spring框架的基础认识
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-30
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/Java/" class="post-category">
-                                    Java
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/Java/">
-                        <span class="chip bg-color">Java</span>
-                    </a>
-                    
-                    <a href="/tags/JavaEE/">
-                        <span class="chip bg-color">JavaEE</span>
-                    </a>
-                    
-                    <a href="/tags/Spring/">
-                        <span class="chip bg-color">Spring</span>
                     </a>
                     
                 </div>

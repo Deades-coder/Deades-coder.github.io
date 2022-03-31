@@ -4,6 +4,62 @@
   
     
     <entry>
+      <title>VMware使用说明</title>
+      <link href="/2022/03/31/vmware-shi-yong-shuo-ming/"/>
+      <url>/2022/03/31/vmware-shi-yong-shuo-ming/</url>
+      
+        <content type="html"><![CDATA[<h2 id="网络模式"><a href="#网络模式" class="headerlink" title="网络模式"></a>网络模式</h2><p>我们了解一下VMware 3种网络模式的功能和通信规则</p><p>我们首先说一下VMware的几个虚拟设备</p><p>VMnet0：用于虚拟桥接网络下的虚拟交换机</p><p>VMnet1：用于虚拟Host-Only网络下的虚拟交换机</p><p>VMnet8：用于虚拟NAT网络下的虚拟交换机</p><p>VMware Network Adepter VMnet1：Host用于与Host-Only虚拟网络进行通信的虚拟网卡</p><p>VMware Network Adepter VMnet8：Host用于与NAT虚拟网络进行通信的虚拟网卡</p><p>安装了VMware虚拟机后，会在网络连接对话框中多出两个虚拟网卡（VMnet是我新添加的），如图：</p><p><img src="/2022/03/31/vmware-shi-yong-shuo-ming/image-20220331150459041.png"></p><p>也可以新添加网卡</p><p><img src="/2022/03/31/vmware-shi-yong-shuo-ming/image-20220331150548164.png"></p><h4 id="桥接网络（Bridged-Networking）："><a href="#桥接网络（Bridged-Networking）：" class="headerlink" title="桥接网络（Bridged Networking）："></a>桥接网络（Bridged Networking）：</h4><p>桥接网络是指本地物理网卡和虚拟网卡通过VMnet0虚拟交换机进行桥接，物理网卡和虚拟网卡在拓扑图上处于同等地位（虚拟网卡既不是Adepter VMnet1也不是Adepter VMnet8）。</p><p><img src="/2022/03/31/vmware-shi-yong-shuo-ming/clip_image001.jpg" alt="桥接网络拓扑图"></p><p>​    </p><p>那么物理网卡和虚拟网卡就相当于处于同一个网段，虚拟交换机就相当于一台现实网络中的交换机。所以两个网卡的IP地址也要设置为同一网段。</p><h4 id="NAT模式："><a href="#NAT模式：" class="headerlink" title="NAT模式："></a>NAT模式：</h4><p>在NAT网络中，会用到VMware Network Adepter VMnet8虚拟网卡，主机上的VMware Network Adepter VMnet8虚拟网卡被直接连接到VMnet8虚拟交换机上与虚拟网卡进行通信。</p><p><img src="/2022/03/31/vmware-shi-yong-shuo-ming/clip_image001-16487105950802.jpg" alt="NAT网络模式"></p><p>VMware Network Adepter VMnet8虚拟网卡的作用仅限于和VMnet8网段进行通信，它不给VMnet8网段提供路由功能，所以虚拟机虚拟一个NAT服务器，使虚拟网卡可以连 接到Internet。在这种情况下，我们就可以使用端口映射功能，让访问主机80端口的请求映射到虚拟机的80端口上。</p><p>VMware Network Adepter VMnet8虚拟网卡的IP地址是在安装VMware时由系统指定生成的，我们不要修改这个数值，否则会使主机和虚拟机无法通信。</p><p>虚拟出来的网段和NAT模式虚拟网卡的网段是一样的，都为192.168.111.X，包括NAT服务器的IP地址也是这个网段。在安装VMware之后同样会生成一个虚拟DHCP服务器，为NAT服务器分配IP地址。<br> 当主机和虚拟机进行通信的时候就会调用VMware Network Adepter VMnet8虚拟网卡，因为他们都在一个网段，所以通信就不成问题了。</p><p>实际上，VMware Network Adepter VMnet8虚拟网卡的作用就是为主机和虚拟机的通信提供一个接口，即使主机的物理网卡被关闭，虚拟机仍然可以连接到Internet，但是主机和虚拟机之间就不能互访了。</p><h4 id="Host-Only模式："><a href="#Host-Only模式：" class="headerlink" title="Host-Only模式："></a>Host-Only模式：</h4><p>在Host-Only模式下，虚拟网络是一个全封闭的网络，它唯一能够访问的就是主机。其实Host-Only网络和NAT网络很相似，不同的 地方就是Host-Only网络没有NAT服务，所以虚拟网络不能连接到Internet。主机和虚拟机之间的通信是通过VMware Network Adepter VMnet1虚拟网卡来实现的。</p><p><img src="/2022/03/31/vmware-shi-yong-shuo-ming/clip_image001-16487106380803.jpg" alt="仅主机模式"></p><p>同NAT一样，VMware Network Adepter VMnet1虚拟网卡的IP地址也是VMware系统指定的，同时生成的虚拟DHCP服务器和虚拟网卡的IP地址位于同一网段，但和物理网卡的IP地址不在同一网段。</p><p>Host-Only的宗旨就是建立一个与外界隔绝的内部网络，来提高内网的安全性。这个功能或许对普通用户来说没有多大意义，但大型服务商会常 常利用这个功能。如果你想为VMnet1网段提供路由功能，那就需要使用RRAS，而不能使用XP或2000的ICS，因为ICS会把内网的IP地址改为 192.168.0.1，但虚拟机是不会给VMnet1虚拟网卡分配这个地址的，那么主机和虚拟机之间就不能通信了。</p><h4 id="综述"><a href="#综述" class="headerlink" title="综述"></a>综述</h4><p>在VMware的3中网络模式中，NAT模式是最简单的，基本不需要手动配置IP地址等相关参数。至于桥接模式则需要额外的IP地址，如果是在内网环境中还很容易，如果是ADSL宽带就比较麻烦了，ISP一般是不会大方的多提供一个公网IP的。 </p><h4 id="通俗理解："><a href="#通俗理解：" class="headerlink" title="通俗理解："></a>通俗理解：</h4><table><thead><tr><th>模式</th><th>解释</th></tr></thead><tbody><tr><td>NAT模式</td><td>不在一个网段内 能上网 也能访问内网其他机器，但是其他机子访问不了。</td></tr><tr><td>Host模式</td><td>物理机能访问。不能不上网 不能访问局域网其他机子。</td></tr><tr><td>桥接模式</td><td>同一个网段内访问 能访问互联网。</td></tr></tbody></table>]]></content>
+      
+      
+      <categories>
+          
+          <category> 渗透测试 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 渗透测试 </tag>
+            
+            <tag> 工具说明 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>cncat靶场（一）</title>
+      <link href="/2022/03/31/cncat-ba-chang-yi/"/>
+      <url>/2022/03/31/cncat-ba-chang-yi/</url>
+      
+        <content type="html"><![CDATA[<p>靶场链接：链接：<a href="https://pan.baidu.com/s/1BuKBqwLa8Q8yrNFeSk7iDQ">https://pan.baidu.com/s/1BuKBqwLa8Q8yrNFeSk7iDQ</a><br>提取码：dxxd</p><h2 id="靶场简介"><a href="#靶场简介" class="headerlink" title="靶场简介"></a>靶场简介</h2><p>​        从外网打点到内网再到域控，是三层网络，目标是反向代理到内网访问，通过这个 WEB 点的信息获取源码，再到审计突破，再到内网。到了内网通过横向移动发现更多主机，通过信息整理得到工作组边界设备的权限，再通过 exchange 漏洞获取核心区域访问权限，再拿下域控权限。综合性比较强</p><h2 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h2><p>先看一下网络拓扑图</p><p><img src="/cncat%E9%9D%B6%E5%9C%BA%EF%BC%88%E4%B8%80%EF%BC%89/image-20220331132411826.png"></p><p>先搭建frp内网穿透，这个网上教程很多，不加以细说。这里推荐篇教程：<a href="https://cloud.tencent.com/developer/article/1700417">https://cloud.tencent.com/developer/article/1700417</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 渗透测试 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 渗透测试 </tag>
+            
+            <tag> 靶场渗透 </tag>
+            
+            <tag> 内网渗透 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>递归算法（二）</title>
       <link href="/2022/03/30/di-gui-suan-fa-er/"/>
       <url>/2022/03/30/di-gui-suan-fa-er/</url>
@@ -219,11 +275,11 @@
       
         <tags>
             
+            <tag> 渗透测试 </tag>
+            
             <tag> python </tag>
             
             <tag> 信息收集 </tag>
-            
-            <tag> 渗透测试 </tag>
             
         </tags>
       
