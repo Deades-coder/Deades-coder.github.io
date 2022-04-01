@@ -458,21 +458,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-03-30
+                    2022-04-01
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.4k
+                    2.5k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    10 分
+                    11 分
                 </div>
                 
 
@@ -534,20 +534,25 @@
 <p>使用对象时，由主动new产生对象转换为由外部提供对象，此过程中对象创建控制权由程序转移到外部，此思想称为控制反转。通俗的讲就是“将new对象的权利交给Spring，我们从Spring中获取对象使用即可”</p>
 </blockquote>
 <ul>
-<li><p>Spring技术对IoC思想进行了实现</p>
-<ul>
+<li>Spring技术对IoC思想进行了实现<ul>
 <li>Spring提供了一个容器，称为IOC容器，用来充当IoC思想中的“外部”</li>
 <li>IOC容器负责对象的创建、初始化等一系列工作，被创建或被管理的对象在IoC容器中统称为<strong>Bean</strong></li>
 <li><img src="/2022/03/29/spring-kuang-jia-yi/image-20220329220927129.png"></li>
 </ul>
 </li>
-<li><p>DI（Dependency Injection）依赖注入（放入了Service和Dao两个对象，两个对象是有依赖关系（implements））</p>
-<ul>
+<li>DI（Dependency Injection）依赖注入（放入了Service和Dao两个对象，两个对象是有依赖关系（implements））<ul>
 <li>在容器中建立bean与bean之间的依赖关系的整个过程，称为依赖注入。</li>
 </ul>
 </li>
-<li><p>最终效果</p>
+</ul>
+<blockquote>
 <ul>
+<li>通俗理解：</li>
+</ul>
+<p>Class A中用到了Class B的对象b，一般情况下，需要在A的代码中显式的new一个B的对象。采用依赖注入技术之后，A的代码只需要定义一个私有的B对象，不需要直接new来获得这个对象，而是通过相关的容器控制程序来将B对象在外部new出来并注入到A类里的引用中。</p>
+</blockquote>
+<ul>
+<li>最终效果<ul>
 <li>使用对象时不仅可以直接从IoC容器中获取，并且获取到的bean已经绑定了所有的依赖关系</li>
 </ul>
 </li>
