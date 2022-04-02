@@ -11,6 +11,22 @@
         <content type="html"><![CDATA[]]></content>
       
       
+      <categories>
+          
+          <category> Java </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Java </tag>
+            
+            <tag> JavaSE </tag>
+            
+            <tag> Java网络编程 </tag>
+            
+        </tags>
       
     </entry>
     
@@ -286,11 +302,11 @@
       
         <tags>
             
+            <tag> 渗透测试 </tag>
+            
             <tag> python </tag>
             
             <tag> 信息收集 </tag>
-            
-            <tag> 渗透测试 </tag>
             
         </tags>
       
