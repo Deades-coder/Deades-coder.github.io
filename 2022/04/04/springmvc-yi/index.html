@@ -500,7 +500,7 @@
 </ol>
 </li>
 <li><p>MVC模式</p>
-<p><img src="/image-20220404115205366.png"></p>
+<p><img src="/2022/04/04/springmvc-yi/image-20220404115205366.png"></p>
 <blockquote>
 <p>View+Model就是页面</p>
 <p>controller调用service，service调用dao</p>
@@ -508,7 +508,7 @@
 <p>演化到现在变成异步调用</p>
 </li>
 </ol>
-<p><img src="/image-20210804185234370.png"></p>
+<p><img src="/2022/04/04/springmvc-yi/image-20210804185234370.png"></p>
 <ul>
 <li><p>dao：负责数据的持久化，存储一些东西</p>
 </li>
@@ -645,7 +645,7 @@
 <li>加载UserController，每个@RequestMapping的名称对应一个具体的方法</li>
 <li>执行getServletMappings方法，定义所有的请求都通过SpringMVC</li>
 </ol>
-<p><img src="/image-20210804193122709.png"></p>
+<p><img src="/2022/04/04/springmvc-yi/image-20210804193122709.png"></p>
 <p><strong>单次请求过程</strong></p>
 <ol>
 <li>发送请求localhost/save</li>
@@ -878,13 +878,13 @@
     <span class="token keyword">return</span> <span class="token string">"{'module':'array param'}"</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<img src="/image-20210805105825688.png" style="zoom: 50%;">
+<img src="image-20210805105825688.png" style="zoom: 50%;">
 
 <p><strong>集合类型参数</strong></p>
 <ul>
 <li>集合保存普通参数：请求参数名与形参集合对象名相同且请求参数为多个，@RequestParam绑定参数关系</li>
 </ul>
-<img src="/image-20210805105957957.png" style="zoom: 50%;">
+<img src="image-20210805105957957.png" style="zoom: 50%;">
 
 <pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">//集合参数：同名请求参数可以使用@RequestParam注解映射到对应名称的集合对象中作为数据</span>
 <span class="token annotation punctuation">@RequestMapping</span><span class="token punctuation">(</span><span class="token string">"/listParam"</span><span class="token punctuation">)</span>
@@ -963,7 +963,7 @@
 <ul>
 <li>POJO参数：json数据与形参对象属性名相同，定义POJO类型形参即可接收参数</li>
 </ul>
-<img src="/image-20210805111544701.png" style="zoom: 33%;">
+<img src="image-20210805111544701.png" style="zoom: 33%;">
 
 <pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">//POJO参数：json格式</span>
 <span class="token comment">//1.开启json数据格式的自动转换，在配置类中开启@EnableWebMvc</span>
@@ -978,7 +978,7 @@
 <p><strong>传递json对象数组</strong></p>
 <ul>
 <li><p>POJO集合参数：json数组数据与集合泛型属性名相同，定义List类型形参即可接收参数</p>
-<img src="/image-20210805111626095.png" style="zoom: 33%;">
+<img src="image-20210805111626095.png" style="zoom: 33%;">
 
 <pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">//集合参数：json格式</span>
 <span class="token comment">//1.开启json数据格式的自动转换，在配置类中开启@EnableWebMvc</span>
