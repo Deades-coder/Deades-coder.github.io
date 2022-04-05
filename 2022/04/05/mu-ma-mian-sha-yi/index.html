@@ -5,7 +5,7 @@
 <head>
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
     <meta name="keywords" content="木马免杀（一）, HTML,CSS,JavaScript,JQuery,java,linux等">
-    <meta name="description" content="关于木马免杀">
+    <meta name="description" content="mimikatz和printspoofer免杀">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -422,8 +422,8 @@
                                 <span class="chip bg-color">渗透测试</span>
                             </a>
                         
-                            <a href="/tags/web%E5%AE%89%E5%85%A8/">
-                                <span class="chip bg-color">web安全</span>
+                            <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">
+                                <span class="chip bg-color">内网渗透</span>
                             </a>
                         
                             <a href="/tags/%E6%9C%A8%E9%A9%AC%E5%85%8D%E6%9D%80/">
@@ -465,7 +465,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    0
+                    496
                 </div>
                 
 
@@ -490,7 +490,83 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                
+                <h2 id="mimikatz免杀"><a href="#mimikatz免杀" class="headerlink" title="mimikatz免杀"></a>mimikatz免杀</h2><p>mimikatz可以从内存中提取明文密码、哈希、PIN 码和 kerberos 票证。 mimikatz 还可以执行哈希传递、票证传递或构建黄金票证。</p>
+<ul>
+<li><p>在github上下载mimikatz <a target="_blank" rel="noopener" href="https://github.com/gentilkiwi/mimikatz">GitHub - gentilkiwi/mimikatz: A little tool to play with Windows security</a></p>
+</li>
+<li><p>解压缩，打开<img src="/2022/04/05/mu-ma-mian-sha-yi/image-20220405153343693.png"></p>
+</li>
+<li><p>默认生成不成功，要改配置属性<img src="/2022/04/05/mu-ma-mian-sha-yi/image-20220405153646914.png" alt="image-20220405153646914"></p>
+<ol>
+<li><p>右击解决方案资源管理器，点击属性</p>
+<p><img src="/2022/04/05/mu-ma-mian-sha-yi/image-20220405153824349.png"></p>
+</li>
+<li><p>更改平台，选择自己的vs平台</p>
+</li>
+</ol>
+<p><img src="/2022/04/05/mu-ma-mian-sha-yi/image-20220405153849889-16491443366361.png"></p>
+<p>​    3.  C++常规，将警告视为错误设置为否</p>
+<p>​        <img src="image-20220405154005916.png"></p>
+<p>​    </p>
+<blockquote>
+<p>可能缺少MFS库，自己安装一下</p>
+</blockquote>
+<ol start="4">
+<li><p>生成</p>
+</li>
+<li><p>默认生成32位，改成64位</p>
+<ul>
+<li><p>右击解决方案，打开属性页，改为64位，再生成一下</p>
+<img src="image-20220405161938248.png" style="zoom:80%;"></li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<ol start="6">
+<li><p>找到位置，即可获得exe文件</p>
+<p><img src="/2022/04/05/mu-ma-mian-sha-yi/image-20220405162228839.png"></p>
+</li>
+</ol>
+<h4 id="开始免杀"><a href="#开始免杀" class="headerlink" title="开始免杀"></a>开始免杀</h4><ul>
+<li>替换关键字，将mimikatz替换成</li>
+</ul>
+<blockquote>
+<p>​         在程序没有运行的情况下，一般都是通过特征码判断的。而且Mimikatz这些知名工具的内容像mimikatz、作者信息之类的字符串就很容易被做为特征码识别。</p>
+<p>​        通用阅读源码大体可以了解存在比较明显的关键字：mimikatz、MIMIKATZ以及mimikatz/mimikatz/pleasesubscribe.rc文件的一些内容。可以利用Visual Studio的替换功能实现关键字的处理。</p>
+</blockquote>
+<ul>
+<li><p>删除注释信息，这也将是特征码判断的标准</p>
+</li>
+<li><p>修改ico图标</p>
+</li>
+<li><p>删除敏感信息：</p>
+<img src="1642402559246-abd76535-f8c1-4ce0-9e38-35d40363e208.png" style="zoom: 33%;"></li>
+</ul>
+<p>在空白处右键新增版本信息：<img src="1642405305902-941bde36-5fdc-4000-bbd0-ec1a4cece27f.png" style="zoom:33%;"></p>
+<p>成功以后，测试下功能：</p>
+<pre class="line-numbers language-none"><code class="language-none">privilege::debug   提取权限
+sekurlsa::logonpasswords   抓取密码
+sekurlsa::msv				提取ntlm hash凭证。
+sekurlsa::wdigest			提取用户密码明文。
+sekurlsa::kerberos			提取域账户凭证。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<img src="image-20220405164234329.png">
+
+
+
+
+
+<h2 id="PrintSpoofer免杀"><a href="#PrintSpoofer免杀" class="headerlink" title="PrintSpoofer免杀"></a>PrintSpoofer免杀</h2><p>下载PrintSpoofer：<a target="_blank" rel="noopener" href="https://github.com/whojeff/PrintSpoofer">GitHub - whojeff/PrintSpoofer: Abusing Impersonation Privileges on Windows 10 and Server 2019 本地提权2012-2019</a></p>
+<p>可以直接编译成功</p>
+<p>免杀思路（和mimikatz差不多）</p>
+<p>1、将PrintSpoofer.cpp 里面的输出帮助文档全部清空</p>
+<img src="image-20220405165814177.png" style="zoom:80%;">
+
+<p>2、将项目中搜索PrintSpoofer替换为其他内容，这里改成yang。</p>
+<p>3、然后将PrintSpoofer.cpp PrintSpoofer.h 全改为其他名字 这里改成yang</p>
+<p>4、添加ico图标即可。</p>
+
                 
             </div>
             <hr/>
@@ -558,8 +634,8 @@
                                     <span class="chip bg-color">渗透测试</span>
                                 </a>
                             
-                                <a href="/tags/web%E5%AE%89%E5%85%A8/">
-                                    <span class="chip bg-color">web安全</span>
+                                <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">
+                                    <span class="chip bg-color">内网渗透</span>
                                 </a>
                             
                                 <a href="/tags/%E6%9C%A8%E9%A9%AC%E5%85%8D%E6%9D%80/">
@@ -989,12 +1065,12 @@
                         <span class="chip bg-color">渗透测试</span>
                     </a>
                     
-                    <a href="/tags/web%E5%AE%89%E5%85%A8/">
-                        <span class="chip bg-color">web安全</span>
-                    </a>
-                    
                     <a href="/tags/%E6%9C%A8%E9%A9%AC%E5%85%8D%E6%9D%80/">
                         <span class="chip bg-color">木马免杀</span>
+                    </a>
+                    
+                    <a href="/tags/web%E5%AE%89%E5%85%A8/">
+                        <span class="chip bg-color">web安全</span>
                     </a>
                     
                 </div>

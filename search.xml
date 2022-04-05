@@ -4,6 +4,35 @@
   
     
     <entry>
+      <title>流量加密（一）</title>
+      <link href="/2022/04/05/liu-liang-jia-mi-yi/"/>
+      <url>/2022/04/05/liu-liang-jia-mi-yi/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      <categories>
+          
+          <category> 渗透测试 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 渗透测试 </tag>
+            
+            <tag> 后渗透 </tag>
+            
+            <tag> 流量加密 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>acwing45周周赛</title>
       <link href="/2022/04/05/acwing45-zhou-sai/"/>
       <url>/2022/04/05/acwing45-zhou-sai/</url>
@@ -49,9 +78,9 @@
             
             <tag> 渗透测试 </tag>
             
-            <tag> web安全 </tag>
-            
             <tag> 木马免杀 </tag>
+            
+            <tag> web安全 </tag>
             
         </tags>
       
@@ -64,7 +93,7 @@
       <link href="/2022/04/05/mu-ma-mian-sha-yi/"/>
       <url>/2022/04/05/mu-ma-mian-sha-yi/</url>
       
-        <content type="html"><![CDATA[]]></content>
+        <content type="html"><![CDATA[<h2 id="mimikatz免杀"><a href="#mimikatz免杀" class="headerlink" title="mimikatz免杀"></a>mimikatz免杀</h2><p>mimikatz可以从内存中提取明文密码、哈希、PIN 码和 kerberos 票证。 mimikatz 还可以执行哈希传递、票证传递或构建黄金票证。</p><ul><li><p>在github上下载mimikatz <a href="https://github.com/gentilkiwi/mimikatz">GitHub - gentilkiwi/mimikatz: A little tool to play with Windows security</a></p></li><li><p>解压缩，打开<img src="/2022/04/05/mu-ma-mian-sha-yi/image-20220405153343693.png"></p></li><li><p>默认生成不成功，要改配置属性<img src="/2022/04/05/mu-ma-mian-sha-yi/image-20220405153646914.png" alt="image-20220405153646914"></p><ol><li><p>右击解决方案资源管理器，点击属性</p><p><img src="/2022/04/05/mu-ma-mian-sha-yi/image-20220405153824349.png"></p></li><li><p>更改平台，选择自己的vs平台</p></li></ol><p><img src="/2022/04/05/mu-ma-mian-sha-yi/image-20220405153849889-16491443366361.png"></p><p>​    3.  C++常规，将警告视为错误设置为否</p><p>​        <img src="image-20220405154005916.png"></p><p>​    </p><blockquote><p>可能缺少MFS库，自己安装一下</p></blockquote><ol start="4"><li><p>生成</p></li><li><p>默认生成32位，改成64位</p><ul><li><p>右击解决方案，打开属性页，改为64位，再生成一下</p><img src="image-20220405161938248.png" style="zoom:80%;"></li></ul></li></ol></li></ul><ol start="6"><li><p>找到位置，即可获得exe文件</p><p><img src="/2022/04/05/mu-ma-mian-sha-yi/image-20220405162228839.png"></p></li></ol><h4 id="开始免杀"><a href="#开始免杀" class="headerlink" title="开始免杀"></a>开始免杀</h4><ul><li>替换关键字，将mimikatz替换成</li></ul><blockquote><p>​         在程序没有运行的情况下，一般都是通过特征码判断的。而且Mimikatz这些知名工具的内容像mimikatz、作者信息之类的字符串就很容易被做为特征码识别。</p><p>​        通用阅读源码大体可以了解存在比较明显的关键字：mimikatz、MIMIKATZ以及mimikatz/mimikatz/pleasesubscribe.rc文件的一些内容。可以利用Visual Studio的替换功能实现关键字的处理。</p></blockquote><ul><li><p>删除注释信息，这也将是特征码判断的标准</p></li><li><p>修改ico图标</p></li><li><p>删除敏感信息：</p><img src="1642402559246-abd76535-f8c1-4ce0-9e38-35d40363e208.png" style="zoom: 33%;"></li></ul><p>在空白处右键新增版本信息：<img src="1642405305902-941bde36-5fdc-4000-bbd0-ec1a4cece27f.png" style="zoom:33%;"></p><p>成功以后，测试下功能：</p><pre class="line-numbers language-none"><code class="language-none">privilege::debug   提取权限sekurlsa::logonpasswords   抓取密码sekurlsa::msv提取ntlm hash凭证。sekurlsa::wdigest提取用户密码明文。sekurlsa::kerberos提取域账户凭证。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre><img src="image-20220405164234329.png"><h2 id="PrintSpoofer免杀"><a href="#PrintSpoofer免杀" class="headerlink" title="PrintSpoofer免杀"></a>PrintSpoofer免杀</h2><p>下载PrintSpoofer：<a href="https://github.com/whojeff/PrintSpoofer">GitHub - whojeff/PrintSpoofer: Abusing Impersonation Privileges on Windows 10 and Server 2019 本地提权2012-2019</a></p><p>可以直接编译成功</p><p>免杀思路（和mimikatz差不多）</p><p>1、将PrintSpoofer.cpp 里面的输出帮助文档全部清空</p><img src="image-20220405165814177.png" style="zoom:80%;"><p>2、将项目中搜索PrintSpoofer替换为其他内容，这里改成yang。</p><p>3、然后将PrintSpoofer.cpp PrintSpoofer.h 全改为其他名字 这里改成yang</p><p>4、添加ico图标即可。</p>]]></content>
       
       
       <categories>
@@ -78,7 +107,7 @@
             
             <tag> 渗透测试 </tag>
             
-            <tag> web安全 </tag>
+            <tag> 内网渗透 </tag>
             
             <tag> 木马免杀 </tag>
             
@@ -557,11 +586,11 @@
       
         <tags>
             
-            <tag> 渗透测试 </tag>
-            
             <tag> python </tag>
             
             <tag> 信息收集 </tag>
+            
+            <tag> 渗透测试 </tag>
             
         </tags>
       
