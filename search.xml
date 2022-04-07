@@ -4,6 +4,62 @@
   
     
     <entry>
+      <title>渗透小tips（二）</title>
+      <link href="/2022/04/05/shen-tou-xiao-tips-er/"/>
+      <url>/2022/04/05/shen-tou-xiao-tips-er/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      <categories>
+          
+          <category> 渗透测试 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 渗透测试 </tag>
+            
+            <tag> web安全 </tag>
+            
+            <tag> 工具使用 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>蓝桥杯选题（二）</title>
+      <link href="/2022/04/05/lan-qiao-bei-xuan-ti-er/"/>
+      <url>/2022/04/05/lan-qiao-bei-xuan-ti-er/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      <categories>
+          
+          <category> 算法 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 算法 </tag>
+            
+            <tag> 蓝桥杯 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>流量加密（一）</title>
       <link href="/2022/04/05/liu-liang-jia-mi-yi/"/>
       <url>/2022/04/05/liu-liang-jia-mi-yi/</url>
@@ -78,9 +134,9 @@
             
             <tag> 渗透测试 </tag>
             
-            <tag> 木马免杀 </tag>
-            
             <tag> web安全 </tag>
+            
+            <tag> 木马免杀 </tag>
             
         </tags>
       
@@ -107,9 +163,9 @@
             
             <tag> 渗透测试 </tag>
             
-            <tag> 内网渗透 </tag>
-            
             <tag> 木马免杀 </tag>
+            
+            <tag> 内网渗透 </tag>
             
         </tags>
       
