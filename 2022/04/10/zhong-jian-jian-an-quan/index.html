@@ -487,17 +487,17 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <h2 id="Apache换行解析漏洞CVE-2017-15715"><a href="#Apache换行解析漏洞CVE-2017-15715" class="headerlink" title="Apache换行解析漏洞CVE-2017-15715"></a>Apache换行解析漏洞CVE-2017-15715</h2><p>2.4.0~2.4.29版本中存在一个解析漏洞，在解析PHP时，<code>1.php\x0A</code>将被按照PHP后缀进行解析，导致绕过一些服务器的安全策略。</p>
-<p>apache这次解析漏洞的根本原因就是这个 $</p>
+<p>apache这次解析漏洞的根本原因就是这个<code> $</code></p>
 <p><code>匹配输入字符串的结尾位置。如果设置了 RegExp 对象的 Multiline 属性，则 $ 也匹配 ‘\n’ 或 ‘\r’。要匹配 $ 字符本身，请使用 $。</code></p>
-<img src="2014990-20200817162134637-407195510.png" style="zoom: 67%;">
+<img src="2014990-20200817162134637-407195510.png" style="zoom: 80%;">
 
-<p>查看php.conf文件。下图1到3行FileMatch的内容是将以.php结尾的文件都进行php解析，而$符号会匹配换行符</p>
+<p>查看<code>php.conf</code>文件。下图1到3行<code>FileMatch</code>的内容是将以<code>.php</code>结尾的文件都进行<code>php</code>解析，而<code>$</code>符号会匹配换行符</p>
 <img src="image-20220412133656679.png" style="zoom:50%;">
 
 <blockquote>
 <p>\ .php$ 中的$ 表示配置匹配后缀名文件的防盗链,而这个解析漏洞根本原因就是$ 这个符号，这个符号在正则表达式中是匹配字符串中结尾的位置，也就是说可以利用换行符使$ 与其匹配从而绕过黑名单机制实现文件上传，验证逻辑又是先会对上传的文件正则匹配验证后缀名是否包含了php,因为解析漏洞的存在，这里不会过滤php%0a,后续的黑名单机制也就如同摆设了</p>
 </blockquote>
-<p>上传一个名为haha.php的文件，在haha.php后面插入一个\x0A（注意，不能是\x0D\x0A，只能是一个\x0A），即可上传成功</p>
+<p>上传一个名为<code>haha.php</code>的文件，在<code>haha.php</code>后面插入一个\x0A（注意，不能是\x0D\x0A，只能是一个\x0A），即可上传成功</p>
 <img src="2014990-20200817164043006-1457516643.png" style="zoom: 80%;">
 
 
@@ -514,7 +514,7 @@ php
 phtml<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
 <p><strong>其余配置问题导致漏洞</strong></p>
-<p>（1）如果在 Apache 的 conf 里有这样一行配置 AddHandler php5-script .php 这时只要文件名里包含.php 即使文件名是 test2.php.jpg 也会以 php 来执行。<br>（2）如果在 Apache 的 conf 里有这样一行配置 AddType application/x-httpd-php .jpg 即使扩展名是 jpg，一样能以 php 方式执行。</p>
+<p>（1）如果在 Apache 的 conf 里有这样一行配置` AddHandler php5-script .php 这时只要文件名里包含.php 即使文件名是 test2.php.jpg 也会以 php 来执行。<br>（2）如果在 Apache 的 conf 里有这样一行配置 AddType application/x-httpd-php .jpg 即使扩展名是 jpg，一样能以 php 方式执行。</p>
 <p><strong>漏洞防御</strong><br>1、修改Apache的主配置文件：httpd.conf<br>对apache的配置文件做适当修改，在文件中添加下面几行代码</p>
 <pre class="line-numbers language-none"><code class="language-none">&lt;FilesMatch ".(php.|php3.|php4.|php5.)"&gt;
 *****
@@ -628,7 +628,7 @@ return 403;
 
 <p>而新漏洞的利用方式是：<br><code>/test.jpg%00.php</code><br>对应<code>fastcgi_script_name</code>的匹配正则。</p>
 <p><strong>该漏洞不受cgi.fix_pathinfo影响，其为0也能解析。</strong></p>
-<h2 id="nginx-CRLF-换行回车-注入漏洞"><a href="#nginx-CRLF-换行回车-注入漏洞" class="headerlink" title="nginx CRLF(换行回车)注入漏洞"></a>nginx CRLF(换行回车)注入漏洞</h2><p>CRLF是”回车 + 换行”（\r\n）的简称。在HTTP协议中，HTTP Header与HTTP Body是用两个CRLF分隔的，浏览器就是根据这两个CRLF来取出HTTP 内容并显示出来。所以，一旦我们能够控制HTTP 消息头中的字符，注入一些恶意的换行，这样我们就能注入一些会话Cookie或者HTML代码，所以CRLF Injection又叫HTTP Response Splitting，简称HRS。</p>
+<h2 id="nginx-CRLF-换行回车-注入漏洞"><a href="#nginx-CRLF-换行回车-注入漏洞" class="headerlink" title="nginx CRLF(换行回车)注入漏洞"></a>nginx CRLF(换行回车)注入漏洞</h2><p>CRLF是”回车 + 换行”（<code>\r\n</code>）的简称。在HTTP协议中，HTTP Header与HTTP Body是用两个CRLF分隔的，浏览器就是根据这两个CRLF来取出HTTP 内容并显示出来。所以，一旦我们能够控制HTTP 消息头中的字符，注入一些恶意的换行，这样我们就能注入一些会话Cookie或者HTML代码，所以CRLF Injection又叫HTTP Response Splitting，简称HRS。</p>
 <p>HRS是比XSS危害更大的安全问题，具体是为什么，我们往下看。</p>
 <p>对于HRS最简单的利用方式是注入两个<code>\r\n</code>，之后在写入XSS代码，来构造一个xss。</p>
 <p>举个例子，一般网站会在HTTP头中用<code>Location: http://baidu.com</code>这种方式来进行302跳转，所以我们能控制的内容就是Location:后面的XXX某个网址。</p>
@@ -667,7 +667,7 @@ Location:
 <p><strong>如何修复HRS漏洞，当然是过滤\r 、\n之类的换行符，避免输入的数据污染到其他HTTP头。</strong></p>
 <p><strong>Nginx的CRLF注入漏洞</strong></p>
 <p>在nginx的配置文件的如下位置中，加上一句return 302 https://$host$url</p>
-<img src="image-20220412205138668.png" alt="image-20220412205138668" style="zoom:67%;">
+<img src="image-20220412205138668.png" style="zoom:67%;">
 
 <p>这句话的意思是，在用nginx访问一个链接时，会用https协议访问，并且返回一个302found给用户。</p>
 <p>其中的$url是我们可以控制的，通过注入一个CRLF和两个CRLF来选择注入到http header还是http body。</p>
@@ -1220,8 +1220,8 @@ Location:
                         <span class="chip bg-color">Java</span>
                     </a>
                     
-                    <a href="/tags/JavaEE/">
-                        <span class="chip bg-color">JavaEE</span>
+                    <a href="/tags/JavaWeb/">
+                        <span class="chip bg-color">JavaWeb</span>
                     </a>
                     
                 </div>
