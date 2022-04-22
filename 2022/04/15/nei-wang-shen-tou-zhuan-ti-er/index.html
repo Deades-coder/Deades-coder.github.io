@@ -5,7 +5,7 @@
 <head>
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
     <meta name="keywords" content="内网渗透专题（二）, HTML,CSS,JavaScript,JQuery,java,linux等">
-    <meta name="description" content="内网渗透比较系统的讲解">
+    <meta name="description" content="内网渗透信息收集">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -454,21 +454,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-04-16
+                    2022-04-22
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    0
+                    1.3k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    5 分
                 </div>
                 
 
@@ -486,7 +486,124 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                
+                <h2 id="内网信息收集"><a href="#内网信息收集" class="headerlink" title="内网信息收集"></a>内网信息收集</h2><p>攻破一个主机，不知道他在内网扮演什么角色，需要信息收集</p>
+<p><code>ipconfig /all</code></p>
+<p><code>systeminfo | findstr /B /C:"OS Name" /C:"OS Version"</code> 查看系统信息</p>
+<p><strong>查看安装的路径及版本、路径</strong></p>
+<p><code>wmic product get name,version</code>：利用wmic 命令，将结果输出到文本文件</p>
+<img src="image-20220418214515756.png" style="zoom:50%;">
+
+<p><code>powershell "Get-WmiObject -class Win32_Product | Select-Object -Property name,version</code>：利用powersHELL 命令，收集软件的版本信息</p>
+<p><strong>查看计划任务</strong></p>
+<p><code>schtasks /query /fo LIST /v</code></p>
+<p><code>echo %PROCESSOR_ARCHITECTURE%</code>：查看系统体系结构</p>
+<p><code>powershell "Get-WmiObject -class Win32_Product | Select-Object -Property name,version"</code>：利用powersHELL 命令，收集软件的版本信息</p>
+<p><code>wmic service list brief</code>：查询本机服务信息</p>
+<p><strong>查询进程列表：</strong></p>
+<p><code>tasklsit</code></p>
+<p><code>wmic process brief</code></p>
+<p><strong>查看启动程序信息</strong></p>
+<p><code>wmic startup get command ,caption</code></p>
+<p><strong>查看主机开机时间</strong></p>
+<p><code>net statistics workstation</code></p>
+<p><strong>查询用户列表</strong></p>
+<p><code>net user</code></p>
+<img src="image-20220418215904101.png" style="zoom:67%;">
+
+<p><code>net localgroup administrator</code></p>
+<p><code>query user || qwinsta</code>：查看当前在线用户</p>
+<p><strong>列出或断开本地计算机与所连接的客户端之间的会话（需要管理员权限）</strong></p>
+<p><code>net sesssion</code></p>
+<p><strong>查询端口列表（常用命令）</strong></p>
+<p><code>netstat -ano</code></p>
+<p><strong>查看补丁列表</strong></p>
+<p><code>systeminfo</code></p>
+<p>使用wmic命令查看安装在系统的补丁</p>
+<p><code>wmic qfe get Caption ,Description ,HotFixID,InstalledOn</code></p>
+<p><strong>查询本机共享列表</strong></p>
+<p><code>net share</code></p>
+<p><code>wmic share get name,path,status</code></p>
+<p><strong>查询路由表及所有可用接口的Arp缓存表</strong></p>
+<p><code>route print</code></p>
+<img src="image-20220418221108390.png" style="zoom:50%;">
+
+<p><code>arp -a</code></p>
+<p><strong>查询防火墙相关配置</strong></p>
+<p><code>netsh firewall show config</code>：查看防火墙及配置</p>
+<p><code>netsh advfirewall set currentprofile logging filename "x/xxx/xxx/xx.log"</code>：自定义防火墙日志的存储位置</p>
+<p><code>netsh advfirewall set allprofiles state off</code>：关闭防火墙</p>
+<p><code>netsh advfirewall firewall add rule name="pass nc" dir=in action=allow program="C:\xxxx.exe"</code>：允许指定程序进入</p>
+<p><code>netsh advfirewall firewall add rule name="Allow nc" dir=out action=allow program="C:\xxxx.exe"</code>：允许指定程序退出</p>
+<p><code>netsh advfirewall firewall add rule name="Remote Desktop" protocol=TCP dir=in localport=3389 action=allow</code>：允许3389端口放行</p>
+<p><strong>查看代理配置情况</strong></p>
+<p><code>reg query "HKEY_CURRENT_USER\Software\Microsoft\windows\CurrentVersion\INternet settings</code></p>
+<img src="image-20220418223359582.png" style="zoom:67%;">
+
+<p><strong>查询并开启远程连接端口</strong></p>
+<p><code>REG QUERY “HKEY_LOcal_MACHINE\SYSTEM\CurrentControLset\Control\Terminal Server \WinStations\RDP-TCP" /v PortNUmber</code></p>
+<p><code>wmic /namespace:\\root\CIMV2\TerminalServices PATH Win32_TerminalServiceSetting WHERE (__CLASS !="") CALL SetAllowTSConnections 1</code></p>
+<p><strong>查询当前权限</strong></p>
+<p><code>whoami</code>：查看当前权限</p>
+<p><code>whoami/all</code>：获取域SID</p>
+<p><code>net user xxx /domain</code>：执行以下命令，查询当前用户的详细信息</p>
+<p><strong>查询当前登录域及登录用户信息</strong></p>
+<p><code>net config workstation</code></p>
+<p><strong>判断主域</strong></p>
+<p><code>net time /domain</code></p>
+<h2 id="探测域内存活主机"><a href="#探测域内存活主机" class="headerlink" title="探测域内存活主机"></a>探测域内存活主机</h2><p><strong>利用ICMP协议快速探测内网</strong></p>
+<p>利用icmp协议探测内网。</p>
+<p><code>for /l %i in (1,1,255) do @ ping 192.168.124.%i -w 1 -n 1|find /i "ttl="</code></p>
+<p>输出内容导出</p>
+<pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell">@<span class="token keyword">for</span> <span class="token operator">/</span>l <span class="token operator">%</span>i in <span class="token punctuation">(</span>1<span class="token punctuation">,</span>1<span class="token punctuation">,</span>255<span class="token punctuation">)</span> <span class="token keyword">do</span> @ping <span class="token operator">-</span>n 1 <span class="token operator">-</span>w 40 192<span class="token punctuation">.</span>168<span class="token punctuation">.</span>124<span class="token punctuation">.</span><span class="token operator">%</span>i &amp; <span class="token keyword">if</span> errorlevel 1 <span class="token punctuation">(</span><span class="token function">echo</span> 192<span class="token punctuation">.</span>168<span class="token punctuation">.</span>124<span class="token punctuation">.</span><span class="token operator">%</span>i&gt;&gt;d:\a<span class="token punctuation">.</span>txt<span class="token punctuation">)</span> <span class="token keyword">else</span> <span class="token punctuation">(</span><span class="token function">echo</span> 192<span class="token punctuation">.</span>168<span class="token punctuation">.</span>124<span class="token punctuation">.</span><span class="token operator">%</span>i &gt;&gt;d:\b<span class="token punctuation">.</span>txt<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><strong>通过arp扫描探测内网</strong></p>
+<p><code>arp -a</code></p>
+<p>arp-scan工具</p>
+<p><strong>通过常规TCP/UDp端口扫描内网</strong></p>
+<p><strong>SNMP协议探测</strong></p>
+<blockquote>
+<p>SNMP是一种简单网络管理协议，它属于TCP/IP五层协议中的应用层协议，用于网络管理的协议。SNMP主要用于网络设备的管理。SNMP协议主要由两大部分构成：SNMP管理站和SNMP代理。SNMP管理站是一个中心节点，负责收集维护各个SNMP元素的信息，并对这些信息进行处理，最后反馈给网络管理员；而SNMP代理是运行在各个被管理的网络节点之上，负责统计该节点的各项信息，并且负责与SNMP管理站交互，接收并执行管理站的命令，上传各种本地的网络信息。</p>
+</blockquote>
+<ol>
+<li><p>nmap扫描</p>
+<pre class="line-numbers language-none"><code class="language-none">nmap -sU --script snmp-brute 192.168.124.xxx/24 -T4<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li><p>msf扫描</p>
+<pre class="line-numbers language-none"><code class="language-none">msf &gt; use auxiliary/scanner/snmp/snmp_enum<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+</ol>
+<p><strong>基于powershell</strong></p>
+<p>单IP：</p>
+<pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell">445 <span class="token punctuation">|</span> <span class="token operator">%</span><span class="token punctuation">{</span> <span class="token function">echo</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>new‐object Net<span class="token punctuation">.</span>Sockets<span class="token punctuation">.</span>TcpClient<span class="token punctuation">)</span><span class="token punctuation">.</span>Connect<span class="token punctuation">(</span><span class="token string">"192.168.124.xxx"</span><span class="token punctuation">,</span><span class="token variable">$_</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token string">"<span class="token variable">$_</span> is open"</span><span class="token punctuation">}</span> 2&gt;<span class="token variable">$null</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>多IP：</p>
+<pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell">1<span class="token punctuation">.</span><span class="token punctuation">.</span>5 <span class="token punctuation">|</span> <span class="token operator">%</span> <span class="token punctuation">{</span> <span class="token variable">$a</span> = <span class="token variable">$_</span><span class="token punctuation">;</span> 445 <span class="token punctuation">|</span> <span class="token operator">%</span> <span class="token punctuation">{</span><span class="token function">echo</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>new‐object Net<span class="token punctuation">.</span>Sockets<span class="token punctuation">.</span>TcpClient<span class="token punctuation">)</span><span class="token punctuation">.</span>Connect<span class="token punctuation">(</span><span class="token string">"192.168.124.<span class="token variable">$a</span>"</span><span class="token punctuation">,</span><span class="token variable">$_</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token string">"Port <span class="token variable">$_</span> is open"</span><span class="token punctuation">}</span> 2&gt;<span class="token variable">$null</span><span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>多port，多IP：</p>
+<pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell">118<span class="token punctuation">.</span><span class="token punctuation">.</span>119 <span class="token punctuation">|</span> <span class="token operator">%</span> <span class="token punctuation">{</span> <span class="token variable">$a</span> = $<span class="token punctuation">;</span> <span class="token function">write</span>‐host <span class="token string">"‐‐‐‐‐‐"</span><span class="token punctuation">;</span> <span class="token function">write</span>‐host<span class="token string">"192.168.1.<span class="token variable">$a</span>"</span><span class="token punctuation">;</span> 80<span class="token punctuation">,</span>445 <span class="token punctuation">|</span> <span class="token operator">%</span> <span class="token punctuation">{</span><span class="token function">echo</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>new‐object Net<span class="token punctuation">.</span>Sockets<span class="token punctuation">.</span>TcpClient<span class="token punctuation">)</span><span class="token punctuation">.</span>Connect<span class="token punctuation">(</span><span class="token string">"192.168.1.<span class="token variable">$a</span>"</span><span class="token punctuation">,</span>$<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token string">"Port <span class="token variable">$_</span> is open"</span><span class="token punctuation">}</span> 2&gt;<span class="token variable">$null</span><span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+
+
+<h2 id="扫描域内端口"><a href="#扫描域内端口" class="headerlink" title="扫描域内端口"></a>扫描域内端口</h2><p><strong>利用telnet命令进行扫描</strong></p>
+<p> <strong>Metasploit 端口扫描</strong></p>
+<p><strong>端口banner信息</strong></p>
+<p>如果通过扫描发现了端口，可以使用客户端连接工具或者nc，获取服务端的Banner信息。获取Banner信息后，可以在漏洞库中查找对应cve编号的POc、exp、在exploitDB、seebug等平台上查看相关的漏洞利用工具，然后到目标系统中验证漏洞是否存在，从而有针对性地进行安全加固。</p>
+<h2 id="收集域内基础信息"><a href="#收集域内基础信息" class="headerlink" title="收集域内基础信息"></a><strong>收集域内基础信息</strong></h2><p><code>net view /domain</code>：查看域</p>
+<p><code>net view /domain ：xxxx</code>：查询域内所有计算机</p>
+<p><code>net group /domain</code>：查询域内所有用户组列表</p>
+<p><code>net group ”domain computers“ /domain</code>：查询所有域成员计算机列表</p>
+<p><code>net accounts /domain</code>：获取密码信息(密码设置要求)</p>
+<p><code>nltest /domain_trusts</code>：获取域信任信息</p>
+<p><code>Nslookup -type=SRV _ldap._tcp</code>：查看域控制器的主机名</p>
+<p><code>net group ”Domain Controllers” /domain</code>：查看域控制器</p>
+<p><code>net user/domain</code>：查询所有域用户列表</p>
+<p><code>wmic useraccount get /all</code>：获取域内用户的详细信息</p>
+<p><code>dsquery user</code>：查看存在的用户</p>
+<p><code>net localgroup administrators</code>：查询本地管理员组用户</p>
+<p><code>net group " domain admins " /domain</code>：查询域管理员用户</p>
+<p><code>net group “Enterprise Admins ”/domain</code>：查询管理用户组</p>
+<p><code>netstat -ano</code>：查看开放端口</p>
+<p>​    </p>
+
                 
             </div>
             <hr/>
@@ -955,7 +1072,7 @@
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            内网渗透比较系统的讲解
+                            内网渗透权限提升
                         
                     </div>
                     <div class="publish-info">
@@ -1007,7 +1124,7 @@
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            内网渗透比较系统的讲解
+                            内网渗透基本知识点
                         
                     </div>
                     <div class="publish-info">

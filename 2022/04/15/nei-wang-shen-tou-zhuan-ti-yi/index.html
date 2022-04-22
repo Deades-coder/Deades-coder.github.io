@@ -5,7 +5,7 @@
 <head>
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
     <meta name="keywords" content="内网渗透专题（一）, HTML,CSS,JavaScript,JQuery,java,linux等">
-    <meta name="description" content="内网渗透比较系统的讲解">
+    <meta name="description" content="内网渗透基本知识点">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -454,21 +454,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-04-16
+                    2022-04-22
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    0
+                    2.1k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    7 分
                 </div>
                 
 
@@ -486,7 +486,81 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                
+                <h2 id="windows域环境"><a href="#windows域环境" class="headerlink" title="windows域环境"></a>windows域环境</h2><h4 id="概念介绍："><a href="#概念介绍：" class="headerlink" title="概念介绍："></a>概念介绍：</h4><ol>
+<li><p>工作组（work group）：一个工作组有很多工作站（一台电脑也算一个工作站）</p>
+<p>我们打开系统属性</p>
+<img src="image-20220416213710973.png" style="zoom:67%;">
+
+<p>我的电脑就在一个工作组中</p>
+<p>计算机名还是可以被解析的，如ping一下LAPTOP-25THB86P，是一个IPV6的地址</p>
+<img src="image-20220416213832922.png" style="zoom:67%;">
+
+<p>除了工作组外就是域了，可以在更改当中，添加到域中</p>
+<img src="image-20220416213942708.png" style="zoom:67%;">
+
+
+</li>
+<li><p>域（Domain）：<strong>有安全边界的计算机集合。</strong>计算机内网的形式，所有用户帐户 、计算机、打印机和其他安全主体都在位于称为域控制器（DC）的一个或多个中央计算机集群上的中央数据库中注册。身份验证在域控制器上进行， 在域中使用计算机的每个人都会收到一个唯一的用户帐户，然后可以为该帐户分配相应的该域内资源的访问权限。 </p>
+</li>
+<li><p>域控（Domain Controller)：权限最高。对域内的电脑进行控制，控制权限，方便企业内网管理。每个域控制器上都包含了AD活动目录数据库,即安装了AD的服务器就是域控DC。一般内网中存在多个域控，且域控之间可以自动同步信息，从而确保域的安全运行。</p>
+</li>
+<li><p>单域环境：即只有一个域的网络环境，一般需要两台DC，一台DC，另一台备用DC（容灾）</p>
+</li>
+<li><p>父域环境：类比公司总部和公司分部的关系，总部的域称为父域，各分部的域称为该域的子域。</p>
+</li>
+<li><p>多域（树）环境：多个域通过建立信任关系组成的集合。若两个域之间需要相互访问，需要建立<strong>信任关系</strong>（Trust Relation），通过信任关系可以将父子域连接成树状结构</p>
+<blockquote>
+<p>比如：<code>baidu.com</code>下面有<code>sh.baidu.com</code>，<code>bj.baidu.com</code>等，他们都属于<code>baidu.com</code>这个域中，后来baidu和qq合作了，qq下面的<code>bj.qq.com</code>，<code>sh.qq.com</code>相结合</p>
+</blockquote>
+</li>
+<li><p>域森林：多个<strong>域树</strong>通过建立信任关系组成的集合。</p>
+</li>
+</ol>
+<h2 id="计算分类："><a href="#计算分类：" class="headerlink" title="计算分类："></a>计算分类：</h2><p>DC，成员，客户机，独立服务器</p>
+<p>DC是必须的，安装了活动目录（AD）</p>
+<p>成员服务器：域的成员。它不处理与账号相关的信息，如登入网络，身份验证等，不需要安装活动目录，也不存储与系统安全策略相关的信息。但是，在成员服务器上可以为用户或组设置访问权限，允许用户连接到该服务器并使用相应资源。</p>
+<blockquote>
+<p>主要用于以下类型的服务器：专用服务器。应用服务器、Web服务器、数据库服务器、远程访问服务器等。</p>
+</blockquote>
+<p>独立服务器：不作为域成员的计算机。它是一台具有独立操作功能的计算机，在此计算机上不再提供其他用户的账号信息，也不提供登录网络的身份验证等工作。独立服务器可以工作组的形式与其他计算机组建成对等网，在访问其他计算机资源的同时，也可将自己的资源提供给其他计算机访问。</p>
+<p>客户机：不安装server类的系统，就是公司里的员工</p>
+<h2 id="域内权限："><a href="#域内权限：" class="headerlink" title="域内权限："></a>域内权限：</h2><h4 id="组（group）："><a href="#组（group）：" class="headerlink" title="组（group）："></a>组（group）：</h4><p>域本地组：多域用户，访问单域资源。只能在本域的域控制器DC上使用，授权访问域内的资源</p>
+<p>全局组：单域的用户访问多域的资源。可以全局使用。即：可在本域和有信任关系的其它域中使用，体现的是全局性。</p>
+<p>通用组：组的成员情况，记录在全局目录GC中，非常适于林中跨域访问使用。集成了全局组和域本地组的长处。</p>
+<p><strong>举个例子：</strong></p>
+<blockquote>
+<p>​        将用户张三（域帐号Z3）加入到域本地组administrators中，并不能使Z3对非DC的域成员计算机有任何特权，但若加入到全局组Domain Admins中，张三就是域管理员了，可以在全局使用，对域成员计算机是有特权的。</p>
+<p>​       只有在域的DC上，对资源（如：文件/夹）设置权限，你可以指派域本地组administrators；但在非DC的域成员计算机上，你是无法设置域本地组administrators的权限的。因为它是域本地组，只能在DC上使用。</p>
+</blockquote>
+<h4 id="活动目录（AD）："><a href="#活动目录（AD）：" class="headerlink" title="活动目录（AD）："></a>活动目录（AD）：</h4><blockquote>
+<p><strong>活动目录（Active Directory）</strong>是由组织单元、域（domain）、域树（tree）、域森林（forest）构成的层次结构。<strong>域</strong>作为最基本的管理单元，同时也是最基层的容器。AD可以对域中所有的对象（用户，计算机，组……）等基本数据进行存储，并且让管理员和用户能够轻松地查找和使用这些信息。AD使用了一种结构化的数据存储方式,在一个活动目录中可以根据需要建立多个域.活动目录这种层次结构使企业网络具有极强的扩展性，便于组织、管理以及目录定位。</p>
+</blockquote>
+<p><strong>主要功能：</strong></p>
+<blockquote>
+<ul>
+<li>帐号集中管理，所有帐号均存在服务器上,方便对帐号的重命名/重置密码。</li>
+<li>软件集中管理，统一推送软件，统一安装网络打印机等。利用软件发布策略分发软件,可以让用户自由选择安装软件。</li>
+<li>环境集中管理，利用AD可以统一客户端桌面,IE,TCP/IP等设置。</li>
+<li>增强安全性，统一部署杀毒软件和扫描病毒任务，集中化管理用户的计算机权限、统一制订用户密码策略等，可监控网络，资料统一管理。</li>
+<li>更可靠，更少的宕机时间。如：利用AD控制用户访问权限，利用群集、负载均衡等技术对文件服务器进行容灾设定，更可靠，宕机时间更少。</li>
+<li>活动目录为Microsoft统一管理的基础平台，其它isa,exchange,sms等服务都依赖于这个基础平台。</li>
+<li>Builtin容器： Builtin容器是Active Driectory默认创建的第一个容器，主要用于保存域中本地安全组。</li>
+<li>Computers容器： Computers容器是Active Driectory默认创建的第2个容器，用于存放Windows Server 2008域内所有成员计算机的计算机账号。</li>
+<li>Domain Controllers容器： Domain Controllers是一个特殊的容器，主要用于保存当前域控制器下创建的所有子域和辅助域。</li>
+<li>ForeignSecurityPrincipals容器：代表域中来自森林外部域的组中的成员</li>
+<li>Managed Service Accounts容器：托管服务帐户的容器。</li>
+<li>Users容器：Users容器主要用于保存安装Active Driectory时系统自动创建的用户和登录到当前域控制器的所有用户账户。</li>
+</ul>
+</blockquote>
+<p>客户计算机管理，用户服务，资源管理，桌面配置，应用系统支撑</p>
+<h2 id="组策略-Group-Policy"><a href="#组策略-Group-Policy" class="headerlink" title="组策略(Group Policy)"></a>组策略(Group Policy)</h2><p>组策略是微软Windows NT家族操作系统的一个特性，它可以控制用户账户和计算机账户的工作环境。组策略提供了操作系统，应用程序和活动目录中用户设置的集中化管理和配置。<br>组策略依赖于活动目录进行分发，活动目录可以分发组策略对象到一个Windows域中的计算机。<br>组策略会按照以下的顺序处理：</p>
+<ol>
+<li>本地- 任何在本地计算机的设置。在Windows Vista之前，每台计算机只能有一份本地组策略。在Windows Vista和之后的Windows版本中，允许每个用户帐户分别拥有组策略。</li>
+<li>站点- 任何与计算机所在的活动目录站点关联的组策略。（活动目录站点是旨在管理促进物理上接近的计算机的一种逻辑分组）。如果多个策略已链接到一个站点，将按照管理员设置的顺序处理。</li>
+<li>域- 任何与计算机所在Windows域关联的组策略。如果多个策略已链接到一个域，将按照管理员设置的顺序处理。</li>
+<li>组织单元- 任何与计算机或用户所在的活动目录组织单元（OU）关联的组策略。（OU是帮助组织和管理一组用户、计算机或其他活动目录对象的逻辑单元）。如果多个策略已链接到一个OU，将按照管理员设置的顺序处理。</li>
+</ol>
+
                 
             </div>
             <hr/>
@@ -955,7 +1029,7 @@
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            内网渗透比较系统的讲解
+                            内网渗透信息收集
                         
                     </div>
                     <div class="publish-info">

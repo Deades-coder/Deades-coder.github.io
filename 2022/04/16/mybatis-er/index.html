@@ -586,35 +586,32 @@
 <p><strong>解决方法：</strong></p>
 <ol>
 <li><p>起别名</p>
-<blockquote>
 <p>用as给列名起别名，保持这两部分的名称一致</p>
-<pre class="line-numbers language-xml" data-language="xml"><code class="language-xml">&gt;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>selectAll<span class="token punctuation">"</span></span> <span class="token attr-name">resultType</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>brand<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
- select
- id, brand_name as brandName, company_name as companyName, ordered, description, status
- from tb_brand;
-&gt;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">&gt;</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-none"><code class="language-none">&lt;select id="selectAll" resultType="brand"&gt;
+select
+id, brand_name as brandName, company_name as companyName, ordered, description, status
+from tb_brand;
+&lt;/select&gt;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>但是如果字段很多这么写就显得不简洁</p>
-</blockquote>
 </li>
 <li><p>SQL片段</p>
-<blockquote>
 <p>将需要复用的SQL片段抽取到 <code>sql</code> 标签中</p>
-<pre class="line-numbers language-xml" data-language="xml"><code class="language-xml">  &gt;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>sql</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>brand_column<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
-id, brand_name as brandName, company_name as companyName, ordered, description, status
-  &gt;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>sql</span><span class="token punctuation">&gt;</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-xml" data-language="xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>sql</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>brand_column<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+	id, brand_name as brandName, company_name as companyName, ordered, description, status
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>sql</span><span class="token punctuation">&gt;</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
 <p>id属性值是唯一标识，引用时也是通过该值进行引用。</p>
 <p>在原sql语句中进行引用</p>
 <p>使用 <code>include</code> 标签引用上述的 SQL 片段，而 <code>refid</code> 指定上述 SQL 片段的id值。</p>
-<pre class="line-numbers language-xml" data-language="xml"><code class="language-xml">&gt;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>selectAll<span class="token punctuation">"</span></span> <span class="token attr-name">resultType</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>brand<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
- select
- <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>include</span> <span class="token attr-name">refid</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>brand_column<span class="token punctuation">"</span></span> <span class="token punctuation">/&gt;</span></span>
- from tb_brand;
-&gt;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">&gt;</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-xml" data-language="xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>selectAll<span class="token punctuation">"</span></span> <span class="token attr-name">resultType</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>brand<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+select
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>include</span> <span class="token attr-name">refid</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>brand_column<span class="token punctuation">"</span></span> <span class="token punctuation">/&gt;</span></span>
+from tb_brand;
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">&gt;</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>如果还有功能只需要查询部分字段，而不是查询所有字段，那么我们就需要再定义一个 SQL 片段，这就显得不是那么灵活。</p>
-</blockquote>
 </li>
 <li><p><strong>使用resultMap解决上述问题</strong></p>
 <p>最常见的解决方式</p>

