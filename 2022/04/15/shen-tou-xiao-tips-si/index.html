@@ -4,8 +4,8 @@
 
 <head>
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
-    <meta name="keywords" content="渗透小tips（四）, HTML,CSS,JavaScript,JQuery,java,linux等">
-    <meta name="description" content="一些命令执行函数">
+    <meta name="keywords" content="序列化和反序列化, HTML,CSS,JavaScript,JQuery,java,linux等">
+    <meta name="description" content="序列化和反序列化">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +17,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>渗透小tips（四） | 小小星仔</title>
+    <title>序列化和反序列化 | 小小星仔</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -302,7 +302,7 @@
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">渗透小tips（四）</h1>
+                    <h1 class="description center-align post-title">序列化和反序列化</h1>
                 </div>
             </div>
         </div>
@@ -454,21 +454,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-04-16
+                    2022-04-27
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    0
+                    550
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    2 分
                 </div>
                 
 
@@ -486,7 +486,74 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                
+                <h1 id="序列化和反序列化"><a href="#序列化和反序列化" class="headerlink" title="序列化和反序列化"></a>序列化和反序列化</h1><p><strong>序列化</strong>：把对象转换为字节序列的过程，即把对象转换为可以存储或传输的数据的过程。</p>
+<p><strong>反序列化</strong>：把字节序列恢复为对象的过程，即把可以存储或传输的数据转换为对象的过程。</p>
+<img src="b4b33314826878ba40e858e8b045f51ce34c6403.png@735w_429h_progressive.webp" style="zoom: 67%;">
+
+<p>原理：未对用户输入的序列化字符串进行检测，导致攻击者可以控制反序列化过程，从而导致代码执行，SQL注入，目录遍历等不可控后果。</p>
+<h3 id="漏洞可能出现的位置"><a href="#漏洞可能出现的位置" class="headerlink" title="漏洞可能出现的位置"></a>漏洞可能出现的位置</h3><ol>
+<li><p>解析认证token、session的位置</p>
+</li>
+<li><p>将序列化的对象存储到磁盘文件或存入数据库后反序列化时的位置，如读取json文件，xml文件等</p>
+</li>
+<li><p>将对象序列化后在网络中传输，如传输json数据，xml数据等</p>
+</li>
+<li><p>参数传递给程序</p>
+</li>
+<li><p>使用RMI协议，被广泛使用的RMI协议完全基于序列化</p>
+</li>
+<li><p>使用了不安全的框架或基础类库，如JMX 、Fastjson和Jackson等</p>
+</li>
+<li><p>定义协议用来接收与发送原始的java对象</p>
+</li>
+</ol>
+<h3 id="PHP中的系列化和反序列化"><a href="#PHP中的系列化和反序列化" class="headerlink" title="PHP中的系列化和反序列化"></a>PHP中的系列化和反序列化</h3><h4 id="PHP中常用魔术方法"><a href="#PHP中常用魔术方法" class="headerlink" title="PHP中常用魔术方法"></a>PHP中常用魔术方法</h4><pre class="line-numbers language-php" data-language="php"><code class="language-php"><span class="token function">serialize</span><span class="token punctuation">(</span><span class="token punctuation">)</span>     			<span class="token comment">//将一个对象转换成一个字符串</span>
+
+<span class="token function">unserialize</span><span class="token punctuation">(</span><span class="token punctuation">)</span> 				<span class="token comment">//将字符串还原成一个对象 </span>
+
+<span class="token function">__construct</span><span class="token punctuation">(</span><span class="token punctuation">)</span> 				<span class="token comment">//创建对象时触发</span>
+
+<span class="token function">__destruct</span><span class="token punctuation">(</span><span class="token punctuation">)</span>   				<span class="token comment">//对象被销毁时触发</span>
+
+<span class="token function">__call</span><span class="token punctuation">(</span><span class="token punctuation">)</span>          			<span class="token comment">//在对象上下文中调用不可访问的方法时触发</span>
+
+<span class="token function">__callStatic</span><span class="token punctuation">(</span><span class="token punctuation">)</span> 				<span class="token comment">//在静态上下文中调用不可访问的方法时触发</span>
+
+<span class="token function">__get</span><span class="token punctuation">(</span><span class="token punctuation">)</span>           			<span class="token comment">//用于从不可访问的属性读取数据</span>
+
+<span class="token function">__set</span><span class="token punctuation">(</span><span class="token punctuation">)</span>           			<span class="token comment">//用于将数据写入不可访问的属性</span>
+
+<span class="token function">__isset</span><span class="token punctuation">(</span><span class="token punctuation">)</span>        			<span class="token comment">//在不可访问的属性上调用isset()或empty()触发</span>
+
+<span class="token function">__unset</span><span class="token punctuation">(</span><span class="token punctuation">)</span>      				<span class="token comment">//在不可访问的属性上使用unset()时触发</span>
+
+<span class="token function">__invoke</span><span class="token punctuation">(</span><span class="token punctuation">)</span>     				<span class="token comment">//当脚本尝试将对象调用为函数时触发 </span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="漏洞演示："><a href="#漏洞演示：" class="headerlink" title="漏洞演示："></a>漏洞演示：</h4><pre class="line-numbers language-php" data-language="php"><code class="language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+<span class="token keyword">class</span> <span class="token class-name-definition class-name">demo</span><span class="token punctuation">{</span>
+    <span class="token keyword">var</span> <span class="token variable">$name</span> <span class="token operator">=</span> <span class="token string double-quoted-string">"calc"</span><span class="token punctuation">;</span>
+    <span class="token keyword">function</span> <span class="token function-definition function">__destruct</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">print</span> <span class="token string double-quoted-string">"Execute CMD: "</span><span class="token operator">.</span><span class="token variable">$this</span><span class="token operator">-&gt;</span><span class="token property">name</span><span class="token operator">.</span><span class="token string double-quoted-string">"&lt;br/&gt;"</span><span class="token punctuation">;</span>
+        <span class="token keyword">print</span> <span class="token string double-quoted-string">"Result: "</span><span class="token punctuation">;</span>
+        <span class="token function">system</span><span class="token punctuation">(</span><span class="token variable">$this</span><span class="token operator">-&gt;</span><span class="token property">name</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">print</span> <span class="token string double-quoted-string">"&lt;br/&gt;"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token comment">// 实例化一个对象a</span>
+<span class="token variable">$a</span><span class="token operator">=</span><span class="token keyword">new</span> <span class="token class-name">demo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// 序列化对象a</span>
+<span class="token keyword">print</span> <span class="token string double-quoted-string">"Serialize Object A: "</span><span class="token operator">.</span><span class="token function">serialize</span><span class="token punctuation">(</span><span class="token variable">$a</span><span class="token punctuation">)</span><span class="token operator">.</span><span class="token string double-quoted-string">"&lt;br/&gt;"</span><span class="token punctuation">;</span>
+
+<span class="token comment">// GET方式获取参数arg的值</span>
+<span class="token variable">$arg</span> <span class="token operator">=</span> <span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token string single-quoted-string">'arg'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token comment">// 反序列化参数arg的值</span>
+<span class="token variable">$a_unser</span> <span class="token operator">=</span> <span class="token function">unserialize</span><span class="token punctuation">(</span><span class="token variable">$arg</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token delimiter important">?&gt;</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<img src="image-20220424232012852.png" style="zoom:50%;">
+
+<p>成功打开计算器。</p>
+
                 
             </div>
             <hr/>

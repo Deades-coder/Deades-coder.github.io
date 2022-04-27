@@ -454,7 +454,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-04-16
+                    2022-04-22
                 </div>
                 
 
@@ -587,15 +587,14 @@
 <ol>
 <li><p>起别名</p>
 <p>用as给列名起别名，保持这两部分的名称一致</p>
-<pre class="line-numbers language-none"><code class="language-none">&lt;select id="selectAll" resultType="brand"&gt;
+<pre class="line-numbers language-xml" data-language="xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>selectAll<span class="token punctuation">"</span></span> <span class="token attr-name">resultType</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>brand<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
 select
 id, brand_name as brandName, company_name as companyName, ordered, description, status
 from tb_brand;
-&lt;/select&gt;
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">&gt;</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ol>
 <p>但是如果字段很多这么写就显得不简洁</p>
-</li>
+<ol start="2">
 <li><p>SQL片段</p>
 <p>将需要复用的SQL片段抽取到 <code>sql</code> 标签中</p>
 <pre class="line-numbers language-xml" data-language="xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>sql</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>brand_column<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>

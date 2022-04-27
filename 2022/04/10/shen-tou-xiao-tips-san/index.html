@@ -5,7 +5,7 @@
 <head>
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
     <meta name="keywords" content="渗透小tips（三）, HTML,CSS,JavaScript,JQuery,java,linux等">
-    <meta name="description" content="一些命令执行函数">
+    <meta name="description" content="渗透流程策略和信息收集">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -454,21 +454,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-04-10
+                    2022-04-27
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    0
+                    2.9k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    10 分
                 </div>
                 
 
@@ -486,7 +486,250 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                
+                <h2 id="CMS渗透策略"><a href="#CMS渗透策略" class="headerlink" title="CMS渗透策略"></a>CMS渗透策略</h2><p>关于cms，译名是“内容管理系统”，来有效解决用户网站建设与信息发布中常见的问题和需求。对网站内容管理是该软件的最大优势，它流程完善、功能丰富，可把稿件分门别类并授权给合法用户编辑管理，而不需要用户去理会那些难懂的SQL语法。</p>
+<ul>
+<li><p>扫描目录：是否有敏感文件，站长是否对站点有误操作（网站备份的压缩文件，说明文件）</p>
+</li>
+<li><p>审查元素：上传文件在前端屏蔽还是在后端屏蔽</p>
+</li>
+<li><p>判断是何种CMS，寻找此CMS的漏洞，如果开源，还能下载相对应的源码进行代码审计。</p>
+<blockquote>
+<p>论坛 discuz 简称dz<br>博客 WordPress<br>企业网站 metinfo</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="渗透流程"><a href="#渗透流程" class="headerlink" title="渗透流程"></a>渗透流程</h2><ol>
+<li><p>获得授权证书</p>
+</li>
+<li><p>信息收集：</p>
+<ol>
+<li>获取whois信息，域名注册者的信息（丢到社工库）。</li>
+<li>网站指纹识别（cms，cdn，证书等），dns记录。</li>
+<li>子域名收集，获取查询服务器的旁站，C段。</li>
+<li>服务器的相关信息（真实ip，系统类型，版本，开放端口，WAF等）可能有web服务器中间件漏洞，目录遍历。</li>
+<li>扫描网站目录结构，敏感文件泄露。</li>
+<li>IP地址扫描（对于响应的端口漏洞探测）</li>
+</ol>
+<blockquote>
+<p>方法：PHP探针，Google Hack</p>
+</blockquote>
+</li>
+<li><p>漏洞扫描（挖掘）：SQL,XSS，文件上传，包含，任意文件读取，XSRF，越权访问，弱口令，代码执行，命令注入执行，漏洞利用获取webshell，继续提权</p>
+</li>
+<li><p>提权：</p>
+<p>mysql提权，oracle提权</p>
+<p>windows 溢出提权</p>
+<p>linux脏牛,内核漏洞提权，find提权等</p>
+</li>
+<li><p>日志清理</p>
+</li>
+<li><p>总结报告，修复方案</p>
+</li>
+</ol>
+<h4 id="网站指纹："><a href="#网站指纹：" class="headerlink" title="网站指纹："></a><strong>网站指纹：</strong></h4><blockquote>
+<p>网站指纹是Web 服务组件在开发时留下的类型、版本等标记信息，包括Web 服务器指纹、Web 运用指纹及前端框架指纹等。 除了用Nmap 扫描端口和服务的方法，我们还可以通过前端网页和返回一些HTTP 头信息来判断网站使用的哪些开发框架、服务器、系统。</p>
+</blockquote>
+<h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><h4 id="域名信息收集"><a href="#域名信息收集" class="headerlink" title="域名信息收集"></a>域名信息收集</h4><p>获取域名的注册信息，包括该域名的DNS服务器信息、子域信息和注册人的联系信息等信息。</p>
+<ol>
+<li><p>whois查询：</p>
+<blockquote>
+<p>Whois站长之家查询：<a target="_blank" rel="noopener" href="http://whois.chinaz.com/">http://whois.chinaz.com/</a></p>
+<p>阿里云中国万网查询：<a target="_blank" rel="noopener" href="https://whois.aliyun.com/">https://whois.aliyun.com/</a></p>
+<p>全球Whois查询：<a target="_blank" rel="noopener" href="https://www.whois365.com/cn/">https://www.whois365.com/cn/</a></p>
+</blockquote>
+<p>使用kali中的whois工具查询</p>
+</li>
+<li><p>备案信息查询</p>
+<blockquote>
+<p>ICP/IP地址/域名信息备案管理系统：<a target="_blank" rel="noopener" href="http://beian.miit.gov.cn/publish/query/indexFirst.action">http://beian.miit.gov.cn/publish/query/indexFirst.action</a></p>
+<p>ICP备案查询网：<a target="_blank" rel="noopener" href="http://www.beianbeian.com/">http://www.beianbeian.com/</a></p>
+</blockquote>
+</li>
+</ol>
+<h4 id="子域名信息收集"><a href="#子域名信息收集" class="headerlink" title="子域名信息收集"></a>子域名信息收集</h4><p>子域名（Subdomain）是在域名系统等级中，属于更高一层域的域。比如，mail.example.com和calendar.example.com是example.com的两个子域，而example.com则是顶级域.com的子域。</p>
+<p>子域名枚举可以在测试范围内发现更多的域或子域，这将增大漏洞发现的几率。有些隐藏的、被忽略的子域上运行的应用程序可能帮助我们发现重大漏洞。</p>
+<p><strong>利用搜索引擎查询</strong></p>
+<p>使用“site:baidu.com”语法</p>
+<p><strong>利用在线工具查询</strong></p>
+<ul>
+<li>DNSdumpster：<a target="_blank" rel="noopener" href="https://dnsdumpster.com/">https://dnsdumpster.com/</a></li>
+<li>virustotal：<a target="_blank" rel="noopener" href="http://www.virustotal.com/">www.virustotal.com</a></li>
+<li>子域名爆破：<a target="_blank" rel="noopener" href="https://phpinfo.me/domain">https://phpinfo.me/domain/</a></li>
+<li>whois反查：<a target="_blank" rel="noopener" href="http://whois.chinaz.com/">http://whois.chinaz.com/</a></li>
+</ul>
+<p><strong>kali上的工具</strong></p>
+<h4 id="站点信息收集"><a href="#站点信息收集" class="headerlink" title="站点信息收集"></a>站点信息收集</h4><p><strong>CMS指纹识别</strong></p>
+<p>常见的CMS有Dedecms(织梦)、Discuz、PHPWEB、PHPWind、PHPCMS、ECShop、Dvbbs、SiteWeaver、ASPCMS、帝国、Z-Blog、WordPress等。</p>
+<p><strong>在线识别</strong></p>
+<ul>
+<li>BugScaner: <a target="_blank" rel="noopener" href="http://whatweb.bugscaner.com/look/">http://whatweb.bugscaner.com/look/</a></li>
+<li>潮汐指纹：<a target="_blank" rel="noopener" href="http://finger.tidesec.net/">http://finger.tidesec.net/</a></li>
+<li>云悉：<a target="_blank" rel="noopener" href="http://www.yunsee.cn/info.html">http://www.yunsee.cn/info.html</a></li>
+<li>WhatWeb: <a target="_blank" rel="noopener" href="https://whatweb.net/">https://whatweb.net/</a></li>
+</ul>
+<p>常见的CMS指纹识别工具有WhatWeb、WebRobo、椰树、御剑Web指纹识别。大禹CMS识别程序等，可以快速识别一些主流CMS。</p>
+<p><strong>手工识别</strong></p>
+<ul>
+<li>根据HTTP响应头判断，重点关注X-Powered-By、cookie等字段</li>
+<li>根据HTML 特征，重点关注 body、title、meta等标签的内容和属性。</li>
+<li>根据特殊的class判断。HTML 中存在特定 class 属性的某些 div 标签，如<code>&lt;body class="ke-content"&gt;</code></li>
+</ul>
+<p><strong>敏感目录/文件收集</strong></p>
+<p>扫描获取网站的后台管理页面、文件上传界面、robots.txt，甚至可能扫描出备份文件从而得到网站的源代码。</p>
+<p>常见扫描工具</p>
+<ul>
+<li>wwwscan</li>
+<li>御剑后台扫描工具</li>
+</ul>
+<p><strong>Waf识别</strong></p>
+<p>wafw00f是一个Web应用防火墙（WAF）指纹识别的工具。</p>
+<p>下载地址：<a target="_blank" rel="noopener" href="https://github.com/EnableSecurity/wafw00f%EF%BC%8Ckali%E5%86%85%E7%BD%AE%E3%80%82">https://github.com/EnableSecurity/wafw00f，kali内置。</a></p>
+<h4 id="敏感信息收集"><a href="#敏感信息收集" class="headerlink" title="敏感信息收集"></a>敏感信息收集</h4><p>使用Google</p>
+<p><strong>查找网站后台</strong></p>
+<ul>
+<li>intext:后台登录：将只返回正文中包含“后台登录”的网页</li>
+<li>intitle:后台登录：将只返回标题中包含“后台登录”的网页</li>
+</ul>
+<p><strong>查找指定网站后台</strong></p>
+<ul>
+<li>site:xx.com intext:管理</li>
+<li>site:xx.com inurl:login</li>
+<li>site:xx.com intitle:后台</li>
+</ul>
+<p><strong>查看指定网站的文件上传漏洞</strong></p>
+<ul>
+<li>site:xx.com inurl:file</li>
+<li>site:xx.com inurl:load</li>
+</ul>
+<p><strong>查找后台数据库管理页面</strong></p>
+<p>inurl:/phpmyadmin/index.php</p>
+<p><strong>查找管理员登录页</strong></p>
+<p>inurl:/admin/login.php</p>
+<p>谷歌搜索引擎的一些语法：</p>
+<pre class="line-numbers language-none"><code class="language-none">intext：寻找正文中含有关键字的网页
+intitle：寻找标题中含有关键字的网页
+allintitle：用法和intitle类似，只不过可以指定多个词
+inurl：搜索url中含有关键词的网页
+allinurl：用法和inurl类似，只不过可以指定多个词
+site：指定访问的站点
+filetype：指定访问的文件类型
+link：指定链接的网页
+related：搜索相似类型的网页
+info：返回站点的指定信息，例如：info:www.baidu.com   将返回百度的一些信息
+phonebook：电话簿查询美国街道地址和电话号码信息
+Index of：利用 Index of 语法可以发现允许目录浏览的web网站，就像在本地的普通目录一样<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>备份文件泄露</strong></p>
+<ul>
+<li>intitle:index.of index.php.bak</li>
+<li>inurl:index.php.bak</li>
+<li>intitle:index.of <a target="_blank" rel="noopener" href="http://www.zip/">www.zip</a></li>
+</ul>
+<p><strong>查找sql注入</strong></p>
+<ul>
+<li>inurl:?id=1</li>
+<li>inurl: php?id=</li>
+</ul>
+<p><strong>GHDB 谷歌黑客数据库</strong></p>
+<p>链接：<a target="_blank" rel="noopener" href="https://www.exploit-db.com/google-hacking-database/%E3%80%82%E6%B1%87%E9%9B%86%E7%9D%80%E5%90%84%E7%A7%8D%E5%B7%B2%E7%BB%8F%E8%A2%AB%E4%BC%98%E5%8C%96%E7%9A%84%E6%9F%A5%E8%AF%A2%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%8C%E6%AF%8F%E5%A4%A9%E9%83%BD%E5%9C%A8%E4%B8%8D%E6%96%AD%E5%9C%B0%E6%9B%B4%E6%96%B0%E5%90%84%E7%A7%8D%E5%A5%BD%E7%94%A8%E6%9C%89%E6%95%88%E7%9A%84Google%E6%9F%A5%E8%AF%A2%E8%AF%AD%E5%8F%A5%E3%80%82">https://www.exploit-db.com/google-hacking-database/。汇集着各种已经被优化的查询语句的数据库，每天都在不断地更新各种好用有效的Google查询语句。</a></p>
+<p><strong>Github信息泄露</strong></p>
+<p>开发人员在开发时，常常会先把源码提交到github，最后再从远程托管网站把源码pull到服务器的web目录下，如果忘记把.git文件删除，就造成此漏洞。</p>
+<p><strong><code>.git</code> 的隐藏文件夹（版本库）这个文件夹里面保存了这个仓库的所有版本等一系列信息</strong></p>
+<blockquote>
+<p>利用方法：</p>
+<p>GitHack是一个.git泄露利用脚本，通过泄露的.git文件夹下的文件，还原重建工程源代码。</p>
+<p>脚本的工作原理：</p>
+<ol>
+<li><p>解析.git/index文件，找到工程中所有的： ( 文件名，文件sha1 )</p>
+</li>
+<li><p>去.git/objects/ 文件夹下下载对应的文件**</p>
+</li>
+<li><p>使用zlib解压文件，按原始的目录结构写入源代码</p>
+</li>
+</ol>
+<p>还可以爬虫爬取整个git目录，可以跟踪到git的每一次提交。</p>
+<p><strong>修复方法：</strong></p>
+<ol>
+<li>对.git目录的访问权限进行控制</li>
+<li>在每次pull到web目录下之后删除.git文件夹</li>
+</ol>
+</blockquote>
+<p>例如：数据库信息泄露：</p>
+<pre class="line-numbers language-none"><code class="language-none">site:Github.com sa password
+site:Github.com root password<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p><strong>.htacess文件：</strong></p>
+<p>.htaccess叫分布式配置文件，它提供了针对目录改变配置的方法——在一个特定的文档目录中放置一个包含一个或多个指令的文件， 以作用于此目录及其所有子目录。</p>
+<p>.htaccess文件的主要功能包括使用密码保护文件夹，禁止或允许用户使用IP地址访问，禁止目录浏览，将用户自动重定向到另一个页面或目录，创建和使用自定义错误页面，改变具有特定扩展名的文件的使用方式，或者通过指定文件扩展名或特定文件作为主页。简而言之，这是一套包含在您的网络服务器上的规则。</p>
+<p>利用.htaccess做网站跳转。</p>
+<h4 id="Web服务器指纹识别"><a href="#Web服务器指纹识别" class="headerlink" title="Web服务器指纹识别"></a><strong>Web服务器指纹识别</strong></h4><p>Web服务器指纹识别主要识别以下信息：</p>
+<blockquote>
+<p>1、Web服务器名称，版本</p>
+<p>2、Web服务器后端是否有应用服务器</p>
+<p>3、数据库(DBMS)是否部署在同一主机(host)，数据库类型</p>
+<p>4、Web应用使用的编程语言</p>
+<p>5、Web应用框架</p>
+</blockquote>
+<p><strong>手工检测</strong></p>
+<ul>
+<li><strong>HTTP头分析</strong></li>
+</ul>
+<p>即查看HTTP响应头中的Server、X-Powered-By、Cookie 等字段，这也是最基本的方法。</p>
+<ul>
+<li><strong>协议行为</strong></li>
+</ul>
+<p>即从HTTP头字段顺序分析，观察HTTP响应头的组织顺序，因为每个服务器都有一个内部的HTTP头排序方法。</p>
+<ul>
+<li><strong>浏览并观察网站</strong></li>
+</ul>
+<p>我们可以观察网站某些位置的HTML源码(特殊的class名称)及其注释(comment)部分，可能暴露有价值信息。观察网站页面后缀可以判断Web应用使用的编程语言和框架。</p>
+<ul>
+<li><strong>刻意构造错误</strong></li>
+</ul>
+<p>错误页面可以给你提供关于服务器的大量信息。可以通过构造含有随机字符串的URL，并访问它来尝试得到404页面。</p>
+<p><strong>利用工具识别</strong>：whatweb</p>
+<blockquote>
+<p>使用说明：</p>
+<ul>
+<li>常规扫描：</li>
+</ul>
+<p> whatweb 域名/ip地址</p>
+<ul>
+<li>批量扫描：</li>
+</ul>
+<p> 指定要扫描的文件</p>
+<p> whatweb -i 含有需要扫描的域名的文件的路径</p>
+<ul>
+<li>详细回显扫描：</li>
+</ul>
+<p> whatweb -v 域名</p>
+</blockquote>
+<p><strong>真实IP地址识别</strong></p>
+<p>在渗透测试中，一般只会给你一个域名，那么我们就要根据这个域名来确定目标服务器的真实IP，我们可以通过像<a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/www.ip138.com">www.ip138.com</a>这样的IP查询网直接获取目标的一些IP及域名信息，但这里的前提是目标服务器没有使用CDN。</p>
+<p><strong>CDN判别</strong></p>
+<p>设置代理或者通过在线ping网站来在不同地区进行ping测试，然后对比每个地区ping出的IP结果，查看这些IP是否一致，一致，则极有可能不存在CDN。</p>
+<p>有以下网站可以进行ping测试：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://ping.chinaz.com/">http://ping.chinaz.com/</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.wepcc.com/">https://www.wepcc.com</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.17ce.com/">https://www.17ce.com</a></li>
+</ul>
+<p><strong>绕过CDN找到目标真实IP</strong></p>
+<ol>
+<li>利用子域名。一般来说很多站长可能只会对主站或者流量较大的分站使用CDN</li>
+<li>查询主域，把目标网站的www去掉，ping一下看ip是不是变了</li>
+<li>扫描网站敏感文件，如phpinfo.php等，从而找到目标的真实IP。</li>
+<li>从国外访问。国内很多CDN厂商因为各种原因只做了国内的线路，而针对国外的线路可能几乎没有，此时我们使用国外的主机直接访问可能就能获取到真实I</li>
+<li>通过邮件服务器。一般的邮件系统都在内部，没有经过CDN的解析，通过目标网站用户注册或者RSS订阅功能，查看邮件，寻找邮件头中的邮件服务器域名IP，ping这个邮件服务器的域名IP。</li>
+<li>查看域名历史解析记录。也许目标很久之前没有使用CDN，所以可能会存在使用 CDN 前的记录。所以可以通过<a target="_blank" rel="noopener" href="https://www.netcraft.com/">https://www.netcraft.com</a>、<a target="_blank" rel="noopener" href="https://viewdns.info/%E7%AD%89%E7%BD%91%E7%AB%99%E6%9D%A5%E8%A7%82%E5%AF%9F%E5%9F%9F%E5%90%8D%E7%9A%84IP%E5%8E%86%E5%8F%B2%E8%AE%B0%E5%BD%95%E3%80%82">https://viewdns.info/等网站来观察域名的IP历史记录。</a></li>
+<li>让目标主动连接我们：利用网站漏洞。比如有代码执行漏洞、SSRF、存储型的XSS都可以让服务器主动访问我们预设的web服务器，那么就能在日志里面看见目标网站服务器的真实IP。</li>
+</ol>
+<p><strong>端口信息收集</strong></p>
+<ol>
+<li>使用masscan探测端口开放信息</li>
+<li>使用nmap工具收集</li>
+</ol>
+
                 
             </div>
             <hr/>

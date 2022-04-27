@@ -4,7 +4,7 @@
 
 <head>
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
-    <meta name="keywords" content="中间件安全, HTML,CSS,JavaScript,JQuery,java,linux等">
+    <meta name="keywords" content="浅析中间件安全, HTML,CSS,JavaScript,JQuery,java,linux等">
     <meta name="description" content="Apache，Nginx中间件一些漏洞">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -17,7 +17,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>中间件安全 | 小小星仔</title>
+    <title>浅析中间件安全 | 小小星仔</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -302,7 +302,7 @@
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">中间件安全</h1>
+                    <h1 class="description center-align post-title">浅析中间件安全</h1>
                 </div>
             </div>
         </div>
@@ -454,21 +454,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-04-12
+                    2022-04-26
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.6k
+                    2.8k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    9 分
+                    10 分
                 </div>
                 
 
@@ -486,7 +486,9 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="Apache换行解析漏洞CVE-2017-15715"><a href="#Apache换行解析漏洞CVE-2017-15715" class="headerlink" title="Apache换行解析漏洞CVE-2017-15715"></a>Apache换行解析漏洞CVE-2017-15715</h2><p>2.4.0~2.4.29版本中存在一个解析漏洞，在解析PHP时，<code>1.php\x0A</code>将被按照PHP后缀进行解析，导致绕过一些服务器的安全策略。</p>
+                <h2 id="什么是中间件？"><a href="#什么是中间件？" class="headerlink" title="什么是中间件？"></a>什么是中间件？</h2><p>中间件是一种独立的系统软件或服务程序，为应用软件提供服务功能的软件，有消息中间件，交易中间件，应用服务器等。由于介于两种软件之间，所以，称为中间件。</p>
+<p>中间件屏蔽了底层操作系统的复杂性，使程序开发人员面对一个简单而统一的开发环境，减少程序设计的复杂性，将注意力集中在自己的业务上，不必再为程序在不同系统软件上的移植而重复工作，从而大大减少了技术上的负担。</p>
+<h2 id="Apache换行解析漏洞CVE-2017-15715"><a href="#Apache换行解析漏洞CVE-2017-15715" class="headerlink" title="Apache换行解析漏洞CVE-2017-15715"></a>Apache换行解析漏洞CVE-2017-15715</h2><p>2.4.0~2.4.29版本中存在一个解析漏洞，在解析PHP时，<code>1.php\x0A</code>将被按照PHP后缀进行解析，导致绕过一些服务器的安全策略。</p>
 <p>apache这次解析漏洞的根本原因就是这个<code> $</code></p>
 <p><code>匹配输入字符串的结尾位置。如果设置了 RegExp 对象的 Multiline 属性，则 $ 也匹配 ‘\n’ 或 ‘\r’。要匹配 $ 字符本身，请使用 $。</code></p>
 <img src="2014990-20200817162134637-407195510.png" style="zoom: 80%;">
@@ -1134,15 +1136,15 @@ Location:
                 <a href="/2022/04/10/zhong-jian-jian-an-quan-er/">
                     <div class="card-image">
                         
-                        <img src="/medias/featureimages/38.jpg" class="responsive-img" alt="中间件安全（二）">
+                        <img src="/medias/featureimages/38.jpg" class="responsive-img" alt="浅析中间件安全（二）">
                         
-                        <span class="card-title">中间件安全（二）</span>
+                        <span class="card-title">浅析中间件安全（二）</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            IIS中间件一些漏洞
+                            IIS，Weblogic中间件漏洞以及防范
                         
                     </div>
                     <div class="publish-info">

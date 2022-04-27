@@ -4,8 +4,8 @@
 
 <head>
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
-    <meta name="keywords" content="中间件安全（二）, HTML,CSS,JavaScript,JQuery,java,linux等">
-    <meta name="description" content="IIS中间件一些漏洞">
+    <meta name="keywords" content="浅析中间件安全（二）, HTML,CSS,JavaScript,JQuery,java,linux等">
+    <meta name="description" content="IIS，Weblogic中间件漏洞以及防范">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +17,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>中间件安全（二） | 小小星仔</title>
+    <title>浅析中间件安全（二） | 小小星仔</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -302,7 +302,7 @@
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">中间件安全（二）</h1>
+                    <h1 class="description center-align post-title">浅析中间件安全（二）</h1>
                 </div>
             </div>
         </div>
@@ -454,21 +454,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-04-12
+                    2022-04-27
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    0
+                    2.6k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    9 分
                 </div>
                 
 
@@ -486,7 +486,79 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                
+                <h1 id="IIS"><a href="#IIS" class="headerlink" title="IIS"></a>IIS</h1><p>Internet information services(IIS,以前称做Internet information server)互联网信息服务是Microsoft公司提供的可扩展WEB服务器，支持HTTP，HTTP/2，HTTPS，FTP，FPTS，SMTP professional,windows server 2003和后续版本一起发行。IIS目前只适用于windwos操作系统，不适用于其他操作系统。</p>
+<h2 id="缓冲区溢出漏洞"><a href="#缓冲区溢出漏洞" class="headerlink" title="缓冲区溢出漏洞"></a>缓冲区溢出漏洞</h2><p><strong>CVE-2009-3023</strong></p>
+<p>Microsoft IIS内嵌的FTP服务器中存在基于栈的缓冲区溢出漏洞。如果远程攻击者对带有特制名称的目录发布了包含有通配符的FTP NLST(NAME LIST)命令的话，就可以触发这个溢出，导致执行任意代码。仅在攻击者拥有写访问权限的情况下才可以创建带有特殊名称的目录。</p>
+<p><strong>原因：</strong></p>
+<p>IIS支持的FTP命令之一是名称列表（NLST）命令。此命令用于将目录列表从服务器传输到客户端。该命令的语法<code>NLST &lt;SPACE&gt; &lt;pathname&gt; &lt;CRLF&gt;</code></p>
+<p>此命令中的路径名应指定目录或其他特定于系统的文件组描述符；在pathname为NULL时，使用当前目录。NLST命令可以使用诸如“*”之类的通配符来引用多个路径。</p>
+<p>该漏洞是由于处理NLST FTP命令时边界检查不足造成的。当FTP用户请求包含通配符的路径名过长的目录列表时，易受攻击的代码会将目录路径名复制到0x9F（159）字节的基于堆栈的缓冲区中，而不进行边界验证。提供包含大于0x9F（159）字节的路径名会使堆栈缓冲区溢出，从而可能会覆盖关键进程数据（如函数返回地址）。</p>
+<p>远程身份验证的攻击者可以通过连接到易受攻击的IIS FTP服务器并向目标服务器发送恶意NLST命令来利用此漏洞。成功利用将导致使用System权限执行代码。如果代码执行攻击不成功，可能会导致受影响的FTP会话异常终止。</p>
+<h2 id="信息泄露漏洞"><a href="#信息泄露漏洞" class="headerlink" title="信息泄露漏洞"></a>信息泄露漏洞</h2><p> IIS短文件名漏洞是由于HTTP请求中携带旧DOS 8.3名称约定（SFN）的代字符（~）波浪号引起的。它允许远程攻击者在Web根目录下公开文件和文件夹名称（不应该可被访问）。攻击者可以找到通常无法从外部直接访问的重要文件，并获取有关应用程序基础结构的信息。</p>
+<h2 id="远程代码执行漏洞"><a href="#远程代码执行漏洞" class="headerlink" title="远程代码执行漏洞"></a>远程代码执行漏洞</h2><p>漏洞源于HTTP.sys文件没有正确分析经特殊设计的HTTP请求。成功利用此漏洞的攻击者可以在系统帐户的上下文中执行任意代码。</p>
+<p> IIS进程w3wp.exe接收到HTTP请求后，将数据缓存到内核中，并整合HTTP回应头，最后由http.sys组织数据包经由网络内核组件发送出去。请求中包括Range对象的指定范围，而缓存中则包含了http文件和大小信息等。</p>
+<p> 根据公开POC，构造包含“Range: bytes=0-18446744073709551615”的HTTP请求并发送到IIS 7.5-8.5服务器，如果IIS服务器返回<code>“Requested Range Not Satisfiable”</code>，则存在漏洞，如果返回<code>“The request has an invalid header name”</code>或者没有回应，则说明漏洞已经修补或者不存在漏洞。</p>
+<h2 id="PUT漏洞"><a href="#PUT漏洞" class="headerlink" title="PUT漏洞"></a>PUT漏洞</h2><p>WebDAV是一种HTTP1.1的扩展协议。它扩展了HTTP 1.1，在GET、POST、HEAD等几个HTTP标准方法以外添加了一些新的方法，如PUT，使应用程序可对Web Server直接读写，并支持写文件锁定(Locking)及解锁(Unlock)，还可以支持文件的版本控制。可以像在操作本地文件夹一样操作服务器上的文件夹，该扩展也存在缺陷，利用PUT方法可直接向服务器上传恶意文件，控制服务器。</p>
+<h2 id="小结："><a href="#小结：" class="headerlink" title="小结："></a>小结：</h2><p>IIS 远程漏洞主要包括缓冲区溢出、认证绕过、拒绝服务、代码执行和信息泄露漏洞，本地漏洞主要分布在信息泄露和权限提升漏洞分类，大部分漏洞利用难度较大，但是一旦成功被攻击者利用，影响的不仅仅只是IIS服务器，甚至可能是运行IIS的Windows主机。</p>
+<h1 id="Weblogic"><a href="#Weblogic" class="headerlink" title="Weblogic"></a>Weblogic</h1><p>Weblogic是美国Oracle公司出品的一个应用服务器，确切的说是一个基于Java EE架构的中间件，是用于开发、集成、部署和管理大型分布式Web应用、网络应用和数据库应用的Java应用服务器</p>
+<p>Weblogic将Java的动态功能和Java Enterprise标准的安全性引入大型网络应用的开发、集成、部署和管理之中，是商业市场上主要的Java（Java EE）应用服务器软件之一，也是世界上第一个成功商业化的Java EE应用服务器，具有可扩展性、快速开发、灵活、可靠等优势。</p>
+<p><img src="/2022/04/10/zhong-jian-jian-an-quan-er/1doo0t7i6j.png">    </p>
+<h3 id="CVE-2017-10271"><a href="#CVE-2017-10271" class="headerlink" title="CVE-2017-10271"></a><strong>CVE-2017-10271</strong></h3><p> Weblogic的WLS Security组件对外提供webservice服务，其中使用了XMLDecoder来解析用户传入的XML数据，在解析的过程中出现反序列化漏洞，导致可执行任意命令。攻击者发送精心构造的xml数据甚至能通过反弹shell拿到权限。</p>
+<h3 id="CVE-2019-2618"><a href="#CVE-2019-2618" class="headerlink" title="CVE-2019-2618"></a><strong>CVE-2019-2618</strong></h3><p> 利用任意文件读取来获取weblogic的弱口令登录进入后台，然后通过上传getshell，通过构造任意文件下载漏洞环境读取到后台用户名和密码，然后登陆进后台，上传webshell。</p>
+<h3 id="CVE-2020-14882"><a href="#CVE-2020-14882" class="headerlink" title="CVE-2020-14882"></a><strong>CVE-2020-14882</strong></h3><p>远程攻击者可以构造特殊的HTTP请求，在未经身份验证的情况下接管 WebLogic Server Console，并在 WebLogic Server Console 执行任意代码。</p>
+<h4 id="权限绕过漏洞"><a href="#权限绕过漏洞" class="headerlink" title="权限绕过漏洞"></a><strong>权限绕过漏洞</strong></h4><p>远程攻击者可以构造特殊的HTTP请求，在未经身份验证的情况下接管 WebLogic Server Console。权限绕过漏洞（CVE-2020-14883）。访问以下URL，未授权访问到管理后台页面（低权限的用户）</p>
+<pre class="line-numbers language-none"><code class="language-none">/console/images/%252E%252E%252Fconsole.portal
+/console/css/%252e%252e%252fconsole.portal（小写可绕过补丁）
+/console/css/%25%32%65%25%32%65%25%32%66console.portal<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>结合 CVE-2020-14883 漏洞，远程攻击者可以构造特殊的HTTP请求，在未经身份验证的情况下接管 WebLogic Server Console ，并在 WebLogic Server Console 执行任意代码。</p>
+<ol>
+<li>利用com.bea.core.repackaged.springframework.context.support.FileSystemXmlApplicationContext 执行命令</li>
+<li>用 com.tangosol.coherence.mvel2.sh.ShellSession 执行命令</li>
+</ol>
+<h3 id="ssrf漏洞"><a href="#ssrf漏洞" class="headerlink" title="ssrf漏洞"></a><strong>ssrf漏洞</strong></h3><p>Weblogic中存在一个SSRF漏洞，利用该漏洞可以发送任意HTTP请求，进而攻击内网中redis、fastcgi等脆弱组件。</p>
+<p> SSRF漏洞可以通过篡改获取资源的请求发送给服务器，但是服务器并没有检测这个请求是否合法的，然后服务器以他的身份来访问其他服务器的资源。</p>
+<p>weblogic的ssrf有一个比较大的特点，其虽然是一个GET请求，但是我们可以通过传入**%0a%0d**来注入换行符，而某些服务(如redis)是通过换行符来分隔每条命令，也就是说我们可以通过该SSRF攻击内网中的redis服务器。首先通过ssrf探测内网中的redis服务器，通常redis端口为6379</p>
+<h3 id="T3反序列化"><a href="#T3反序列化" class="headerlink" title="T3反序列化"></a>T3反序列化</h3><p>weblogic反序列化主要有XMLDecoder和T3协议。先从T3协议开始，主要是<code>CVE-2015-4852</code>这个漏洞</p>
+<h4 id="T3协议"><a href="#T3协议" class="headerlink" title="T3协议"></a>T3协议</h4><p>RMI通信传输反序列化数据，接收数据后进行反序列化，正常RMI通信使用的是JRMP协议，而在Weblogic的RMI通信中使用的是T3协议。T3协议是Weblogic独有的一个协议，相比于JRMP协议多了一些特性。以下是T3协议的特点：</p>
+<ol>
+<li>服务端可以持续追踪监控客户端是否存活（心跳机制），通常心跳的间隔为60秒，服务端在超过240秒未收到心跳即判定与客户端的连接丢失。</li>
+<li>通过建立一次连接可以将全部数据包传输完成，优化了数据包大小和网络消耗。</li>
+</ol>
+<p>T3 这个神奇的协议使得weblogic漏洞层出不穷，正因为他必须使用java反序列化，所以在不影响正常功能的情况下，只能不断的添加黑名单。</p>
+<p>T3协议里包含请求包头和请求的主体这两部分内容。</p>
+<p>T3协议中传输的都是序列化数据，分为七个部分</p>
+<img src="WcnkRK.png" style="zoom: 80%;">
+
+<p>可以用jdk7u21和cc1两条链实现漏洞。</p>
+<p>Weblogic对CVE-2015-4852的修复措施是在resloveClass里加上 ClassFilter.isBlackListed黑名单过滤</p>
+<h1 id="保护IIS"><a href="#保护IIS" class="headerlink" title="保护IIS"></a>保护IIS</h1><ol>
+<li>设置磁盘驱动器上的NTFS权限</li>
+</ol>
+<pre class="line-numbers language-none"><code class="language-none">Developers = Full 
+IUSER = Read and execute only 
+System and admin = Full <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<ol start="2">
+<li>启动使用IIS的日志文件(logging)功能</li>
+<li>把记录的日志(log)从预设地点移开，并确保已经进行备份。为日志档案夹建立一个备份，这样在另一个位置总是有一个可以使用的备份档。 </li>
+<li>确保你经常执行Windows Update，并重复检验修补程序真的已经有安装妥当。</li>
+<li>管理用户账户,目录安全</li>
+<li>审计web服务器</li>
+<li>移除没用的站点</li>
+<li>严格控制读写访问权限，设置复杂密码，禁用tcp/ip中的netbios</li>
+</ol>
+<h3 id="什么是NTFS"><a href="#什么是NTFS" class="headerlink" title="什么是NTFS"></a>什么是NTFS</h3><p>是Microsoft公司开发的专用文件系统，从Windows NT 3.1开始成为Windows NT家族的默认文件系统。</p>
+<h4 id="NTFS权限"><a href="#NTFS权限" class="headerlink" title="NTFS权限"></a>NTFS权限</h4><ol>
+<li>通过设置NTFS权限，实现不同的用户访问不同的权限 。</li>
+<li>分配了正确的访问权限后，用户才能访问其资源 。</li>
+<li>设置权限防止资源被篡改、删除。</li>
+</ol>
+<h4 id="常用的文件系统："><a href="#常用的文件系统：" class="headerlink" title="常用的文件系统："></a>常用的文件系统：</h4><p>fat：windows</p>
+<p>ntfs：windows</p>
+<p>ext：linux</p>
+<h3 id="什么是netbois"><a href="#什么是netbois" class="headerlink" title="什么是netbois"></a>什么是netbois</h3><p>NetBIOS允许应用程序和计算机通过LAN进行通信。NetBIOS在本地网络上提供通信服务。 它使用称为NetBIOS帧（NBF）的软件协议，允许局域网（LAN）上的应用程序和计算机与网络硬件通信并通过网络传输数据。在你安装 TCP/IP协议时，NetBIOS 也被 Windows 作为默认设置载入了你的电脑，而电脑随即也具有了NetBIOS 本身的开放性。换句话讲，在不知不觉间，你的上网电脑已被打开了一个危险的“后门”。</p>
+
                 
             </div>
             <hr/>
@@ -999,9 +1071,9 @@
                 <a href="/2022/04/10/zhong-jian-jian-an-quan/">
                     <div class="card-image">
                         
-                        <img src="/medias/featureimages/37.jpg" class="responsive-img" alt="中间件安全">
+                        <img src="/medias/featureimages/37.jpg" class="responsive-img" alt="浅析中间件安全">
                         
-                        <span class="card-title">中间件安全</span>
+                        <span class="card-title">浅析中间件安全</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
