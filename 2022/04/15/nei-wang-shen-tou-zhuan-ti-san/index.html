@@ -454,7 +454,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-04-24
+                    2022-05-17
                 </div>
                 
 
@@ -582,7 +582,7 @@ ST(Service Ticket) : 服务票据<span aria-hidden="true" class="line-numbers-ro
 <li>首先在用户登陆时，Kerberos服务向KDC(域控)发送申请认购权证的请求，内容为登录输入的用户名和经过输入密码<strong>加密的Authenticator</strong>(用于确认身份的，往下看就会明白)</li>
 <li>KDC(域控)拿到传来的数据后，会根据用户名到活动目录(Active Directory)的数据库中寻找该用户的密码，然后使用该密码解密<strong>加密的Authenticator</strong>，然后与<strong>原始的Authenticator</strong>对比，如果一致，则确认用户身份。</li>
 </ol>
-<img src="内网渗透专题（三）/20191019215735-6752f892-f278-1.png" style="zoom:50%;">
+<img src="20191019215735-6752f892-f278-1.png" style="zoom:50%;">
 
 <ol start="3">
 <li><p>KDC(域控)确认登录用户身份正确后，先生成一个由用户密码加密的<strong>加密Logon Session Key</strong>（为了确保通信安全）。然后生成TGT(包含用户信息和<strong>原始Logon Session Key</strong>)，再使用KDC的密钥（即krbrgt用户的密钥）加密TGT生成<strong>加密后的TGT</strong>。然后将由用户密码加密的<strong>加密Logon Session Key</strong>和<strong>加密后的TGT</strong>返回给客户端</p>
@@ -613,26 +613,26 @@ ST(Service Ticket) : 服务票据<span aria-hidden="true" class="line-numbers-ro
 <p>Mimkatz 中的 token::list</p>
 <p>CobaltSrike 中的 steal_token 插件</p>
 <h4 id="Metasploit-中的-incognito-插件"><a href="#Metasploit-中的-incognito-插件" class="headerlink" title="Metasploit 中的 incognito 插件"></a><strong>Metasploit 中的 incognito 插件</strong></h4><p>msf假冒令牌，生成一个反弹shell，在kali上进行监听操作，提权到system权限。</p>
-<img src="内网渗透专题（三）/image-20220423124504820.png" style="zoom:50%;">
+<img src="image-20220423124504820.png" style="zoom:50%;">
 
 <p>加载 incognito 插件，列出当前可以令牌伪造的清单，<code>list_token_u</code>权限越高，令牌越多</p>
-<img src="内网渗透专题（三）/image-20220423124549813.png" style="zoom: 67%;">
+<img src="image-20220423124549813.png" style="zoom: 67%;">
 
 <p><code>impersonate_token</code>+令牌伪造用户,伪造成功。</p>
-<img src="内网渗透专题（三）/image-20220423125044203.png" style="zoom: 67%;">
+<img src="image-20220423125044203.png" style="zoom: 67%;">
 
-<h4 id="CobaltSrike-中的-steal-token-插件"><a href="#CobaltSrike-中的-steal-token-插件" class="headerlink" title="CobaltSrike 中的 steal_token 插件"></a><strong>CobaltSrike 中的 steal_token 插件</strong></h4><img src="内网渗透专题（三）/image-20220423185927490.png" style="zoom: 67%;">
+<h4 id="CobaltSrike-中的-steal-token-插件"><a href="#CobaltSrike-中的-steal-token-插件" class="headerlink" title="CobaltSrike 中的 steal_token 插件"></a><strong>CobaltSrike 中的 steal_token 插件</strong></h4><img src="image-20220423185927490.png" style="zoom: 67%;">
 
 <p>生成木马，监听。</p>
-<p><img src="/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E4%B8%93%E9%A2%98%EF%BC%88%E4%B8%89%EF%BC%89/image-20220423190019510.png"></p>
+<p><img src="/2022/04/15/nei-wang-shen-tou-zhuan-ti-san/image-20220423190019510.png"></p>
 <p>点击Interact。</p>
 <p>提权到system权限，<code>getsystem</code></p>
 <p>ps查看进程</p>
-<img src="内网渗透专题（三）/image-20220423192755613.png" style="zoom: 50%;">
+<img src="image-20220423192755613.png" style="zoom: 50%;">
 
 <p><code>steal_token PID</code>：获取到某个用户的令牌</p>
 <p>这里PID选的3152，令牌窃取成功</p>
- <img src="内网渗透专题（三）/image-20220423193039506.png" style="zoom: 67%;">
+ <img src="image-20220423193039506.png" style="zoom: 67%;">
 
 
 
@@ -646,16 +646,16 @@ ST(Service Ticket) : 服务票据<span aria-hidden="true" class="line-numbers-ro
 <ol>
 <li>privilege::debug ：提升权限；</li>
 </ol>
-<img src="内网渗透专题（三）/image-20220423200827777.png" alt="image-20220423200827777" style="zoom:50%;">
+<img src="image-20220423200827777.png" alt="image-20220423200827777" style="zoom:50%;">
 
 <ol start="2">
 <li><p>process::list：查看进程列表</p>
-<img src="内网渗透专题（三）/image-20220423200958371.png" style="zoom:67%;">
+<img src="image-20220423200958371.png" style="zoom:67%;">
 </li>
 <li><p>process::start calc #开启一个计算机进程</p>
 </li>
 </ol>
-   <img src="内网渗透专题（三）/image-20220423201144553.png" style="zoom: 50%;">
+   <img src="image-20220423201144553.png" style="zoom: 50%;">
 
 <ol start="4">
 <li><p>process::lsadump #挂起进程：可用于植入木马时，暂停防病毒软件等</p>
@@ -1238,7 +1238,7 @@ sekurlsa::logonpasswords<span aria-hidden="true" class="line-numbers-rows"><span
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            内网渗透比较系统的讲解
+                            浅析内网端口转发和隧道代理
                         
                     </div>
                     <div class="publish-info">

