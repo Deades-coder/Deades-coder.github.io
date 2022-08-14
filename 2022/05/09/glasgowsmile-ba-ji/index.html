@@ -454,14 +454,14 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-05-17
+                    2022-08-11
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    136
+                    184
                 </div>
                 
 
@@ -504,9 +504,13 @@
 <p>上BP抓包，放进Intruder，加payload。爆破使用刚刚生成的Gal.txt字典</p>
 <p><img src="/2022/05/09/glasgowsmile-ba-ji/image-20220509191913158.png"></p>
 <p>拿到账号密码，<strong>账号：joomla ，密码：Gotham</strong> 登录后台</p>
-<p>随便逛逛，点击到模板，里面会有网页源代码。</p>
-<p><img src="/2022/05/09/glasgowsmile-ba-ji/image-20220509192702546.png"></p>
-
+<p>随便逛逛，点击到模板，里面会有</p>
+<p>源代码。</p>
+<p><img src="/2022/05/09/glasgowsmile-ba-ji/image-20220509192702546.png">    </p>
+<p>编辑index.php，可以利用pentestmonkey里面的php webshell代码：<br><code>http://pentestmonkey.net/tools/web-shells/php-reverse-shell</code></p>
+<p><img src="/2022/05/09/glasgowsmile-ba-ji/20201013162044529.PNG"></p>
+<p>编辑完之后进行save，然后打开nc监听，最后点击预览页面：</p>
+<pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell">nc <span class="token operator">-</span>lvp 4444<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
                 
             </div>
             <hr/>
@@ -967,16 +971,15 @@
                 <a href="/2022/06/28/redis-ji-chu-shi-yong/">
                     <div class="card-image">
                         
+                        <img src="/medias/featureimages/95.jpg" class="responsive-img" alt="redis使用">
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="">
-                        
-                        <span class="card-title"></span>
+                        <span class="card-title">redis使用</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
+                            redis基本使用
                         
                     </div>
                     <div class="publish-info">
@@ -985,11 +988,23 @@
                         </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            小小星仔
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Java/" class="post-category">
+                                    Java
+                                </a>
+                            
                             
                         </span>
                     </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Java/">
+                        <span class="chip bg-color">Java</span>
+                    </a>
+                    
                 </div>
                 
             </div>
