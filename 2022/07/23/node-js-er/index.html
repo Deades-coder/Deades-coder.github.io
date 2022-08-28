@@ -450,21 +450,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-08-12
+                    2022-08-26
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    0
+                    4k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    16 分
                 </div>
                 
 
@@ -482,7 +482,416 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                
+                <h1 id="fs文件操作模块"><a href="#fs文件操作模块" class="headerlink" title="fs文件操作模块"></a>fs文件操作模块</h1><p>所有与文件操作都是通过 <code>fs</code> 核心模块来实现的，包括文件目录的创建、删除、查询以及文件的读取和写入，在 <code>fs</code> 模块中，所有的方法都分为同步和异步两种实现，具有 <code>sync</code> 后缀的方法为同步方法，不具有 <code>sync</code> 后缀的方法为异步方法，在了解文件操作的方法之前有一些关于系统和文件的前置知识，如文件的权限位 <code>mode</code>、标识位 <code>flag</code>、文件描述符 <code>fd</code> 等</p>
+<h4 id="同步读取方法-readFileSync"><a href="#同步读取方法-readFileSync" class="headerlink" title="同步读取方法 readFileSync"></a>同步读取方法 readFileSync</h4><p><code>readFileSync</code> 有两个参数：</p>
+<ul>
+<li>第一个参数为读取文件的路径或文件描述符；</li>
+<li>第二个参数为 <code>options</code>，默认值为 <code>null</code>，其中有 <code>encoding</code>（编码，默认为 <code>null</code>）和 <code>flag</code>（标识位，默认为 <code>r</code>），也可直接传入 <code>encoding</code>；</li>
+<li>返回值为文件的内容，如果没有 <code>encoding</code>，返回的文件内容为 Buffer，如果有按照传入的编码解析。</li>
+</ul>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token keyword">const</span> fs <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"fs"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">let</span> buf <span class="token operator">=</span> fs<span class="token punctuation">.</span><span class="token function">readFileSync</span><span class="token punctuation">(</span><span class="token string">"1.txt"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> data <span class="token operator">=</span> fs<span class="token punctuation">.</span><span class="token function">readFileSync</span><span class="token punctuation">(</span><span class="token string">"1.txt"</span><span class="token punctuation">,</span> <span class="token string">"utf8"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>buf<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// &lt;Buffer 48 65 6c 6c 6f&gt;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Hello</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="异步读取方法-readFile"><a href="#异步读取方法-readFile" class="headerlink" title="异步读取方法 readFile"></a>异步读取方法 readFile</h4><p>异步读取方法 <code>readFile</code> 与 <code>readFileSync</code> 的前两个参数相同，最后一个参数为回调函数，函数内有两个参数 <code>err</code>（错误）和 <code>data</code>（数据），该方法没有返回值，回调函数在读取文件成功后执行。</p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token keyword">const</span> fs <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"fs"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+fs<span class="token punctuation">.</span><span class="token function">readFile</span><span class="token punctuation">(</span><span class="token string">"1.txt"</span><span class="token punctuation">,</span> <span class="token string">"utf8"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">err<span class="token punctuation">,</span> data</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// null</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Hello</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="同步写入方法-writeFileSync"><a href="#同步写入方法-writeFileSync" class="headerlink" title="同步写入方法 writeFileSync"></a>同步写入方法 writeFileSync</h4><p><code>writeFileSync</code> 有三个参数：</p>
+<ul>
+<li>第一个参数为写入文件的路径或文件描述符；</li>
+<li>第二个参数为写入的数据，类型为 String 或 Buffer；</li>
+<li>第三个参数为 <code>options</code>，默认值为 <code>null</code>，其中有 <code>encoding</code>（编码，默认为 <code>utf8</code>）、 <code>flag</code>（标识位，默认为 <code>w</code>）和 <code>mode</code>（权限位，默认为 <code>0o666</code>），也可直接传入 <code>encoding</code>。</li>
+</ul>
+<p>若现在有一个文件名为 <code>2.txt</code>，内容为 “12345”，现在使用 <code>writeFileSync</code> 写入。</p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token keyword">const</span> fs <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"fs"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+fs<span class="token punctuation">.</span><span class="token function">writeFileSync</span><span class="token punctuation">(</span><span class="token string">"2.txt"</span><span class="token punctuation">,</span> <span class="token string">"Hello world"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> data <span class="token operator">=</span> fs<span class="token punctuation">.</span><span class="token function">readFileSync</span><span class="token punctuation">(</span><span class="token string">"2.txt"</span><span class="token punctuation">,</span> <span class="token string">"utf8"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Hello world</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="异步写入方法-writeFile"><a href="#异步写入方法-writeFile" class="headerlink" title="异步写入方法 writeFile"></a>异步写入方法 writeFile</h4><p>异步写入方法 <code>writeFile</code> 与 <code>writeFileSync</code> 的前三个参数相同，最后一个参数为回调函数，函数内有一个参数 <code>err</code>（错误），回调函数在文件写入数据成功后执行。</p>
+<p>异步写入 writeFile</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">const</span> fs <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"fs"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+fs<span class="token punctuation">.</span><span class="token function">writeFile</span><span class="token punctuation">(</span><span class="token string">"2.txt"</span><span class="token punctuation">,</span> <span class="token string">"Hello world"</span><span class="token punctuation">,</span> <span class="token parameter">err</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>err<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        fs<span class="token punctuation">.</span><span class="token function">readFile</span><span class="token punctuation">(</span><span class="token string">"2.txt"</span><span class="token punctuation">,</span> <span class="token string">"utf8"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">err<span class="token punctuation">,</span> data</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Hello world</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="同步追加写入方法-appendFileSync"><a href="#同步追加写入方法-appendFileSync" class="headerlink" title="同步追加写入方法 appendFileSync"></a>同步追加写入方法 appendFileSync</h4><p><code>appendFileSync</code> 有三个参数：</p>
+<ul>
+<li>第一个参数为写入文件的路径或文件描述符；</li>
+<li>第二个参数为写入的数据，类型为 String 或 Buffer；</li>
+<li>第三个参数为 <code>options</code>，默认值为 <code>null</code>，其中有 <code>encoding</code>（编码，默认为 <code>utf8</code>）、 <code>flag</code>（标识位，默认为 <code>a</code>）和 <code>mode</code>（权限位，默认为 <code>0o666</code>），也可直接传入 <code>encoding</code>。</li>
+</ul>
+<p>若现在有一个文件名为 <code>3.txt</code>，内容为 “Hello”，现在使用 <code>appendFileSync</code> 追加写入 “ world”。</p>
+<p>同步追加 appendFileSync</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">const</span> fs <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"fs"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+fs<span class="token punctuation">.</span><span class="token function">appendFileSync</span><span class="token punctuation">(</span><span class="token string">"3.txt"</span><span class="token punctuation">,</span> <span class="token string">" world"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> data <span class="token operator">=</span> fs<span class="token punctuation">.</span><span class="token function">readFileSync</span><span class="token punctuation">(</span><span class="token string">"3.txt"</span><span class="token punctuation">,</span> <span class="token string">"utf8"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Hello world</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="异步追加写入方法-appendFile"><a href="#异步追加写入方法-appendFile" class="headerlink" title="异步追加写入方法 appendFile"></a>异步追加写入方法 appendFile</h4><p>异步追加写入方法 <code>appendFile</code> 与 <code>appendFileSync</code> 的前三个参数相同，最后一个参数为回调函数，函数内有一个参数 <code>err</code>（错误），回调函数在文件追加写入数据成功后执行。</p>
+<p>异步追加 appendFile</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">const</span> fs <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"fs"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+fs<span class="token punctuation">.</span><span class="token function">appendFile</span><span class="token punctuation">(</span><span class="token string">"3.txt"</span><span class="token punctuation">,</span> <span class="token string">" world"</span><span class="token punctuation">,</span> <span class="token parameter">err</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>err<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        fs<span class="token punctuation">.</span><span class="token function">readFile</span><span class="token punctuation">(</span><span class="token string">"3.txt"</span><span class="token punctuation">,</span> <span class="token string">"utf8"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">err<span class="token punctuation">,</span> data</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Hello world</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h4 id="同步拷贝写入方法-copyFileSync"><a href="#同步拷贝写入方法-copyFileSync" class="headerlink" title="同步拷贝写入方法 copyFileSync"></a>同步拷贝写入方法 copyFileSync</h4><p>同步拷贝写入方法 <code>copyFileSync</code> 有两个参数，第一个参数为被拷贝的源文件路径，第二个参数为拷贝到的目标文件路径，如果目标文件不存在，则会创建并拷贝。</p>
+<p>现在将上面 <code>3.txt</code> 的内容拷贝到 <code>4.txt</code> 中：</p>
+<p>同步拷贝 copyFileSync</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">const</span> fs <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"fs"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+fs<span class="token punctuation">.</span><span class="token function">copyFileSync</span><span class="token punctuation">(</span><span class="token string">"3.txt"</span><span class="token punctuation">,</span> <span class="token string">"4.txt"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> data <span class="token operator">=</span> fs<span class="token punctuation">.</span><span class="token function">readFileSync</span><span class="token punctuation">(</span><span class="token string">"4.txt"</span><span class="token punctuation">,</span> <span class="token string">"utf8"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Hello world</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="异步拷贝写入方法-copyFile"><a href="#异步拷贝写入方法-copyFile" class="headerlink" title="异步拷贝写入方法 copyFile"></a>异步拷贝写入方法 copyFile</h4><p>异步拷贝写入方法 <code>copyFile</code> 和 <code>copyFileSync</code> 前两个参数相同，最后一个参数为回调函数，在拷贝完成后执行。</p>
+<p>异步拷贝 copyFile</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">const</span> fs <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"fs"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+fs<span class="token punctuation">.</span><span class="token function">copyFile</span><span class="token punctuation">(</span><span class="token string">"3.txt"</span><span class="token punctuation">,</span> <span class="token string">"4.txt"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    fs<span class="token punctuation">.</span><span class="token function">readFile</span><span class="token punctuation">(</span><span class="token string">"4.txt"</span><span class="token punctuation">,</span> <span class="token string">"utf8"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">err<span class="token punctuation">,</span> data</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Hello world</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="文件操作的高级方法"><a href="#文件操作的高级方法" class="headerlink" title="文件操作的高级方法"></a>文件操作的高级方法</h2><h3 id="打开文件-open"><a href="#打开文件-open" class="headerlink" title="打开文件 open"></a>打开文件 open</h3><p><code>open</code> 方法有四个参数：</p>
+<ul>
+<li>path：文件的路径；</li>
+<li>flag：标识位；</li>
+<li>mode：权限位，默认 <code>0o666</code>；</li>
+<li>callback：回调函数，有两个参数 <code>err</code>（错误）和 <code>fd</code>（文件描述符），打开文件后执行。</li>
+</ul>
+<p>异步打开文件</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">const</span> fs <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"fs"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+fs<span class="token punctuation">.</span><span class="token function">open</span><span class="token punctuation">(</span><span class="token string">"4.txt"</span><span class="token punctuation">,</span> <span class="token string">"r"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">err<span class="token punctuation">,</span> fd</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>fd<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    fs<span class="token punctuation">.</span><span class="token function">open</span><span class="token punctuation">(</span><span class="token string">"5.txt"</span><span class="token punctuation">,</span> <span class="token string">"r"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">err<span class="token punctuation">,</span> fd</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>fd<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="关闭文件-close"><a href="#关闭文件-close" class="headerlink" title="关闭文件 close"></a>关闭文件 close</h3><p><code>close</code> 方法有两个参数，第一个参数为关闭文件的文件描述符 <code>fd</code>，第二参数为回调函数，回调函数有一个参数 <code>err</code>（错误），关闭文件后执行。</p>
+<p>异步关闭文件</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">const</span> fs <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"fs"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+fs<span class="token punctuation">.</span><span class="token function">open</span><span class="token punctuation">(</span><span class="token string">"4.txt"</span><span class="token punctuation">,</span> <span class="token string">"r"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">err<span class="token punctuation">,</span> fd</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    fs<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span>fd<span class="token punctuation">,</span> <span class="token parameter">err</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"关闭成功"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="读取文件-read"><a href="#读取文件-read" class="headerlink" title="读取文件 read"></a>读取文件 read</h3><p><code>read</code> 方法与 <code>readFile</code> 不同，一般针对于文件太大，无法一次性读取全部内容到缓存中或文件大小未知的情况，都是多次读取到 Buffer 中。<br>想了解 Buffer 可以看 <a href="https://link.juejin.cn/?target=https://www.pandashen.com/2018/06/29/20180629115313/">NodeJS —— Buffer 解读</a>。</p>
+<p><code>read</code> 方法中有六个参数：</p>
+<ul>
+<li>fd：文件描述符，需要先使用 <code>open</code> 打开；</li>
+<li>buffer：要将内容读取到的 Buffer；</li>
+<li>offset：整数，向 Buffer 写入的初始位置；</li>
+<li>length：整数，读取文件的长度；</li>
+<li>position：整数，读取文件初始位置；</li>
+<li>callback：回调函数，有三个参数 <code>err</code>（错误），<code>bytesRead</code>（实际读取的字节数），<code>buffer</code>（被写入的缓存区对象），读取执行完成后执行。</li>
+</ul>
+<p>下面读取一个 <code>6.txt</code> 文件，内容为 “你好”。</p>
+<p>异步读取文件</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">const</span> fs <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"fs"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> buf <span class="token operator">=</span> Buffer<span class="token punctuation">.</span><span class="token function">alloc</span><span class="token punctuation">(</span><span class="token number">6</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 打开文件</span>
+fs<span class="token punctuation">.</span><span class="token function">open</span><span class="token punctuation">(</span><span class="token string">"6.txt"</span><span class="token punctuation">,</span> <span class="token string">"r"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">err<span class="token punctuation">,</span> fd</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 读取文件</span>
+    fs<span class="token punctuation">.</span><span class="token function">read</span><span class="token punctuation">(</span>fd<span class="token punctuation">,</span> buf<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">err<span class="token punctuation">,</span> bytesRead<span class="token punctuation">,</span> buffer</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>bytesRead<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>buffer<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// 继续读取</span>
+        fs<span class="token punctuation">.</span><span class="token function">read</span><span class="token punctuation">(</span>fd<span class="token punctuation">,</span> buf<span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">err<span class="token punctuation">,</span> bytesRead<span class="token punctuation">,</span> buffer</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>bytesRead<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>buffer<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>buffer<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 3</span>
+<span class="token comment">// &lt;Buffer e4 bd a0 00 00 00&gt;</span>
+
+<span class="token comment">// 3</span>
+<span class="token comment">// &lt;Buffer e4 bd a0 e5 a5 bd&gt;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="写入文件-write"><a href="#写入文件-write" class="headerlink" title="写入文件 write"></a>写入文件 write</h3><p><code>write</code> 方法与 <code>writeFile</code> 不同，是将 Buffer 中的数据写入文件，Buffer 的作用是一个数据中转站，可能数据的源占用内存太大或内存不确定，无法一次性放入内存中写入，所以分段写入，多与 <code>read</code> 方法配合。</p>
+<p><code>write</code> 方法中有六个参数：</p>
+<ul>
+<li>fd：文件描述符，需要先使用 <code>open</code> 打开；</li>
+<li>buffer：存储将要写入文件数据的 Buffer；</li>
+<li>offset：整数，从 Buffer 读取数据的初始位置；</li>
+<li>length：整数，读取 Buffer 数据的字节数；</li>
+<li>position：整数，写入文件初始位置；</li>
+<li>callback：回调函数，有三个参数 <code>err</code>（错误），<code>bytesWritten</code>（实际写入的字节数），<code>buffer</code>（被读取的缓存区对象），写入完成后执行。</li>
+</ul>
+<p>下面将一个 Buffer 中间的两个字写入文件 <code>6.txt</code>，原内容为 “你好”。</p>
+<p>选择范围写入</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">const</span> fs <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"fs"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> buf <span class="token operator">=</span> Buffer<span class="token punctuation">.</span><span class="token function">from</span><span class="token punctuation">(</span><span class="token string">"你还好吗"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 打开文件</span>
+fs<span class="token punctuation">.</span><span class="token function">open</span><span class="token punctuation">(</span><span class="token string">"6.txt"</span><span class="token punctuation">,</span> <span class="token string">"r+"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">err<span class="token punctuation">,</span> fd</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 读取 buf 向文件写入数据</span>
+    fs<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span>fd<span class="token punctuation">,</span> buf<span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">err<span class="token punctuation">,</span> bytesWritten<span class="token punctuation">,</span> buffer</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 同步磁盘缓存</span>
+        fs<span class="token punctuation">.</span><span class="token function">fsync</span><span class="token punctuation">(</span>fd<span class="token punctuation">,</span> <span class="token parameter">err</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+            <span class="token comment">// 关闭文件</span>
+            fs<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span>fd<span class="token punctuation">,</span> <span class="token parameter">err</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+                console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"关闭文件"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 这里为了看是否写入成功简单粗暴的使用 readFile 方法</span>
+fs<span class="token punctuation">.</span><span class="token function">readFile</span><span class="token punctuation">(</span><span class="token string">"6.txt"</span><span class="token punctuation">,</span> <span class="token string">"utf8"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">err<span class="token punctuation">,</span> data</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>上面代码将 “你还好吗” 中间的 “还好” 从 Buffer 中读取出来写入到 <code>6.txt</code> 的 “你” 字之后，但是最后的 “好” 并没有被保留，说明先清空了文件中 “你” 字之后的内容再写入。</p>
+<h2 id="文件目录操作方法"><a href="#文件目录操作方法" class="headerlink" title="文件目录操作方法"></a>文件目录操作方法</h2><p>下面的这些操作文件目录的方法有一个共同点，就是传入的第一个参数都为文件的路径，如：<code>a/b/c/d</code>，也分为同步和异步两种实现。</p>
+<h3 id="查看文件目录操作权限"><a href="#查看文件目录操作权限" class="headerlink" title="查看文件目录操作权限"></a>查看文件目录操作权限</h3><h4 id="同步查看操作权限方法-accessSync"><a href="#同步查看操作权限方法-accessSync" class="headerlink" title="同步查看操作权限方法 accessSync"></a>同步查看操作权限方法 accessSync</h4><p><code>accessSync</code> 方法传入一个目录的路径，检查传入路径下的目录是否可读可写，当有操作权限的时候没有返回值，没有权限或路径非法时抛出一个 <code>Error</code> 对象，所以使用时多用 <code>try...catch...</code> 进行异常捕获。</p>
+<p>同步查看操作权限</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">const</span> fs <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"fs"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">try</span> <span class="token punctuation">{</span>
+    fs<span class="token punctuation">.</span><span class="token function">accessSync</span><span class="token punctuation">(</span><span class="token string">"a/b/c"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"可读可写"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token string">"不可访问"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="异步查看操作权限方法-access"><a href="#异步查看操作权限方法-access" class="headerlink" title="异步查看操作权限方法 access"></a>异步查看操作权限方法 access</h4><p><code>access</code> 方法与第一个参数为一个目录的路径，最后一个参数为一个回调函数，回调函数有一个参数为 <code>err</code>（错误），在权限检测后触发，如果有权限 <code>err</code> 为 <code>null</code>，没有权限或路径非法 <code>err</code> 是一个 <code>Error</code> 对象。</p>
+<p>异步查看操作权限</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">const</span> fs <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"fs"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+fs<span class="token punctuation">.</span><span class="token function">access</span><span class="token punctuation">(</span><span class="token string">"a/b/c"</span><span class="token punctuation">,</span> <span class="token parameter">err</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token string">"不可访问"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"可读可写"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>还有很多功能，就不一一赘述了</p>
+<h1 id="event模块"><a href="#event模块" class="headerlink" title="event模块"></a>event模块</h1><p><code>Events</code> 模块是Node最重要的模块，它提供了一个属性 <code>EventEmitter</code>，<code>EventEmitter</code> 的核心是事件发射与事件监听器。</p>
+<p>Node中大部分的模块，都继承自 <code>Events</code> 模块。</p>
+<ul>
+<li><code>Events</code> 模块是Node对 <strong>发布订阅模式</strong>（<code>publish/subscribe</code>）的实现。一个对象通过这个模块，向另一个对象传递消息。</li>
+<li>该模块通过 <code>EventEmitter</code> 属性，提供了一个构造函数。该构造函数的实例具有 <code>on</code> 方法，可以用来监听指定事件，并触发回调函数。</li>
+<li>任意对象都可以发布指定事件，被 <code>EventEmitter</code> 实例的on方法监听到。</li>
+</ul>
+<blockquote>
+<ul>
+<li><strong>订阅方法</strong>：<code>on</code> 方法用来订阅事件，订阅是将方法对应成一种一对多的关系。</li>
+<li><strong>发布方法</strong>：<code>emit</code> 用来执行订阅的事件。</li>
+<li><strong>取消订阅</strong>：<code>off</code> 方法可以移除对应的事件监听。</li>
+<li><strong>订阅一次</strong>：<code>once</code> 绑定事件当执行后自动删除订阅的事件。</li>
+</ul>
+</blockquote>
+<p><code>on</code> 方法的第一个参数用来设定类名，第二个参数也是一个函数，里面可以接收发布时传入的参数。</p>
+<p><code>emit</code> 方法第一个参数是类名，之后的参数都是传入 <code>on</code> 方法函数中的参数。</p>
+<p>代码示例：</p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">EventEmitter</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>_event <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token comment">// on 方法</span>
+<span class="token class-name">EventEmitter</span><span class="token punctuation">.</span>prototype<span class="token punctuation">.</span><span class="token function-variable function">on</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">eventName<span class="token punctuation">,</span> callBack</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token keyword">this</span><span class="token punctuation">.</span>_event<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>_event <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>_event<span class="token punctuation">[</span>eventName<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>_event<span class="token punctuation">[</span>eventName<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>callBack<span class="token punctuation">)</span> <span class="token comment">// 相当于 {eventName:[fn1,fn2]}</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>_event<span class="token punctuation">[</span>eventName<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span>callBack<span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token comment">// 相当于 {eventName:[fn1]}</span>
+    <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span>
+<span class="token comment">// emit 方法</span>
+<span class="token class-name">EventEmitter</span><span class="token punctuation">.</span>prototype<span class="token punctuation">.</span><span class="token function-variable function">emit</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">eventName<span class="token punctuation">,</span> <span class="token operator">...</span>args</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>_event<span class="token punctuation">[</span>eventName<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token parameter">fn</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+        <span class="token function">fn</span><span class="token punctuation">(</span><span class="token operator">...</span>args<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><code>off</code> 方法的第一个参数用来设定类名，第二个参数传入需要被移除的函数回调。</p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token comment">// ...</span>
+<span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  	<span class="token comment">// 小胡子 吃</span>
+  	<span class="token comment">// 小胖仙 睡</span>
+    cat<span class="token punctuation">.</span><span class="token function">emit</span><span class="token punctuation">(</span><span class="token string">'猫咪'</span><span class="token punctuation">,</span> <span class="token string">'小胖仙'</span><span class="token punctuation">,</span> <span class="token string">'小胡子'</span><span class="token punctuation">)</span>
+  	cat<span class="token punctuation">.</span><span class="token function">off</span><span class="token punctuation">(</span><span class="token string">'猫咪'</span><span class="token punctuation">,</span> sleep<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  	<span class="token comment">// 小胡子 吃</span>
+    cat<span class="token punctuation">.</span><span class="token function">emit</span><span class="token punctuation">(</span><span class="token string">'猫咪'</span><span class="token punctuation">,</span> <span class="token string">'小胖仙'</span><span class="token punctuation">,</span> <span class="token string">'小胡子'</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="once"><a href="#once" class="headerlink" title="once"></a>once</h4><p><code>once</code> 方法的第一个参数用来设定类名，第二个参数传入只需要执行一次的函数回调。</p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token keyword">const</span> <span class="token function-variable function">demolition</span> <span class="token operator">=</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'玩'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+cat<span class="token punctuation">.</span><span class="token function">once</span><span class="token punctuation">(</span><span class="token string">'玩偶'</span><span class="token punctuation">,</span> demolition<span class="token punctuation">)</span>
+<span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  	<span class="token comment">// ...... 拆家</span>
+    cat<span class="token punctuation">.</span><span class="token function">emit</span><span class="token punctuation">(</span><span class="token string">'玩偶'</span><span class="token punctuation">,</span> <span class="token string">'草莓'</span><span class="token punctuation">,</span> <span class="token string">'软糖'</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这样我们可以根据之前实现的 <code>on</code> 和 <code>off</code> 来实现此方法。</p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token comment">// once 方法</span>
+<span class="token class-name">EventEmitter</span><span class="token punctuation">.</span>prototype<span class="token punctuation">.</span><span class="token function-variable function">once</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">eventName<span class="token punctuation">,</span> callBack</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> <span class="token function-variable function">one</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+        <span class="token function">callBack</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">off</span><span class="token punctuation">(</span>eventName<span class="token punctuation">,</span> one<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span>eventName<span class="token punctuation">,</span> one<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>看起来这个方法好像没有什么问题，执行起来也全都是正确的。</p>
+<p>但是在一种特殊情况下的时候，还是出现了错误。</p>
+<p>那种情况就是如果我们在执行 <code>once</code> 方法之前，就已经通过 <code>off</code> 方法将其移除了。</p>
+<p>我们实现的方法就不能实现这个需求了，所以我们还需要对 <code>once</code> 方法进行一些修改 <em>（ <code>off</code> 方法已经处理过了）</em>。</p>
+<p>添加一个自定义属性，用来对函数进行 “缓存” 。</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token class-name">EventEmitter</span><span class="token punctuation">.</span>prototype<span class="token punctuation">.</span><span class="token function-variable function">once</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">eventName<span class="token punctuation">,</span> callBack</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> <span class="token function-variable function">one</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+        <span class="token comment">// ...</span>
+    <span class="token punctuation">}</span>
+    one<span class="token punctuation">.</span>c <span class="token operator">=</span> callBack<span class="token punctuation">;</span> <span class="token comment">// 自定义一个属性</span>
+    <span class="token comment">// ...</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这样我们就实现了 <code>once</code>  方法。</p>
+<h1 id="stream流模块"><a href="#stream流模块" class="headerlink" title="stream流模块"></a>stream流模块</h1><p>在Node中，流被分为4类：可读流，可写流，双工流，转换流。</p>
+<ul>
+<li><code>Writable</code>: 可以写入数据的流</li>
+<li><code>Readable</code>: 可以从中读取数据的流</li>
+<li><code>Duplex</code>: <code>Readable</code> 和 <code>Writable</code> 的流</li>
+<li><code>Transform</code>: 可以在写入和读取数据时修改或转换数据的 <code>Duplex</code> 流</li>
+</ul>
+<blockquote>
+<p>Node.js API 创建的所有流都只对<code>字符串</code>和 <code>Buffer</code>（或 <code>Uint8Array</code>）对象进行操作。</p>
+</blockquote>
+<p><code>Writable</code>和 <code>Readable</code> 流都将数据存储在内部缓冲区(buffer)中。可缓冲的数据量取决于传给流的构造函数的 <code>highWaterMark</code> 选项，对于普通的流，<code>highWaterMark</code> 选项指定字节的总数；对于在对象模式下操作的流,<code>highWaterMark</code>选项指定对象的总数。</p>
+<p><code>highWaterMark</code> 选项是阈值，而不是限制：它规定了流在停止请求更多数据之前缓冲的数据量。</p>
+<p>当实现调用 <code>stream.push(chunk)</code> 时，数据缓存在 <code>Readable</code> 流中。 如果流的消费者没有调用 <code>stream.read()</code>，则数据会一直驻留在内部队列中，直到被消费。</p>
+<p>一旦内部读取缓冲区的总大小达到 <code>highWaterMark</code> 指定的阈值，则流将暂时停止从底层资源读取数据，直到可以消费当前缓冲的数据</p>
+<p>当重复调用 <code>writable.write(chunk)</code> 方法时，数据会缓存在 <code>Writable</code> 流中。</p>
+<p>在Node.js中，流也是一个对象，我们只需要响应流的事件就可以了：<code>data</code>事件表示流的数据已经可以读取了，<code>end</code>事件表示这个流已经到末尾了，没有数据可以读取了，<code>error</code>事件表示出错了。</p>
+<p>代码示例：</p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token keyword">var</span> fs <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'fs'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 打开一个流:</span>
+<span class="token keyword">var</span> rs <span class="token operator">=</span> fs<span class="token punctuation">.</span><span class="token function">createReadStream</span><span class="token punctuation">(</span><span class="token string">'sample.txt'</span><span class="token punctuation">,</span> <span class="token string">'utf-8'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+rs<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">'data'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">chunk</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'DATA:'</span><span class="token punctuation">)</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>chunk<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+rs<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">'end'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'END'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+rs<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">'error'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">err</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'ERROR: '</span> <span class="token operator">+</span> err<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><code>data</code>事件可能会有多次，每次传递的<code>chunk</code>是流的一部分数据。</p>
+<p>要以流的形式写入文件，只需要不断调用<code>write()</code>方法，最后以<code>end()</code>结束：</p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token keyword">var</span> fs <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'fs'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">var</span> ws1 <span class="token operator">=</span> fs<span class="token punctuation">.</span><span class="token function">createWriteStream</span><span class="token punctuation">(</span><span class="token string">'output1.txt'</span><span class="token punctuation">,</span> <span class="token string">'utf-8'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ws1<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span><span class="token string">'使用Stream写入文本数据...\n'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ws1<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span><span class="token string">'END.'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ws1<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><code>pipe</code> 就像可以把两个水管串成一个更长的水管一样，两个流也可以串起来。一个<code>Readable</code>流和一个<code>Writable</code>流串起来后，所有的数据自动从<code>Readable</code>流进入<code>Writable</code>流，这种操作叫<code>pipe</code>。</p>
+<p>在Node.js中，<code>Readable</code>流有一个<code>pipe()</code>方法，就是用来干这件事的。</p>
+<p>让我们用<code>pipe()</code>把一个文件流和另一个文件流串起来，这样源文件的所有数据就自动写入到目标文件里了，所以，这实际上是一个复制文件的程序：</p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token keyword">const</span> fs <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'fs'</span><span class="token punctuation">)</span>
+
+<span class="token keyword">const</span> readstream <span class="token operator">=</span> fs<span class="token punctuation">.</span><span class="token function">createReadStream</span><span class="token punctuation">(</span><span class="token string">'./1.txt'</span><span class="token punctuation">)</span>
+<span class="token keyword">const</span> writestream <span class="token operator">=</span> fs<span class="token punctuation">.</span><span class="token function">createWriteStream</span><span class="token punctuation">(</span><span class="token string">'./2.txt'</span><span class="token punctuation">)</span>
+
+readstream<span class="token punctuation">.</span><span class="token function">pipe</span><span class="token punctuation">(</span>writestream<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h1 id="crypto模块"><a href="#crypto模块" class="headerlink" title="crypto模块"></a>crypto模块</h1><p>crypto模块的目的是为了提供通用的加密和哈希算法。用纯JavaScript代码实现这些功能不是不可能，但速度会非常慢。Nodejs用C/C++实现这些算法后，通过cypto这个模块暴露为JavaScript接口，这样用起来方便，运行速度也快。</p>
+<p>MD5是一种常用的哈希算法，用于给任意数据一个“签名”。这个签名通常用一个十六进制的字符串表示：</p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token keyword">const</span> crypto <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'crypto'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> hash <span class="token operator">=</span> crypto<span class="token punctuation">.</span><span class="token function">createHash</span><span class="token punctuation">(</span><span class="token string">'md5'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 可任意多次调用update():</span>
+hash<span class="token punctuation">.</span><span class="token function">update</span><span class="token punctuation">(</span><span class="token string">'Hello, world!'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+hash<span class="token punctuation">.</span><span class="token function">update</span><span class="token punctuation">(</span><span class="token string">'Hello, nodejs!'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>hash<span class="token punctuation">.</span><span class="token function">digest</span><span class="token punctuation">(</span><span class="token string">'hex'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><code>update()</code>方法默认字符串编码为<code>UTF-8</code>，也可以传入Buffer。</p>
+<p>如果要计算SHA1，只需要把<code>'md5'</code>改成<code>'sha1'</code>，就可以得到SHA1的结果<code>1f32b9c9932c02227819a4151feed43e131aca40</code>。</p>
+<p>Hmac算法也是一种哈希算法，它可以利用MD5或SHA1等哈希算法。不同的是，Hmac还需要一个密钥：</p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token keyword">const</span> crypto <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'crypto'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> hmac <span class="token operator">=</span> crypto<span class="token punctuation">.</span><span class="token function">createHmac</span><span class="token punctuation">(</span><span class="token string">'sha256'</span><span class="token punctuation">,</span> <span class="token string">'secret-key'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+hmac<span class="token punctuation">.</span><span class="token function">update</span><span class="token punctuation">(</span><span class="token string">'Hello, world!'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+hmac<span class="token punctuation">.</span><span class="token function">update</span><span class="token punctuation">(</span><span class="token string">'Hello, nodejs!'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>hmac<span class="token punctuation">.</span><span class="token function">digest</span><span class="token punctuation">(</span><span class="token string">'hex'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 80f7e22570...</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>只要密钥发生了变化，那么同样的输入数据也会得到不同的签名，因此，可以把Hmac理解为用随机数“增强”的哈希算法。</p>
+<p>AES是一种常用的对称加密算法，加解密都用同一个密钥。crypto模块提供了AES支持，但是需要自己封装好函数，便于使用：</p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token keyword">const</span> crypto <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"crypto"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">function</span> <span class="token function">encrypt</span> <span class="token punctuation">(</span><span class="token parameter">key<span class="token punctuation">,</span> iv<span class="token punctuation">,</span> data</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> decipher <span class="token operator">=</span> crypto<span class="token punctuation">.</span><span class="token function">createCipheriv</span><span class="token punctuation">(</span><span class="token string">'aes-128-cbc'</span><span class="token punctuation">,</span> key<span class="token punctuation">,</span> iv<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// decipher.setAutoPadding(true);</span>
+    <span class="token keyword">return</span> decipher<span class="token punctuation">.</span><span class="token function">update</span><span class="token punctuation">(</span>data<span class="token punctuation">,</span> <span class="token string">'binary'</span><span class="token punctuation">,</span> <span class="token string">'hex'</span><span class="token punctuation">)</span> <span class="token operator">+</span> decipher<span class="token punctuation">.</span><span class="token function">final</span><span class="token punctuation">(</span><span class="token string">'hex'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">function</span> <span class="token function">decrypt</span> <span class="token punctuation">(</span><span class="token parameter">key<span class="token punctuation">,</span> iv<span class="token punctuation">,</span> crypted</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+     crypted <span class="token operator">=</span> Buffer<span class="token punctuation">.</span><span class="token function">from</span><span class="token punctuation">(</span>crypted<span class="token punctuation">,</span> <span class="token string">'hex'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token string">'binary'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+     <span class="token keyword">let</span> decipher <span class="token operator">=</span> crypto<span class="token punctuation">.</span><span class="token function">createDecipheriv</span><span class="token punctuation">(</span><span class="token string">'aes-128-cbc'</span><span class="token punctuation">,</span> key<span class="token punctuation">,</span> iv<span class="token punctuation">)</span><span class="token punctuation">;</span>
+     <span class="token keyword">return</span> decipher<span class="token punctuation">.</span><span class="token function">update</span><span class="token punctuation">(</span>crypted<span class="token punctuation">,</span> <span class="token string">'binary'</span><span class="token punctuation">,</span> <span class="token string">'utf8'</span><span class="token punctuation">)</span> <span class="token operator">+</span> decipher<span class="token punctuation">.</span><span class="token function">final</span><span class="token punctuation">(</span><span class="token string">'utf8'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment">// key,iv必须是16个字节</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>可以看出，加密后的字符串通过解密又得到了原始内容。</p>
+
                 
             </div>
             <hr/>

